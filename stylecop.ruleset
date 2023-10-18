@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="Rules" Description="Code analysis rules" ToolsVersion="16.0">
+  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+    <Rule Id="SA1101" Action="None" /><!--Prefix local calls with this-->
+    <Rule Id="SX1101" Action="None" /><!--Do not prefix local calls with 'this.'-->
+    <Rule Id="SA1413" Action="None" /><!--The last statement in a multi-line C# initializer or list is missing a trailing comma.-->
+    <Rule Id="SA1611" Action="None" /><!--A C# method, constructor, delegate or indexer element is missing documentation for one or more of its parameters.-->
+    <Rule Id="SA1615" Action="None" /><!--A C# element is missing documentation for its return value.-->
+    <Rule Id="SA1623" Action="None" /><!--The documentation text within a C# property’s <summary> tag does not match the accessors within the property.-->
+    <Rule Id="SA1629" Action="None" /><!--A section of the Xml header documentation for a C# element does not end with a period (also known as a full stop).-->
+    <Rule Id="SA1633" Action="None" /><!--A C# code file is missing a standard file header.-->
+    <Rule Id="SA1642" Action="None" /><!--The XML documentation header for a C# constructor does not contain the appropriate summary text.-->
+    <Rule Id="SA1309" Action="None" /><!--Field names should not begin with underscore-->
+    <Rule Id="SX1309" Action="Warning" /><!--Field names should begin with underscore-->
+    <Rule Id="SA1012" Action="Error" /> <!--An opening brace within a C# element is not spaced correctly.-->
+    <Rule Id="SA1013" Action="Error" /> <!--A closing brace within a C# element is not spaced correctly.-->
+    <Rule Id="SA1516" Action="Error" /> <!--Adjacent C# elements are not separated by a blank line.-->
+    <Rule Id="SA1505" Action="Error" /> <!--An opening brace within a C# element, statement, or expression is followed by a blank line-->
+    <Rule Id="SA1005" Action="Error" /> <!--A single-line comment within a C# code file does not begin with a single space.-->
+    <Rule Id="SA1600" Action="Error" /> <!--A C# code element is missing a documentation header..-->
+  </Rules>
+</RuleSet>

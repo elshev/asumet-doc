@@ -1,0 +1,59 @@
+# NOTE: Requires **VS2019 16.3** or later
+
+# Rules
+# Description: Code analysis rules
+
+# Code files
+[*.{cs,vb}]
+
+
+# A single-line comment within a C# code file does not begin with a single space.
+dotnet_diagnostic.SA1005.severity = error
+
+# An opening brace within a C# element is not spaced correctly.
+dotnet_diagnostic.SA1012.severity = error
+
+# A closing brace within a C# element is not spaced correctly.
+dotnet_diagnostic.SA1013.severity = error
+
+# Prefix local calls with this
+dotnet_diagnostic.SA1101.severity = none
+
+# Field names should not begin with underscore
+dotnet_diagnostic.SA1309.severity = none
+
+# The last statement in a multi-line C# initializer or list is missing a trailing comma.
+dotnet_diagnostic.SA1413.severity = none
+
+# An opening brace within a C# element, statement, or expression is followed by a blank line
+dotnet_diagnostic.SA1505.severity = error
+
+# Adjacent C# elements are not separated by a blank line.
+dotnet_diagnostic.SA1516.severity = error
+
+# A C# code element is missing a documentation header..
+dotnet_diagnostic.SA1600.severity = error
+
+# A C# method, constructor, delegate or indexer element is missing documentation for one or more of its parameters.
+dotnet_diagnostic.SA1611.severity = none
+
+# A C# element is missing documentation for its return value.
+dotnet_diagnostic.SA1615.severity = none
+
+# The documentation text within a C# property’s <summary> tag does not match the accessors within the property.
+dotnet_diagnostic.SA1623.severity = none
+
+# A section of the Xml header documentation for a C# element does not end with a period (also known as a full stop).
+dotnet_diagnostic.SA1629.severity = none
+
+# A C# code file is missing a standard file header.
+dotnet_diagnostic.SA1633.severity = none
+
+# The XML documentation header for a C# constructor does not contain the appropriate summary text.
+dotnet_diagnostic.SA1642.severity = none
+
+# Do not prefix local calls with 'this.'
+dotnet_diagnostic.SX1101.severity = none
+
+# Field names should begin with underscore
+dotnet_diagnostic.SX1309.severity = warning
