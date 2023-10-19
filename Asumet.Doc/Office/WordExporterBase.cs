@@ -55,7 +55,7 @@
         protected abstract string TemplateFileName { get; }
 
         /// <summary>
-        /// If true - leave a placeholder in the output document
+        /// If true - leave a placeholderName in the output document
         /// If false - replace it with the empty string
         /// </summary>
         protected virtual bool SkipMissingPlaceholders { get; } = true;
@@ -147,7 +147,7 @@
         }
 
         /// <summary>
-        /// Replaces placeholders in <paramref name="paragraph"/> with values from <paramref name="obj"/>
+        /// Replaces placeholderNames in <paramref name="paragraph"/> with values from <paramref name="obj"/>
         /// </summary>
         /// <param name="paragraph">Paragraph to process.</param>
         /// <param name="obj">Object with values. If null then takes values from <see cref="ObjectToExport"/></param>
@@ -160,14 +160,14 @@
 
             obj ??= ObjectToExport;
 
-            var placeholders = DocHelper.GetPlaceholders(paragraph.ParagraphText);
-            foreach (var placeholder in placeholders)
+            var placeholderNames = DocHelper.GetPlaceholderNames(paragraph.ParagraphText);
+            foreach (var placeholderName in placeholderNames)
             {
-                var memberName = placeholder;
+                var memberName = placeholderName;
                 var isDatasetItem = memberName.StartsWith(DataSetItemPrefix);
                 if (isDatasetItem)
                 {
-                    memberName = placeholder[DataSetItemPrefix.Length..];
+                    memberName = placeholderName[DataSetItemPrefix.Length..];
                 }
 
                 var value = GetMemberValue(obj, memberName);
@@ -187,7 +187,7 @@
 
                 if (!skipReplace)
                 {
-                    paragraph.ReplaceText($"{{{placeholder}}}", stringValue);
+                    paragraph.ReplaceText(DocHelper.MakePlaceholder(placeholderName), stringValue);
                 }
             }
         }
@@ -236,8 +236,8 @@
                 return 0;
             }
 
-            var placeholders = DocHelper.GetPlaceholders(paragraph.ParagraphText);
-            var tablePlaceholder = placeholders.FirstOrDefault();
+            var placeholderNames = DocHelper.GetPlaceholderNames(paragraph.ParagraphText);
+            var tablePlaceholder = placeholderNames.FirstOrDefault();
             if (tablePlaceholder == null || !tablePlaceholder.StartsWith(DataSetPrefix))
             {
                 return 0;
@@ -249,7 +249,7 @@
                 return 0;
             }
 
-            paragraph.ReplaceText($"{{{DataSetPrefix}{datasetMemberName}}}", string.Empty);
+            paragraph.ReplaceText(DocHelper.MakePlaceholder($"{DataSetPrefix}{datasetMemberName}"), string.Empty);
 
             int rowCountToAdd = items.Count() - 1;
             CloneRow(row, rowCountToAdd);

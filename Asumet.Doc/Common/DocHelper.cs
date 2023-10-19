@@ -14,7 +14,7 @@
         /// </summary>
         /// <param name="str">A string where to find placeholders.</param>
         /// <returns>A collection of values found between brackets.</returns>
-        public static IEnumerable<string> GetPlaceholders(string str)
+        public static IEnumerable<string> GetPlaceholderNames(string str)
         {
             var result = new List<string>();
             string pattern = @"\{([^}]+)\}";
@@ -31,6 +31,21 @@
             }
 
             return result.ToArray();
+        }
+
+        /// <summary>
+        /// Wraps <paramref name="placeholderName"/> into placeholder brackets.
+        /// Ex.: "SomeValue" => "{SomeValue}"
+        /// </summary>
+        /// <param name="placeholderName">Value to make placeholder from</param>
+        /// <returns>A placeholder that is made from <paramref name="placeholderName"/></returns>
+        /// <remarks>
+        /// The goal of this method is to localize placeholder making process in one place, in case
+        /// it will be decided to change '{placeholderName}' to something else like '[[placeholderName]]'
+        /// </remarks>
+        public static string MakePlaceholder(string placeholderName)
+        {
+            return $"{{{placeholderName}}}";
         }
     }
 }
