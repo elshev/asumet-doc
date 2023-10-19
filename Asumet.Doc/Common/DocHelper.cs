@@ -1,4 +1,4 @@
-﻿namespace Asumet.Doc.Office
+﻿namespace Asumet.Doc.Common
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -7,7 +7,7 @@
     /// <summary>
     /// Contains helper methods to work with MS Doc.
     /// </summary>
-    public class OfficeHelper
+    public class DocHelper
     {
         /// <summary>
         /// Gets all placeholders inside curly brackets. Ex.: {Some.Placeholder}.

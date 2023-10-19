@@ -5,6 +5,7 @@
     using System.IO;
     using System.Linq;
     using Asumet.Common;
+    using Asumet.Doc.Common;
     using NPOI.XWPF.UserModel;
 
     /// <summary>
@@ -159,7 +160,7 @@
 
             obj ??= ObjectToExport;
 
-            var placeholders = OfficeHelper.GetPlaceholders(paragraph.ParagraphText);
+            var placeholders = DocHelper.GetPlaceholders(paragraph.ParagraphText);
             foreach (var placeholder in placeholders)
             {
                 var memberName = placeholder;
@@ -235,7 +236,7 @@
                 return 0;
             }
 
-            var placeholders = OfficeHelper.GetPlaceholders(paragraph.ParagraphText);
+            var placeholders = DocHelper.GetPlaceholders(paragraph.ParagraphText);
             var tablePlaceholder = placeholders.FirstOrDefault();
             if (tablePlaceholder == null || !tablePlaceholder.StartsWith(DataSetPrefix))
             {

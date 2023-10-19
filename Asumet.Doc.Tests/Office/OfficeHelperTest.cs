@@ -1,4 +1,4 @@
-﻿using Asumet.Doc.Office;
+﻿using Asumet.Doc.Common;
 
 namespace Asumet.Doc.Tests.Office
 {
@@ -7,20 +7,20 @@ namespace Asumet.Doc.Tests.Office
         [Fact]
         public void TestGetPlaceholders()
         {
-            OfficeHelper.GetPlaceholders("Some text").Should().Equal(Array.Empty<string>());
-            OfficeHelper.GetPlaceholders("Some text {value}")
+            DocHelper.GetPlaceholders("Some text").Should().Equal(Array.Empty<string>());
+            DocHelper.GetPlaceholders("Some text {value}")
                 .Should().Equal(new string[] { "value" });
-            OfficeHelper.GetPlaceholders("{value}")
+            DocHelper.GetPlaceholders("{value}")
                 .Should().Equal(new string[] { "value" });
-            OfficeHelper.GetPlaceholders("Some text {value} and {another value}")
+            DocHelper.GetPlaceholders("Some text {value} and {another value}")
                 .Should().Equal(new string[] { "value", "another value" });
-            OfficeHelper.GetPlaceholders($"Some text {{value}}{Environment.NewLine} and {{another value}}")
+            DocHelper.GetPlaceholders($"Some text {{value}}{Environment.NewLine} and {{another value}}")
                 .Should().Equal(new string[] { "value", "another value" });
-            OfficeHelper.GetPlaceholders("Some text {value} and } {another value}")
+            DocHelper.GetPlaceholders("Some text {value} and } {another value}")
                 .Should().Equal(new string[] { "value", "another value" });
-            OfficeHelper.GetPlaceholders("Some text {value} and { {another value}")
+            DocHelper.GetPlaceholders("Some text {value} and { {another value}")
                 .Should().Equal(new string[] { "value", " {another value" });
-            OfficeHelper.GetPlaceholders("Some text {SomeProperty} and {ParentProperty.Child} and {ArrayProperty[].ArrayChild}")
+            DocHelper.GetPlaceholders("Some text {SomeProperty} and {ParentProperty.Child} and {ArrayProperty[].ArrayChild}")
                 .Should().Equal(new string[] { "SomeProperty", "ParentProperty.Child", "ArrayProperty[].ArrayChild" });
         }
     }
