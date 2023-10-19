@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Office", "Asumet.Office\Asumet.Office.csproj", "{EDEFF868-C511-4BAF-9FF8-333E900B8D8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Doc", "Asumet.Office\Asumet.Doc.csproj", "{EDEFF868-C511-4BAF-9FF8-333E900B8D8C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Office.Tests", "Asumet.Office.Tests\Asumet.Office.Tests.csproj", "{A8B58769-ED7B-4C1B-9F0B-97CC9691F4E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Doc.Tests", "Asumet.Office.Tests\Asumet.Doc.Tests.csproj", "{A8B58769-ED7B-4C1B-9F0B-97CC9691F4E7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Common.Tests", "Asumet.Common.Tests\Asumet.Common.Tests.csproj", "{47154309-E9DF-451D-B946-5FE56707784E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Common", "Asumet.Common\Asumet.Common.csproj", "{62646995-E228-4CF3-9C08-76000422B30B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Office.IntegrationTests", "Asumet.Office.IntegrationTests\Asumet.Office.IntegrationTests.csproj", "{084405E6-E9C6-4393-867C-42C96FC604D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Doc.IntegrationTests", "Asumet.Office.IntegrationTests\Asumet.Doc.IntegrationTests.csproj", "{084405E6-E9C6-4393-867C-42C96FC604D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asumet.Models", "Asumet.Models\Asumet.Models.csproj", "{DA45B3D5-3892-4D96-91DA-240A4F1C0390}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Models", "Asumet.Models\Asumet.Models.csproj", "{DA45B3D5-3892-4D96-91DA-240A4F1C0390}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,4 @@
-﻿namespace Asumet.Office
+﻿namespace Asumet.Doc.Office
 {
     using System;
     using System.Collections.Generic;

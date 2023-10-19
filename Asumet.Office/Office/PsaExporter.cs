@@ -1,4 +1,4 @@
-﻿namespace Asumet.Office
+﻿namespace Asumet.Doc.Office
 {
     using Asumet.Models;
 

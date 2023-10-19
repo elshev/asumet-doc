@@ -1,6 +1,7 @@
-﻿namespace Asumet.Office
+﻿namespace Asumet.Doc
 {
     using System;
+    using Asumet.Doc.Office;
     using Asumet.Models;
     using Microsoft.Extensions.Configuration;
 

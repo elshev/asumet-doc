@@ -1,4 +1,4 @@
-﻿namespace Asumet.Office
+﻿namespace Asumet.Doc.Office
 {
     /// <summary>
     /// Interface for all document (Word, Excel) exporters.

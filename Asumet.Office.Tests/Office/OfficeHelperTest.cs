@@ -1,4 +1,6 @@
-﻿namespace Asumet.Office.Tests
+﻿using Asumet.Doc.Office;
+
+namespace Asumet.Doc.Tests.Office
 {
     public class OfficeHelperTest
     {

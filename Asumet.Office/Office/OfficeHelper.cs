@@ -1,10 +1,11 @@
-﻿namespace Asumet.Office
+﻿namespace Asumet.Doc.Office
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text.RegularExpressions;
 
     /// <summary>
-    /// Contains helper methods to work with MS Office.
+    /// Contains helper methods to work with MS Doc.
     /// </summary>
     public class OfficeHelper
     {
@@ -20,7 +21,7 @@
             var regex = new Regex(pattern);
             var matches = regex.Matches(str);
 
-            foreach (Match match in matches)
+            foreach (Match match in matches.Cast<Match>())
             {
                 if (match.Groups.Count > 1)
                 {

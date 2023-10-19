@@ -1,8 +1,9 @@
-﻿using Asumet.Models;
+﻿using Asumet.Doc.Office;
+using Asumet.Models;
 using Microsoft.Extensions.Configuration;
 using NPOI.XWPF.UserModel;
 
-namespace Asumet.Office.IntegrationTests
+namespace Asumet.Doc.IntegrationTests.Office
 {
     public class PsaExportTest
     {
@@ -40,7 +41,7 @@ namespace Asumet.Office.IntegrationTests
                     return true;
                 }
             }
-            
+
             return false;
         }
 
@@ -49,7 +50,7 @@ namespace Asumet.Office.IntegrationTests
         {
             // Arrange
             var psa = Psa.GetPsaStub();
-            var psaExporter = new PsaExporter(psa); 
+            var psaExporter = new PsaExporter(psa);
 
             // Act
             psaExporter.Export();
@@ -64,7 +65,7 @@ namespace Asumet.Office.IntegrationTests
             var table = doc.Tables.Where(t => t.NumberOfRows > 0).FirstOrDefault();
             Assert.NotNull(table);
             table.Rows.Count.Should().BeGreaterThan(3);
-            AreTextsExistInDoc(doc, new string[] { psa.ActNumber??"", psa.Buyer?.FullName??"", psa.Supplier?.FullName??"" })
+            AreTextsExistInDoc(doc, new string[] { psa.ActNumber ?? "", psa.Buyer?.FullName ?? "", psa.Supplier?.FullName ?? "" })
                 .Should().BeTrue();
         }
     }
