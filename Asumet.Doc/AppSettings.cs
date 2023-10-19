@@ -38,6 +38,12 @@
         public string DocumentOutputDirectory { get; set; } = string.Empty;
 
         /// <summary>
+        /// Tesseract Trained Data Directory.
+        /// Used by Tesseract library.
+        /// </summary>
+        public string TesseractDataDirectory { get; set; } = "./tessdata";
+
+        /// <summary>
         /// Updates configuration
         /// </summary>
         /// <param name="configuration">Cofiguration soutce</param>

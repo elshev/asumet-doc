@@ -1,6 +1,7 @@
 ﻿namespace Asumet.Doc
 {
     using System;
+    using System.Linq;
     using Asumet.Doc.Ocr;
     using Asumet.Doc.Office;
     using Asumet.Models;
@@ -35,8 +36,8 @@
 
         private static void DoOcr()
         {
-            OcrWrapper ocrWrapper = new ();
-            ocrWrapper.OcrImage(string.Empty);
+            var lines = OcrWrapper.ImageToStrings("./images/PSA-01-144dpi.png");
+            lines.ToList().ForEach(s => Console.WriteLine(s));
         }
     }
 }
