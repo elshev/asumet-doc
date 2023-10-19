@@ -1,0 +1,75 @@
+﻿using Asumet.Doc.Common;
+using Asumet.Models;
+
+namespace Asumet.Doc.Tests.Office
+{
+    public class DocHelperTest
+    {
+        [Fact]
+        public void TestGetPlaceholders()
+        {
+            DocHelper.GetPlaceholderNames("Some text").Should().Equal(Array.Empty<string>());
+            DocHelper.GetPlaceholderNames("Some text {value}")
+                .Should().Equal(new string[] { "value" });
+            DocHelper.GetPlaceholderNames("{value}")
+                .Should().Equal(new string[] { "value" });
+            DocHelper.GetPlaceholderNames("Some text {value} and {another value}")
+                .Should().Equal(new string[] { "value", "another value" });
+            DocHelper.GetPlaceholderNames($"Some text {{value}}{Environment.NewLine} and {{another value}}")
+                .Should().Equal(new string[] { "value", "another value" });
+            DocHelper.GetPlaceholderNames("Some text {value} and } {another value}")
+                .Should().Equal(new string[] { "value", "another value" });
+            DocHelper.GetPlaceholderNames("Some text {value} and { {another value}")
+                .Should().Equal(new string[] { "value", " {another value" });
+            DocHelper.GetPlaceholderNames("Some text {SomeProperty} and {ParentProperty.Child} and {ArrayProperty[].ArrayChild}")
+                .Should().Equal(new string[] { "SomeProperty", "ParentProperty.Child", "ArrayProperty[].ArrayChild" });
+        }
+
+        [Fact]
+        public void TestMakePlaceholder()
+        {
+            DocHelper.MakePlaceholder("").Should().Be("{}");
+            DocHelper.MakePlaceholder("value").Should().Be("{value}");
+            DocHelper.MakePlaceholder("Some text").Should().Be("{Some text}");
+            DocHelper.MakePlaceholder("Parent.Child").Should().Be("{Parent.Child}");
+        }
+
+        [Fact]
+        public void TestReplacePlaceholdersInString()
+        {
+            //Arrange
+            var psa = Psa.GetPsaStub();
+
+            // Act, Assert
+            DocHelper.ReplacePlaceholdersInString("", psa, false).Should().Be("");
+            DocHelper.ReplacePlaceholdersInString("Some text", psa, false).Should().Be("Some text");
+            DocHelper.ReplacePlaceholdersInString("{ActNumber}", psa, false)
+                .Should().Be($"{psa.ActNumber}");
+            DocHelper.ReplacePlaceholdersInString("Some text {ActNumber} another text", psa, false)
+                .Should().Be($"Some text {psa.ActNumber} another text");
+            DocHelper.ReplacePlaceholdersInString("Some text {ActNumber} bla-bla {Buyer.FullName} another text", psa, false)
+                .Should().Be($"Some text {psa.ActNumber} bla-bla {psa.Buyer?.FullName} another text");
+        }
+        [Fact]
+
+        public void TestReplacePlaceholdersInString_SkipPlaceholders()
+        {
+            //Arrange
+            var psa = Psa.GetPsaStub();
+
+            // Act, Assert
+            DocHelper.ReplacePlaceholdersInString("{WrongPlaceholder}", psa, false)
+                .Should().Be("");
+            DocHelper.ReplacePlaceholdersInString("{WrongPlaceholder}", psa, true)
+                .Should().Be("{WrongPlaceholder}");
+            DocHelper.ReplacePlaceholdersInString("One {WrongPlaceholder} two", psa, false)
+                .Should().Be("One  two");
+            DocHelper.ReplacePlaceholdersInString("One {WrongPlaceholder} two", psa, true)
+                .Should().Be("One {WrongPlaceholder} two");
+            DocHelper.ReplacePlaceholdersInString("One {WrongPlaceholder} two {ActNumber}", psa, false)
+                .Should().Be($"One  two {psa.ActNumber}");
+            DocHelper.ReplacePlaceholdersInString("One {WrongPlaceholder} two {ActNumber}", psa, true)
+                .Should().Be($"One {{WrongPlaceholder}} two {psa.ActNumber}");
+        }
+    }
+}

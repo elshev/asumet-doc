@@ -88,23 +88,6 @@
         }
 
         /// <summary>
-        /// Gets the value of the member with the specified name.
-        /// </summary>
-        /// <param name="sourceObject">An object instance.</param>
-        /// <param name="memberName">The member name. Could be separated by "." to access internal members: "ParentProperty.ChildProperty.SomeMember"</param>
-        /// <returns>The member value.</returns>
-        /// <remarks>
-        /// This method uses Reflection to get the value from object.
-        /// For speed optimization the next approaches can be investigated:
-        /// 1. Expression trees
-        /// 2. Serialize to JSON and work with JSON objects
-        /// </remarks>
-        protected static object GetMemberValue(object sourceObject, string memberName)
-        {
-            return ReflectionHelper.GetMemberValue(sourceObject, memberName);
-        }
-
-        /// <summary>
         /// Clones a row <paramref name="count"/> times after the <paramref name="baseRow"/>
         /// </summary>
         /// <param name="baseRow">A row to clone.</param>
@@ -170,11 +153,11 @@
                     memberName = placeholderName[DataSetItemPrefix.Length..];
                 }
 
-                var value = GetMemberValue(obj, memberName);
+                var value = DocHelper.GetMemberValue(obj, memberName);
                 if (value == null && isDatasetItem && obj != ObjectToExport)
                 {
                     // If we didn't find a value in child object, let's try to get it from the parent
-                    value = GetMemberValue(ObjectToExport, memberName);
+                    value = DocHelper.GetMemberValue(ObjectToExport, memberName);
                 }
 
                 string? stringValue = string.Empty;
@@ -244,7 +227,7 @@
             }
 
             var datasetMemberName = tablePlaceholder[DataSetPrefix.Length..];
-            if (GetMemberValue(ObjectToExport, datasetMemberName) is not IEnumerable<object> items || !items.Any())
+            if (DocHelper.GetMemberValue(ObjectToExport, datasetMemberName) is not IEnumerable<object> items || !items.Any())
             {
                 return 0;
             }
@@ -268,7 +251,7 @@
         {
             var table = startRow.GetTable();
             var rowIndex = table.Rows.IndexOf(startRow);
-            if (GetMemberValue(ObjectToExport, datasetMemberName) is not IEnumerable<object> items)
+            if (DocHelper.GetMemberValue(ObjectToExport, datasetMemberName) is not IEnumerable<object> items)
             {
                 return;
             }
