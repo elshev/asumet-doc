@@ -60,9 +60,6 @@ namespace Asumet.Office.IntegrationTests
 
             using var rs = File.OpenRead(filePath);
             using var doc = new XWPFDocument(rs);
-            foreach (var paragraph in doc.Paragraphs)
-            {
-            }
 
             var table = doc.Tables.Where(t => t.NumberOfRows > 0).FirstOrDefault();
             Assert.NotNull(table);
