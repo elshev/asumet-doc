@@ -2,21 +2,20 @@
 {
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using Asumet.Doc.Common;
 
     /// <summary>
     /// A Document match pattern that is stored in file
     /// </summary>
     /// <typeparam name="T">Type of the exported object. Ex.: Psa</typeparam>
-    public abstract class DocMatchPattern<T> : IDocMatchPattern<T>
+    public abstract class WordMatchPatternBase<T> : IWordMatchPattern<T>
         where T : class
     {
         /// <summary>
         /// Constructor.
         /// </summary>
         /// <param name="objectToExport">Object to export to a document.</param>
-        public DocMatchPattern(T objectToExport)
+        public WordMatchPatternBase(T objectToExport)
         {
             ObjectToExport = objectToExport;
         }
@@ -44,9 +43,10 @@
         /// <returns>Lines of the pattern with filled placeholders</returns>
         public IEnumerable<string> GetFilledPattern()
         {
-            var lines = File.ReadAllLines(GetPatternFilePath()).ToList();
+            var patternLines = File.ReadAllLines(GetPatternFilePath());
+            var result = FillPatternPlaceholders(patternLines);
 
-            return lines;
+            return result;
         }
 
         /// <summary>

@@ -24,6 +24,7 @@
 
             // ExportPsa();
             // DoOcr();
+            GetMatchFile();
         }
 
         private static void ExportPsa()
@@ -42,8 +43,11 @@
 
         private static void GetMatchFile()
         {
-            var lines = OcrWrapper.ImageToStrings("./images/PSA-01-144dpi.png");
-            lines.ToList().ForEach(s => Console.WriteLine(s));
+            var psa = Psa.GetPsaStub();
+            var matchPattern = new PsaMatchPattern(psa);
+            var lines = matchPattern.GetFilledPattern();
+            var s = string.Join(Environment.NewLine, lines.ToArray());
+            Console.WriteLine(s);
         }
     }
 }

@@ -4,7 +4,7 @@
     /// Interface for all march patterns.
     /// </summary>
     /// <typeparam name="T">Type of the exported object.</typeparam>
-    public interface IDocMatchPattern<T>
+    public interface IWordMatchPattern<T>
         where T : class
     {
         /// <summary>
