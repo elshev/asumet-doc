@@ -21,7 +21,7 @@ namespace Asumet.Doc.IntegrationTests.Ocr
         {
             // Arrange
             var psa = Psa.GetPsaStub();
-            var matchPattern = new PsaMatchPattern(psa);
+            IWordMatchPattern<Psa> matchPattern = new PsaMatchPattern(psa);
 
             // Act
             var result = matchPattern.GetFilledPattern();

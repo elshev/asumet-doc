@@ -1,5 +1,7 @@
 ﻿namespace Asumet.Doc.Ocr
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// Interface for all march patterns.
     /// </summary>
@@ -16,5 +18,17 @@
         /// Gets the object which is exported to a pattern file.
         /// </summary>
         public T ObjectToExport { get; }
+
+        /// <summary>
+        /// Gets the pattern lines of strings
+        /// </summary>
+        /// <returns>Lines of the pattern</returns>
+        IEnumerable<string> GetPattern();
+
+        /// <summary>
+        /// Loads the pattern file and fills its placeholders
+        /// </summary>
+        /// <returns>Lines of the pattern with filled placeholders</returns>
+        IEnumerable<string> GetFilledPattern();
     }
 }

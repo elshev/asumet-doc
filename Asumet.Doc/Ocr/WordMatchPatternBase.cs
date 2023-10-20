@@ -37,13 +37,16 @@
         /// </summary>
         protected abstract string DocumentName { get; }
 
-        /// <summary>
-        /// Loads the pattern file and fills its placeholders
-        /// </summary>
-        /// <returns>Lines of the pattern with filled placeholders</returns>
+        /// <inheritdoc/>
+        public IEnumerable<string> GetPattern()
+        {
+            return File.ReadAllLines(GetPatternFilePath());
+        }
+
+        /// <inheritdoc/>
         public IEnumerable<string> GetFilledPattern()
         {
-            var patternLines = File.ReadAllLines(GetPatternFilePath());
+            var patternLines = GetPattern();
             var result = FillPatternPlaceholders(patternLines);
 
             return result;

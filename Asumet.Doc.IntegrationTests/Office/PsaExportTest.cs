@@ -50,7 +50,7 @@ namespace Asumet.Doc.IntegrationTests.Office
         {
             // Arrange
             var psa = Psa.GetPsaStub();
-            var psaExporter = new PsaExporter(psa);
+            IOfficeExporter<Psa> psaExporter = new PsaExporter(psa);
 
             // Act
             psaExporter.Export();
