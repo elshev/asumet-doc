@@ -13,6 +13,11 @@
         public T ObjectToExport { get; }
 
         /// <summary>
+        /// Gets a template file name with extension.
+        /// </summary>
+        string TemplateFileName { get; }
+
+        /// <summary>
         /// Gets the output document file path.
         /// </summary>
         /// <returns>Returns the output document file path.</returns>

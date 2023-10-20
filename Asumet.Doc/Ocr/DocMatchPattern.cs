@@ -1,14 +1,9 @@
 ﻿namespace Asumet.Doc.Ocr
 {
-    using Asumet.Doc.Common;
-    using System;
-    using System.Collections;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
     using System.Linq;
-    using System.Text;
-    using Tesseract;
+    using Asumet.Doc.Common;
 
     /// <summary>
     /// A Document match pattern that is stored in file
@@ -29,10 +24,19 @@
         /// <inheritdoc/>
         public T ObjectToExport { get; }
 
+        /// <inheritdoc/>
+        public virtual string PatternFileName
+        {
+            get
+            {
+                return Path.ChangeExtension(DocumentName, AppSettings.Instance.WordMatchPatternExtension);
+            }
+        }
+
         /// <summary>
-        /// Gets the pattern file name.
+        /// Gets the document name.
         /// </summary>
-        protected abstract string PatternFileName { get; }
+        protected abstract string DocumentName { get; }
 
         /// <summary>
         /// Loads the pattern file and fills its placeholders

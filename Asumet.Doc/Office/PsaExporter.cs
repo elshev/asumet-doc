@@ -1,5 +1,6 @@
 ﻿namespace Asumet.Doc.Office
 {
+    using Asumet.Doc.Common;
     using Asumet.Models;
 
     /// <summary>
@@ -17,6 +18,6 @@
         }
 
         /// <inheritdoc/>
-        protected override string TemplateFileName => "ПСА.docx";
+        protected override string DocumentName => DocHelper.PsaDocumentName;
     }
 }

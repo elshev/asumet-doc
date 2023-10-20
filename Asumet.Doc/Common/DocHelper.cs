@@ -6,10 +6,13 @@
     using Asumet.Common;
 
     /// <summary>
-    /// Contains helper methods to work with MS Doc.
+    /// Contains helper methods to work with Documents (Office, OCR).
     /// </summary>
     public class DocHelper
     {
+        /// <summary> "ПСА" Document name /// </summary>
+        public const string PsaDocumentName = "ПСА";
+
         /// <summary>
         /// Gets all placeholders inside curly brackets. Ex.: {Some.Placeholder}.
         /// </summary>

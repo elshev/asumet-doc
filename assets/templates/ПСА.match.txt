@@ -1,0 +1,22 @@
+ПРИЕМОСДАТОЧНЫЙ АКТ №{ActNumber} От {ActDate}
+
+Получатель лома и отходов: {Buyer.FullName}
+Адрес: {Buyer.Address}
+ИНН/КПП: {Buyer.Inn}/{Buyer.Kpp}
+Банк: {Buyer.Bank}
+БИК: {Buyer.Bic}
+к/с: {Buyer.CorrespondentAccount}
+р/с: {Buyer.Account}
+
+Поставщик: {Supplier.FullName}
+Адрес: {Supplier.Address}
+Паспортные данные: {Supplier.Passport}
+
+Транспорт: {Supplier.Transport}
+Основание возникновения права собственности у сдатчика лома отходов на сдаваемые лом и отходы черных металлов: {Supplier.OwnershipReason}
+Краткое описание лома и отходов черных металлов: {Scrap.ShortDescription}
+
+
+Вес нетто: {Scrap.TotalNetto}т. ({Scrap.TotalNettoInWords})
+Итого на сумму: {Scrap.Total}руб. ({Scrap.TotalInWords})
+Кроме  того НДС: {Scrap.TotalNds} руб. ({Scrap.TotalNdsInWords})

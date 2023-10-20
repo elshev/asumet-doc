@@ -27,19 +27,19 @@
             }
         }
 
-        /// <summary>
-        /// The directory where document templates are stored.
-        /// </summary>
+        /// <summary> The directory where document templates are stored. /// </summary>
         public string TemplatesDirectory { get; set; } = "./Templates";
 
-        /// <summary>
-        /// The directory where match pattern files are stored.
-        /// </summary>
+        /// <summary> Word template file extension. /// </summary>
+        public string WordTemplateExtension { get; set; } = ".docx";
+
+        /// <summary> The directory where match pattern files are stored. /// </summary>
         public string MatchPatternsDirectory { get; set; } = "./Templates";
 
-        /// <summary>
-        /// The output directory where documents will be exported.
-        /// </summary>
+        /// <summary> Word template file extension. /// </summary>
+        public string WordMatchPatternExtension { get; set; } = ".docx.txt";
+
+        /// <summary> The output directory where documents will be exported. /// </summary>
         public string DocumentOutputDirectory { get; set; } = string.Empty;
 
         /// <summary>

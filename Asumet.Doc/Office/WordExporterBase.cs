@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using Asumet.Common;
     using Asumet.Doc.Common;
     using NPOI.XWPF.UserModel;
 
@@ -33,14 +32,24 @@
         public T ObjectToExport { get; }
 
         /// <inheritdoc/>
+        public virtual string TemplateFileName
+        {
+            get
+            {
+                return Path.ChangeExtension(DocumentName, AppSettings.Instance.WordTemplateExtension);
+            }
+        }
+
+        /// <inheritdoc/>
         public virtual string OutputFilePath
         {
             get
             {
                 if (string.IsNullOrEmpty(_outputFilePath))
                 {
-                    string name = Path.GetFileNameWithoutExtension(TemplateFileName);
-                    string extension = Path.GetExtension(TemplateFileName);
+                    var templateFileName = TemplateFileName;
+                    string name = Path.GetFileNameWithoutExtension(templateFileName);
+                    string extension = Path.GetExtension(templateFileName);
                     string outputFileName = $"{name}-{DateTime.Now:yyyyMMdd-HHmmss-fffffff}{extension}";
                     _outputFilePath = Path.Combine(AppSettings.Instance.DocumentOutputDirectory, outputFileName);
                 }
@@ -50,9 +59,9 @@
         }
 
         /// <summary>
-        /// Gets the document template file name.
+        /// Gets the document name.
         /// </summary>
-        protected abstract string TemplateFileName { get; }
+        protected abstract string DocumentName { get; }
 
         /// <summary>
         /// If true - leave a placeholderName in the output document

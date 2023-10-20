@@ -23,7 +23,7 @@
             Console.WriteLine($"AppSettings Templates Directory: {AppSettings.Instance.TemplatesDirectory}");
 
             // ExportPsa();
-            DoOcr();
+            // DoOcr();
         }
 
         private static void ExportPsa()
@@ -35,6 +35,12 @@
         }
 
         private static void DoOcr()
+        {
+            var lines = OcrWrapper.ImageToStrings("./images/PSA-01-144dpi.png");
+            lines.ToList().ForEach(s => Console.WriteLine(s));
+        }
+
+        private static void GetMatchFile()
         {
             var lines = OcrWrapper.ImageToStrings("./images/PSA-01-144dpi.png");
             lines.ToList().ForEach(s => Console.WriteLine(s));
