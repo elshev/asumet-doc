@@ -30,7 +30,7 @@
         private static void ExportPsa()
         {
             var psa = Psa.GetPsaStub();
-            var psaExporter = new PsaExporter(psa);
+            IOfficeExporter<Psa> psaExporter = new PsaExporter(psa);
             psaExporter.Export();
             Console.WriteLine(psaExporter.OutputFilePath);
         }
@@ -44,7 +44,7 @@
         private static void GetMatchFile()
         {
             var psa = Psa.GetPsaStub();
-            var matchPattern = new PsaMatchPattern(psa);
+            IWordMatchPattern<Psa> matchPattern = new PsaMatchPattern(psa);
             var lines = matchPattern.GetFilledPattern();
             var s = string.Join(Environment.NewLine, lines.ToArray());
             Console.WriteLine(s);

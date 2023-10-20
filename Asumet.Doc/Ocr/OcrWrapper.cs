@@ -1,16 +1,13 @@
 ﻿namespace Asumet.Doc.Ocr
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Text;
     using Tesseract;
 
     /// <summary>
     /// Wraps Tesseract OCR
     /// </summary>
-    public class OcrWrapper
+    public static class OcrWrapper
     {
         private static TesseractEngine Engine { get; } = new TesseractEngine(AppSettings.Instance.TesseractDataDirectory, "rus", EngineMode.Default);
 
@@ -32,7 +29,7 @@
         /// </summary>
         /// <param name="imageFilePath">Path to an image file</param>
         /// <returns>A parsed page</returns>
-        protected static Page ImageToPage(string imageFilePath)
+        private static Page ImageToPage(string imageFilePath)
         {
             using var img = Pix.LoadFromFile(imageFilePath);
             var page = Engine.Process(img);

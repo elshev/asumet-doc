@@ -8,7 +8,7 @@
         where T : class
     {
         /// <summary>
-        /// Gets the object which will be exxported to a document file.
+        /// Gets the object which will be exported to a document file.
         /// </summary>
         public T ObjectToExport { get; }
 
