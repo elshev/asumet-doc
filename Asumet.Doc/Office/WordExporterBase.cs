@@ -9,7 +9,7 @@
     using NPOI.XWPF.UserModel;
 
     /// <summary>
-    /// Base class for all document (Word, Excel) exporters.
+    /// Base class for all Word document exporters.
     /// </summary>
     /// <typeparam name="T">Type of the exported object.</typeparam>
     public abstract class WordExporterBase<T> : IOfficeExporter<T>

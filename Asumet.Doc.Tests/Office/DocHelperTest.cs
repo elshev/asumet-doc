@@ -50,6 +50,7 @@ namespace Asumet.Doc.Tests.Office
             DocHelper.ReplacePlaceholdersInString("Some text {ActNumber} bla-bla {Buyer.FullName} another text", psa, false)
                 .Should().Be($"Some text {psa.ActNumber} bla-bla {psa.Buyer?.FullName} another text");
         }
+        
         [Fact]
 
         public void TestReplacePlaceholdersInString_SkipPlaceholders()
@@ -70,6 +71,49 @@ namespace Asumet.Doc.Tests.Office
                 .Should().Be($"One  two {psa.ActNumber}");
             DocHelper.ReplacePlaceholdersInString("One {WrongPlaceholder} two {ActNumber}", psa, true)
                 .Should().Be($"One {{WrongPlaceholder}} two {psa.ActNumber}");
+        }
+
+
+        [Fact]
+        public void TestReplacePlaceholdersInList()
+        {
+            //Arrange
+            var psa = Psa.GetPsaStub();
+
+            // Act, Assert
+            DocHelper.ReplacePlaceholdersInStrings(Array.Empty<string>(), psa, false)
+                .Should().Equal(Array.Empty<string>());
+            DocHelper.ReplacePlaceholdersInStrings(new string[] { "s1", "s2" }, psa, false)
+                .Should().Equal(new string[] { "s1", "s2" });
+            DocHelper.ReplacePlaceholdersInStrings(new string[] { "First {ActNumber} and {WrongValue}", "Second {Buyer.FullName}" }, psa, false)
+                .Should().Equal(new string[] { $"First {psa.ActNumber} and ", $"Second {psa.Buyer?.FullName}"});
+        }
+
+        [Fact]
+        public void TestReplacePlaceholdersInList_SkipPlaceholders()
+        {
+            //Arrange
+            var psa = Psa.GetPsaStub();
+
+            // Act, Assert
+            DocHelper.ReplacePlaceholdersInStrings(new string[] { "First {ActNumber} and {WrongValue}", "Second {Buyer.FullName}" }, psa, false)
+                .Should().Equal(new string[] { $"First {psa.ActNumber} and ", $"Second {psa.Buyer?.FullName}"});
+            DocHelper.ReplacePlaceholdersInStrings(new string[] { "First {ActNumber} and {WrongValue}", "Second {Buyer.FullName}" }, psa, true)
+                .Should().Equal(new string[] { $"First {psa.ActNumber} and {{WrongValue}}", $"Second {psa.Buyer?.FullName}"});
+        }
+
+        [Fact]
+        public void TestReplacePlaceholdersInList_ReturnsDifferentObject()
+        {
+            //Arrange
+            var psa = Psa.GetPsaStub();
+            var list = new List<string>() {"s1", "s2"};
+
+            // Act
+            var result = DocHelper.ReplacePlaceholdersInStrings(list, psa, false);
+
+            // Assert
+            ReferenceEquals(list, result).Should().BeFalse();
         }
     }
 }

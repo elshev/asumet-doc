@@ -1,9 +1,9 @@
 ﻿namespace Asumet.Doc.Common
 {
-    using Asumet.Common;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text.RegularExpressions;
+    using Asumet.Common;
 
     /// <summary>
     /// Contains helper methods to work with MS Doc.
@@ -66,7 +66,6 @@
             return ReflectionHelper.GetMemberValue(sourceObject, memberName);
         }
 
-
         /// <summary>
         /// Replaces all placeholders in <paramref name="str"/> with property values from <paramref name="obj"/>.
         /// </summary>
@@ -102,6 +101,35 @@
                 {
                     result = result.Replace(MakePlaceholder(placeholderName), stringValue);
                 }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Replaces all placeholders in <paramref name="strings"/> with property values from <paramref name="obj"/>.
+        /// </summary>
+        /// <param name="strings">A list of strings to process.</param>
+        /// <param name="obj">Object to take values from.</param>
+        /// <param name="skipMissingPlaceholders">
+        /// If true - leave a "{placeholderName}" in the output document.
+        /// If false - replace it with the empty string.
+        /// </param>
+        /// <returns>
+        /// A new list of strings with replaced values.
+        /// Note: If obj is null, return the same <paramref name="strings"/>
+        /// </returns>
+        public static IEnumerable<string> ReplacePlaceholdersInStrings(IEnumerable<string> strings, object obj, bool skipMissingPlaceholders)
+        {
+            if (obj == null)
+            {
+                return strings;
+            }
+
+            var result = strings.ToList();
+            for (var i = 0; i < result.Count; i++)
+            {
+                result[i] = ReplacePlaceholdersInString(result[i], obj, skipMissingPlaceholders);
             }
 
             return result;

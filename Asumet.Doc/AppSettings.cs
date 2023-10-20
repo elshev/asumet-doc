@@ -30,7 +30,12 @@
         /// <summary>
         /// The directory where document templates are stored.
         /// </summary>
-        public string TemplatesDirectory { get; set; } = "./templates";
+        public string TemplatesDirectory { get; set; } = "./Templates";
+
+        /// <summary>
+        /// The directory where match pattern files are stored.
+        /// </summary>
+        public string MatchPatternsDirectory { get; set; } = "./Templates";
 
         /// <summary>
         /// The output directory where documents will be exported.
@@ -41,7 +46,7 @@
         /// Tesseract Trained Data Directory.
         /// Used by Tesseract library.
         /// </summary>
-        public string TesseractDataDirectory { get; set; } = "./tessdata";
+        public string TesseractDataDirectory { get; set; } = "./Tessdata";
 
         /// <summary>
         /// Updates configuration
