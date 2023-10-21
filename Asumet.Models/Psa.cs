@@ -23,7 +23,7 @@
                 Address = "гор. Москва, Индустриальная ул., д.123, оф. 987",
                 Inn = "11112222333",
                 Kpp = "99988877",
-                Bank = "ЗАО \"TectБанк\"",
+                Bank = "ЗАО \"TecтБанк\"",
                 Bic = "083083083",
                 CorrespondentAccount = "30000000000000000000",
                 Account = "4080000000000001111",
@@ -81,7 +81,7 @@
 
             var psa = new Psa
             {
-                ActDate = DateTime.Now,
+                ActDate = new DateTime(2023, 10, 18, 15, 52, 09),
                 ActNumber = "А-012345",
                 Buyer = buyer,
                 Supplier = supplier,
@@ -90,6 +90,5 @@
 
             return psa;
         }
-
     }
 }

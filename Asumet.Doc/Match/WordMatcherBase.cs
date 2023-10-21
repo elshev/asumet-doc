@@ -35,20 +35,31 @@
                 return 0;
             }
 
-            var patternLines = WordMatchPattern.GetPattern().ToList();
-            var patternFilledLines = WordMatchPattern.GetPattern().ToList();
+            var patternLines = WordMatchPattern.GetPattern()
+                .Where(s => !string.IsNullOrWhiteSpace(s))
+                .ToList();
+            var patternFilledLines = WordMatchPattern.GetFilledPattern()
+                .Where(s => !string.IsNullOrWhiteSpace(s))
+                .ToList();
 
             if (!patternFilledLines.Any())
             {
                 return 0;
             }
 
-            float matchSum = 0;
-            int patternLineIndex = 0;
-            foreach (var documentLine in documentLines)
+            double matchSum = 0;
+
+            for (int i = 0; i < patternFilledLines.Count; i++)
             {
-                double score = MatchWrapper.Match(documentLine, patternLines[patternLineIndex]);
-                matchSum += 1;
+                foreach (var documentLine in documentLines)
+                {
+                    double score = MatchWrapper.Match(documentLine, patternFilledLines[i]);
+                    if (score > 0.7)
+                    {
+                        matchSum += score;
+                        break;
+                    }
+                }
             }
 
             return (int)Math.Round(matchSum / patternFilledLines.Count * 100);

@@ -1,7 +1,9 @@
 ﻿namespace Asumet.Doc
 {
     using System;
+    using System.IO;
     using System.Linq;
+    using Asumet.Doc.Match;
     using Asumet.Doc.Ocr;
     using Asumet.Doc.Office;
     using Asumet.Models;
@@ -24,7 +26,8 @@
 
             // ExportPsa();
             // DoOcr();
-            GetMatchFile();
+            // GetMatchFile();
+            Match();
         }
 
         private static void ExportPsa()
@@ -35,10 +38,16 @@
             Console.WriteLine(psaExporter.OutputFilePath);
         }
 
+        private static string OcrFilePath
+        {
+            get { return Path.Combine(AppSettings.Instance.DocumentOutputDirectory, "PSA-01-144dpi.txt"); }
+        }
+
         private static void DoOcr()
         {
             var lines = OcrWrapper.ImageToStrings("./images/PSA-01-144dpi.png");
-            lines.ToList().ForEach(s => Console.WriteLine(s));
+            var outputFilePath = OcrFilePath;
+            File.WriteAllLines(outputFilePath, lines);
         }
 
         private static void GetMatchFile()
@@ -48,6 +57,16 @@
             var lines = matchPattern.GetFilledPattern();
             var s = string.Join(Environment.NewLine, lines.ToArray());
             Console.WriteLine(s);
+        }
+
+        private static void Match()
+        {
+            var psa = Psa.GetPsaStub();
+            IWordMatchPattern<Psa> matchPattern = new PsaMatchPattern(psa);
+            var matcher = new PsaMatcher(matchPattern);
+            var lines = File.ReadAllLines(OcrFilePath);
+            var score = matcher.MatchDocumentWithPattern(lines);
+            Console.WriteLine(score);
         }
     }
 }

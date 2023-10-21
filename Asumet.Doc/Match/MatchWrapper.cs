@@ -13,7 +13,7 @@
         /// <param name="str1">string 1</param>
         /// <param name="str2">string 2</param>
         /// <returns>A match score: value between 0 and 1 </returns>
-        public static double Match(string str1, string str2)
+        public static double Match(string? str1, string? str2)
         {
             if (string.IsNullOrEmpty(str1) || string.IsNullOrEmpty(str2))
             {
@@ -22,7 +22,7 @@
 
             if (str1 == str2)
             {
-                return 100;
+                return 1;
             }
 
             int distance = Fastenshtein.Levenshtein.Distance(str1, str2);
