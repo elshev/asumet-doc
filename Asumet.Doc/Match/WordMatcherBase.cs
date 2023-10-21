@@ -22,7 +22,7 @@
         /// <inheritdoc/>
         public T DocumentObject
         {
-            get { return WordMatchPattern.ObjectToExport; }
+            get { return WordMatchPattern.DocumentObject; }
         }
 
         private IWordMatchPattern<T> WordMatchPattern { get; }

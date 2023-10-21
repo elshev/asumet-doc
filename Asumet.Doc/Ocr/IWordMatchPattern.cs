@@ -17,7 +17,7 @@
         /// <summary>
         /// Gets the object which is exported to a pattern file.
         /// </summary>
-        public T ObjectToExport { get; }
+        public T DocumentObject { get; }
 
         /// <summary>
         /// Gets the pattern lines of strings

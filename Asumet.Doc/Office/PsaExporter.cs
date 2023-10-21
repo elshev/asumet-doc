@@ -11,9 +11,9 @@
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="objectToExport">Object to export to a document</param>
-        public PsaExporter(Psa objectToExport)
-            : base(objectToExport)
+        /// <param name="documentObject">Object to export to a document</param>
+        public PsaExporter(Psa documentObject)
+            : base(documentObject)
         {
         }
 

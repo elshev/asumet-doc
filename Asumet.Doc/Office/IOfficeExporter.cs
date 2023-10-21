@@ -10,7 +10,7 @@
         /// <summary>
         /// Gets the object which will be exported to a document file.
         /// </summary>
-        public T ObjectToExport { get; }
+        public T DocumentObject { get; }
 
         /// <summary>
         /// Gets a template file name with extension.
@@ -24,7 +24,7 @@
         string OutputFilePath { get; }
 
         /// <summary>
-        /// Exports an <see cref="ObjectToExport"/> to a document file.
+        /// Exports an <see cref="DocumentObject"/> to a document file.
         /// </summary>
         void Export();
     }

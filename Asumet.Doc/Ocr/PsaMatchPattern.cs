@@ -11,9 +11,9 @@
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="objectToExport">Object to export to a document</param>
-        public PsaMatchPattern(Psa objectToExport)
-            : base(objectToExport)
+        /// <param name="documentObject">Document object to export</param>
+        public PsaMatchPattern(Psa documentObject)
+            : base(documentObject)
         {
         }
 

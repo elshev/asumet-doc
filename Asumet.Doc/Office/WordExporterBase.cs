@@ -22,14 +22,14 @@
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="objectToExport">Object to export to a document.</param>
-        public WordExporterBase(T objectToExport)
+        /// <param name="documentObject">Object to export to a document.</param>
+        public WordExporterBase(T documentObject)
         {
-            ObjectToExport = objectToExport;
+            DocumentObject = documentObject;
         }
 
         /// <inheritdoc/>
-        public T ObjectToExport { get; }
+        public T DocumentObject { get; }
 
         /// <inheritdoc/>
         public virtual string TemplateFileName
@@ -142,7 +142,7 @@
         /// Replaces placeholderNames in <paramref name="paragraph"/> with values from <paramref name="obj"/>
         /// </summary>
         /// <param name="paragraph">Paragraph to process.</param>
-        /// <param name="obj">Object with values. If null then takes values from <see cref="ObjectToExport"/></param>
+        /// <param name="obj">Object with values. If null then takes values from <see cref="DocumentObject"/></param>
         protected void FillParagraph(XWPFParagraph? paragraph, object? obj = null)
         {
             if (paragraph == null)
@@ -150,7 +150,7 @@
                 return;
             }
 
-            obj ??= ObjectToExport;
+            obj ??= DocumentObject;
 
             var placeholderNames = DocHelper.GetPlaceholderNames(paragraph.ParagraphText);
             foreach (var placeholderName in placeholderNames)
@@ -163,10 +163,10 @@
                 }
 
                 var value = DocHelper.GetMemberValue(obj, memberName);
-                if (value == null && isDatasetItem && obj != ObjectToExport)
+                if (value == null && isDatasetItem && obj != DocumentObject)
                 {
                     // If we didn't find a value in child object, let's try to get it from the parent
-                    value = DocHelper.GetMemberValue(ObjectToExport, memberName);
+                    value = DocHelper.GetMemberValue(DocumentObject, memberName);
                 }
 
                 string? stringValue = string.Empty;
@@ -187,9 +187,9 @@
         /// <summary>
         /// If the first firstCell in the table starts with <see cref="DataSetPrefix"/>:
         ///   1. Add rows to the table
-        ///   2. Fill the cell values from the enumberable property of <see cref="ObjectToExport"/>
+        ///   2. Fill the cell values from the enumberable property of <see cref="DocumentObject"/>
         /// Else
-        ///   Fill the cell values from <see cref="ObjectToExport"/>
+        ///   Fill the cell values from <see cref="DocumentObject"/>
         /// </summary>
         /// <param name="table">A table to be processed</param>
         protected void ProcessTable(XWPFTable table)
@@ -201,7 +201,7 @@
                 int rowCountAdded = ProcessDatasetRow(row);
                 if (rowCountAdded == 0)
                 {
-                    FillRow(row, ObjectToExport);
+                    FillRow(row, DocumentObject);
                 }
 
                 rowIndex += rowCountAdded + 1;
@@ -210,7 +210,7 @@
 
         /// <summary>
         /// Checks if the <paramref name="row"/> is "DataSet" row.
-        /// If so, clones this row and fills it from dataset taken from <see cref="ObjectToExport"/>
+        /// If so, clones this row and fills it from dataset taken from <see cref="DocumentObject"/>
         /// </summary>
         /// <param name="row">Row clone if it's a "DataSet" row</param>
         /// <returns>Row count added to the table</returns>
@@ -236,7 +236,7 @@
             }
 
             var datasetMemberName = tablePlaceholder[DataSetPrefix.Length..];
-            if (DocHelper.GetMemberValue(ObjectToExport, datasetMemberName) is not IEnumerable<object> items || !items.Any())
+            if (DocHelper.GetMemberValue(DocumentObject, datasetMemberName) is not IEnumerable<object> items || !items.Any())
             {
                 return 0;
             }
@@ -255,12 +255,12 @@
         /// Fills cells starting from <paramref name="startRow"/> taking values from <paramref name="datasetMemberName"/>
         /// </summary>
         /// <param name="startRow">Starting row of the table</param>
-        /// <param name="datasetMemberName">Name of the dataset from <see cref="ObjectToExport"/></param>
+        /// <param name="datasetMemberName">Name of the dataset from <see cref="DocumentObject"/></param>
         protected void FillDatasetRows(XWPFTableRow startRow, string datasetMemberName)
         {
             var table = startRow.GetTable();
             var rowIndex = table.Rows.IndexOf(startRow);
-            if (DocHelper.GetMemberValue(ObjectToExport, datasetMemberName) is not IEnumerable<object> items)
+            if (DocHelper.GetMemberValue(DocumentObject, datasetMemberName) is not IEnumerable<object> items)
             {
                 return;
             }

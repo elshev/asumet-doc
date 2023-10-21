@@ -14,14 +14,14 @@
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="objectToExport">Object to export to a document.</param>
-        public WordMatchPatternBase(T objectToExport)
+        /// <param name="documentObject">Object to export to a document.</param>
+        public WordMatchPatternBase(T documentObject)
         {
-            ObjectToExport = objectToExport;
+            DocumentObject = documentObject;
         }
 
         /// <inheritdoc/>
-        public T ObjectToExport { get; }
+        public T DocumentObject { get; }
 
         /// <inheritdoc/>
         public virtual string PatternFileName
@@ -62,13 +62,13 @@
         }
 
         /// <summary>
-        /// Fills placeholders in <paramref name="patternLines"/> from <see cref="ObjectToExport"/>
+        /// Fills placeholders in <paramref name="patternLines"/> from <see cref="DocumentObject"/>
         /// </summary>
         /// <param name="patternLines">Text to fill</param>
         /// <returns> A new list of strings with replaced values./// </returns>
         protected IEnumerable<string> FillPatternPlaceholders(IEnumerable<string> patternLines)
         {
-            return DocHelper.ReplacePlaceholdersInStrings(patternLines, ObjectToExport, false);
+            return DocHelper.ReplacePlaceholdersInStrings(patternLines, DocumentObject, false);
         }
     }
 }
