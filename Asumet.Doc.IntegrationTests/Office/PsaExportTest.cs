@@ -1,22 +1,11 @@
 ﻿using Asumet.Doc.Office;
 using Asumet.Models;
-using Microsoft.Extensions.Configuration;
 using NPOI.XWPF.UserModel;
 
 namespace Asumet.Doc.IntegrationTests.Office
 {
-    public class PsaExportTest
+    public class PsaExportTest : IntegrationTestBase
     {
-        public PsaExportTest()
-        {
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .AddJsonFile("appsettings.json")
-                .Build();
-
-            AppSettings.Instance.UpdateConfiguration(configuration);
-        }
-
         private static void AssertDocxFile(string filePath)
         {
             filePath.Should().NotBeNull();

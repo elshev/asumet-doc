@@ -1,21 +1,10 @@
 ﻿using Asumet.Doc.Match;
 using Asumet.Models;
-using Microsoft.Extensions.Configuration;
 
 namespace Asumet.Doc.IntegrationTests.Ocr
 {
-    public class PsaMatchPatternTest
+    public class PsaMatchPatternTest : IntegrationTestBase
     {
-        public PsaMatchPatternTest()
-        {
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .AddJsonFile("appsettings.json")
-                .Build();
-
-            AppSettings.Instance.UpdateConfiguration(configuration);
-        }
-
         [Fact]
         public void TestGetFilledPattern_ReturnsFilledPlaceholders()
         {
