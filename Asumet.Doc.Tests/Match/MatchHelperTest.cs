@@ -79,7 +79,41 @@ namespace Asumet.Doc.Tests.Match
                 "Fixed long long long long long long long long text: WrongText",
                 "Fixed long long long long long long long long text: Value",
                 "Fixed long long long long long long long long text: {Placeholder}")
-                .Should().Be(expectedValue);
+                .Should().BeGreaterThan(0.7);
+        }
+
+        [Fact]
+        public void TestMatchPattern2()
+        {
+            // Arrange
+
+            // Act, Assert
+            MatchHelper.MatchWithPattern(
+                "Fixed long long long long long long long long text: Value",
+                "Fixed long long long long long long long long text: {Placeholder}",
+                new Dictionary<string, string>
+                {
+                    { "{Placeholder}", "Value" }
+                })
+                .Should().Be(1);
+
+            MatchHelper.MatchWithPattern(
+                "Fixed long long long long long long long long text: WrongText",
+                "Fixed long long long long long long long long text: {Placeholder}",
+                new Dictionary<string, string>
+                {
+                    { "{Placeholder}", "Value" }
+                })
+                .Should().Be(0);
+
+            MatchHelper.MatchWithPattern(
+                "Fixed long long long long long long long long text: v12345",
+                "Fixed long long long long long long long long text: {Placeholder}",
+                new Dictionary<string, string>
+                {
+                    { "{Placeholder}", "Value" }
+                })
+                .Should().BeGreaterThan(0.19).And.BeLessThan(0.21);
         }
 
 

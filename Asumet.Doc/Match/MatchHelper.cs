@@ -1,6 +1,8 @@
 ﻿namespace Asumet.Doc.Match
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
     using Asumet.Doc.Common;
 
@@ -66,7 +68,7 @@
         /// <param name="str1">string 1</param>
         /// <param name="str2">string 2</param>
         /// <param name="matchOptions">Additional matchOptions when comparing</param>
-        /// <returns>A match score: value between 0 and 1 </returns>
+        /// <returns>A match score: placeholderValue between 0 and 1 </returns>
         public static double Match(string? str1, string? str2, MatchOptions? matchOptions)
         {
             if (string.IsNullOrEmpty(str1) || string.IsNullOrEmpty(str2))
@@ -84,7 +86,7 @@
         /// </summary>
         /// <param name="str1">string 1</param>
         /// <param name="str2">string 2</param>
-        /// <returns>A match score: value between 0 and 1 </returns>
+        /// <returns>A match score: placeholderValue between 0 and 1 </returns>
         public static double Match(string? str1, string? str2)
         {
             return Match(str1, str2, null);
@@ -97,26 +99,78 @@
         /// <param name="filledPattern">Pattern with filled placeholders</param>
         /// <param name="pattern">Pattern with unfilled placeholders</param>
         /// <param name="matchOptions">Additional matchOptions when comparing</param>
-        /// <returns>A match score: value between 0 and 1 </returns>
+        /// <returns>A match score: placeholderValue between 0 and 1 </returns>
         public static double MatchWithPattern(
             string str,
             string filledPattern,
             string pattern,
             MatchOptions? matchOptions = null)
         {
-            if (str == filledPattern)
+            if (string.IsNullOrEmpty(str) || string.IsNullOrEmpty(filledPattern) || string.IsNullOrEmpty(pattern))
+            {
+                return 0;
+            }
+
+            int distance = Distance(str, filledPattern, matchOptions);
+            if (distance == 0)
             {
                 return 1;
             }
 
             var fixedPattern = DocHelper.RemovePlaceholders(pattern);
-            var fixedLength = fixedPattern.Length;
-            var fullLength = filledPattern.Length;
-            var valuesLength = fullLength - fixedLength;
-            var valuesPart = valuesLength / fullLength;
-            var totalScore = Match(str, filledPattern, matchOptions);
+            const double acceptableErrorRateInFixedPart = 0.05;
+            int acceptableErrorDistance = Math.Min(3, (int)(fixedPattern.Length * acceptableErrorRateInFixedPart));
+            distance -= acceptableErrorDistance;
+            distance = distance < 1 ? 1 : distance;
+            var patternValuesPartLength = filledPattern.Length - fixedPattern.Length;
+            var strValuesPartLength = str.Length - fixedPattern.Length;
+            double result = 1.0 - ((double)distance / Math.Max(patternValuesPartLength, strValuesPartLength));
+            return result;
+        }
 
-            return 0;
+        /// <summary>
+        /// Tries to match only the unfixed part of the text.
+        /// </summary>
+        /// <param name="str">String to match</param>
+        /// <param name="filledPattern">Pattern with filled placeholders</param>
+        /// <param name="pattern">Pattern with unfilled placeholders</param>
+        /// <param name="matchOptions">Additional matchOptions when comparing</param>
+        /// <returns>A match score: placeholderValue between 0 and 1 </returns>
+        public static double MatchWithPattern(
+            string str,
+            string pattern,
+            IDictionary<string, string> placeholderValues,
+            MatchOptions? matchOptions = null)
+        {
+            if (string.IsNullOrEmpty(str) || string.IsNullOrEmpty(pattern))
+            {
+                return 0;
+            }
+
+            string s = str;
+            int valuesDistance = 0;
+            int valuesLength = 0;
+            foreach (var kvp in placeholderValues.Reverse())
+            {
+                var placeholder = kvp.Key;
+                var placeholderValue = kvp.Value;
+                var placeholderIndex = pattern.LastIndexOf(placeholder);
+                if (placeholderIndex < 0)
+                {
+                    return 0;
+                }
+
+                var strValue = s.Substring(placeholderIndex, placeholderValue.Length);
+                var distance = Distance(placeholderValue, strValue, matchOptions);
+                valuesDistance += distance;
+                valuesLength += Math.Max(placeholderValue.Length, strValue.Length);
+                s = s[.. (placeholderIndex + 1)];
+            }
+
+            double result = valuesLength > 0
+                ? 1.0 - ((double)valuesDistance / valuesLength)
+                : 0;
+            return result;
         }
 
         private static string? ReplaceChars(string? str, char[] charsToReplace, char newChar)
