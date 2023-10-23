@@ -1,4 +1,4 @@
-﻿namespace Asumet.Doc.Ocr
+﻿namespace Asumet.Doc.Match
 {
     using Asumet.Doc.Common;
     using Asumet.Models;
@@ -6,7 +6,7 @@
     /// <summary>
     /// Exports "ПСА" document to a Word file.
     /// </summary>
-    public class PsaMatchPattern : WordMatchPatternBase<Psa>
+    public class PsaMatchPattern : MatchPatternBase<Psa>
     {
         /// <summary>
         /// Constructor.

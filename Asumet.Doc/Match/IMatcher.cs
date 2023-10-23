@@ -6,7 +6,7 @@
     /// Interface for all Word marchers.
     /// </summary>
     /// <typeparam name="T">Type of the exported object.</typeparam>
-    public interface IWordMatcher<T>
+    public interface IMatcher<T>
         where T : class
     {
         /// <summary>

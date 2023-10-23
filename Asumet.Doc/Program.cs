@@ -12,6 +12,11 @@
     /// <summary> Entry point </summary>
     public class Program
     {
+        private static string OcrFilePath
+        {
+            get { return Path.Combine(AppSettings.Instance.DocumentOutputDirectory, "PSA-01-144dpi.txt"); }
+        }
+
         /// <summary> Entry point </summary>
         public static void Main()
         {
@@ -38,11 +43,6 @@
             Console.WriteLine(psaExporter.OutputFilePath);
         }
 
-        private static string OcrFilePath
-        {
-            get { return Path.Combine(AppSettings.Instance.DocumentOutputDirectory, "PSA-01-144dpi.txt"); }
-        }
-
         private static void DoOcr()
         {
             var lines = OcrWrapper.ImageToStrings("./images/PSA-01-144dpi.png");
@@ -53,7 +53,7 @@
         private static void GetMatchFile()
         {
             var psa = Psa.GetPsaStub();
-            IWordMatchPattern<Psa> matchPattern = new PsaMatchPattern(psa);
+            IMatchPattern<Psa> matchPattern = new PsaMatchPattern(psa);
             var lines = matchPattern.GetFilledPattern();
             var s = string.Join(Environment.NewLine, lines.ToArray());
             Console.WriteLine(s);
@@ -62,7 +62,7 @@
         private static void Match()
         {
             var psa = Psa.GetPsaStub();
-            IWordMatchPattern<Psa> matchPattern = new PsaMatchPattern(psa);
+            IMatchPattern<Psa> matchPattern = new PsaMatchPattern(psa);
             var matcher = new PsaMatcher(matchPattern);
             var lines = File.ReadAllLines(OcrFilePath);
             var score = matcher.MatchDocumentWithPattern(lines);

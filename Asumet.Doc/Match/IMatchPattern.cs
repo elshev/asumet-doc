@@ -1,4 +1,4 @@
-﻿namespace Asumet.Doc.Ocr
+﻿namespace Asumet.Doc.Match
 {
     using System.Collections.Generic;
 
@@ -6,7 +6,7 @@
     /// Interface for all march patterns.
     /// </summary>
     /// <typeparam name="T">Type of the exported object.</typeparam>
-    public interface IWordMatchPattern<T>
+    public interface IMatchPattern<T>
         where T : class
     {
         /// <summary>
