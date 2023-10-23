@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using Asumet.Doc.Common;
 
     /// <summary>
     /// Wraps Match lib.
@@ -96,44 +95,8 @@
         /// Tries to match only the unfixed part of the text.
         /// </summary>
         /// <param name="str">String to match</param>
-        /// <param name="filledPattern">Pattern with filled placeholders</param>
         /// <param name="pattern">Pattern with unfilled placeholders</param>
-        /// <param name="matchOptions">Additional matchOptions when comparing</param>
-        /// <returns>A match score: placeholderValue between 0 and 1 </returns>
-        public static double MatchWithPattern(
-            string str,
-            string filledPattern,
-            string pattern,
-            MatchOptions? matchOptions = null)
-        {
-            if (string.IsNullOrEmpty(str) || string.IsNullOrEmpty(filledPattern) || string.IsNullOrEmpty(pattern))
-            {
-                return 0;
-            }
-
-            int distance = Distance(str, filledPattern, matchOptions);
-            if (distance == 0)
-            {
-                return 1;
-            }
-
-            var fixedPattern = DocHelper.RemovePlaceholders(pattern);
-            const double acceptableErrorRateInFixedPart = 0.05;
-            int acceptableErrorDistance = Math.Min(3, (int)(fixedPattern.Length * acceptableErrorRateInFixedPart));
-            distance -= acceptableErrorDistance;
-            distance = distance < 1 ? 1 : distance;
-            var patternValuesPartLength = filledPattern.Length - fixedPattern.Length;
-            var strValuesPartLength = str.Length - fixedPattern.Length;
-            double result = 1.0 - ((double)distance / Math.Max(patternValuesPartLength, strValuesPartLength));
-            return result;
-        }
-
-        /// <summary>
-        /// Tries to match only the unfixed part of the text.
-        /// </summary>
-        /// <param name="str">String to match</param>
-        /// <param name="filledPattern">Pattern with filled placeholders</param>
-        /// <param name="pattern">Pattern with unfilled placeholders</param>
+        /// <param name="placeholderValues">Mapping "{Placeholder}" -> "Value"</param>
         /// <param name="matchOptions">Additional matchOptions when comparing</param>
         /// <returns>A match score: placeholderValue between 0 and 1 </returns>
         public static double MatchWithPattern(

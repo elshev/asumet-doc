@@ -59,35 +59,29 @@ namespace Asumet.Doc.Tests.Match
         public void TestMatchPattern()
         {
             // Arrange
-            var options = MatchOptions.DefaultOptions;
 
             // Act, Assert
-            MatchHelper.MatchWithPattern(string.Empty, "Value", "{Placeholder}")
+            MatchHelper.MatchWithPattern(
+                string.Empty,
+                "{Placeholder}",
+                new Dictionary<string, string> { { "{Placeholder}", "Value" } })
                 .Should().Be(0);
 
-            MatchHelper.MatchWithPattern("Value", "Value", "{Placeholder}")
+            MatchHelper.MatchWithPattern(
+                "Value",
+                "{Placeholder}",
+                new Dictionary<string, string> { { "{Placeholder}", "Value" } })
                 .Should().Be(1);
 
             MatchHelper.MatchWithPattern(
-                "Fixed long long long long long long long long text: Value",
-                "Fixed long long long long long long long long text: Value",
-                "Fixed long long long long long long long long text: {Placeholder}")
+                "Fix: Value",
+                "Fix: {Placeholder}",
+                new Dictionary<string, string>
+                {
+                    { "{Placeholder}", "Value" }
+                })
                 .Should().Be(1);
 
-            double expectedValue = MatchHelper.Match("WrongText", "Value");
-            MatchHelper.MatchWithPattern(
-                "Fixed long long long long long long long long text: WrongText",
-                "Fixed long long long long long long long long text: Value",
-                "Fixed long long long long long long long long text: {Placeholder}")
-                .Should().BeGreaterThan(0.7);
-        }
-
-        [Fact]
-        public void TestMatchPattern2()
-        {
-            // Arrange
-
-            // Act, Assert
             MatchHelper.MatchWithPattern(
                 "Fixed long long long long long long long long text: Value",
                 "Fixed long long long long long long long long text: {Placeholder}",
@@ -105,6 +99,15 @@ namespace Asumet.Doc.Tests.Match
                     { "{Placeholder}", "Value" }
                 })
                 .Should().Be(0);
+
+            MatchHelper.MatchWithPattern(
+                "Fix: v12345",
+                "Fix: {Placeholder}",
+                new Dictionary<string, string>
+                {
+                    { "{Placeholder}", "Value" }
+                })
+                .Should().BeGreaterThan(0.19).And.BeLessThan(0.21);
 
             MatchHelper.MatchWithPattern(
                 "Fixed long long long long long long long long text: v12345",
@@ -114,8 +117,26 @@ namespace Asumet.Doc.Tests.Match
                     { "{Placeholder}", "Value" }
                 })
                 .Should().BeGreaterThan(0.19).And.BeLessThan(0.21);
+
+            MatchHelper.MatchWithPattern(
+                "One Val1 two val2 three",
+                "One {p1} two {p2} three",
+                new Dictionary<string, string>
+                {
+                    { "{p1}", "Val1" },
+                    { "{p2}", "val2" }
+                })
+                .Should().Be(1);
+
+            MatchHelper.MatchWithPattern(
+                "SomeText Val1 Another val2 and then...",
+                "One {p1} two {p2} three",
+                new Dictionary<string, string>
+                {
+                    { "{p1}", "Val1" },
+                    { "{p2}", "val2" }
+                })
+                .Should().BeLessThan(0.2);
         }
-
-
     }
 }
