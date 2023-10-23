@@ -48,7 +48,7 @@
             }
 
             double matchSum = 0;
-            var matchOptions = new MatchOptions();
+            var matchOptions = MatchOptions.DefaultOptions;
 
             for (int i = 0; i < patternFilledLines.Count; i++)
             {

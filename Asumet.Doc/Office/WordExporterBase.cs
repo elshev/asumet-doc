@@ -67,7 +67,7 @@
         /// If true - leave a placeholderName in the output document
         /// If false - replace it with the empty string
         /// </summary>
-        protected virtual bool SkipMissingPlaceholders { get; } = true;
+        protected virtual bool LeaveMissingPlaceholders { get; } = true;
 
         /// <inheritdoc/>
         public virtual void Export()
@@ -170,7 +170,7 @@
                 }
 
                 string? stringValue = string.Empty;
-                bool skipReplace = SkipMissingPlaceholders;
+                bool skipReplace = LeaveMissingPlaceholders;
                 if (value != null)
                 {
                     stringValue = value.ToString();

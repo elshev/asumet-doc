@@ -115,5 +115,17 @@ namespace Asumet.Doc.Tests.Office
             // Assert
             ReferenceEquals(list, result).Should().BeFalse();
         }
+
+        [Fact]
+        public void TestRemovePlaceholders()
+        {
+            DocHelper.RemovePlaceholders(string.Empty).Should().Be(string.Empty);
+            DocHelper.RemovePlaceholders("Some text").Should().Be("Some text");
+            DocHelper.RemovePlaceholders("Some text {value}").Should().Be("Some text ");
+            DocHelper.RemovePlaceholders($"Some text {{value}}{Environment.NewLine} and {{another value}}")
+                .Should().Be($"Some text {Environment.NewLine} and ");
+            DocHelper.RemovePlaceholders("Some text {SomeProperty} and {ParentProperty.Child} and {ArrayProperty[].ArrayChild}")
+                .Should().Be("Some text  and  and ");
+        }
     }
 }

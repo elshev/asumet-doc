@@ -74,12 +74,12 @@
         /// </summary>
         /// <param name="str">A string to process.</param>
         /// <param name="obj">Object to take values from.</param>
-        /// <param name="skipMissingPlaceholders">
+        /// <param name="leaveMissingPlaceholders">
         /// If true - leave a "{placeholderName}" in the output document.
         /// If false - replace it with the empty string.
         /// </param>
         /// <returns>A string with replaced values.</returns>
-        public static string ReplacePlaceholdersInString(string str, object obj, bool skipMissingPlaceholders)
+        public static string ReplacePlaceholdersInString(string str, object obj, bool leaveMissingPlaceholders)
         {
             if (obj == null)
             {
@@ -93,7 +93,7 @@
                 var memberName = placeholderName;
                 var value = GetMemberValue(obj, memberName);
                 string? stringValue = string.Empty;
-                bool skipReplace = skipMissingPlaceholders;
+                bool skipReplace = leaveMissingPlaceholders;
                 if (value != null)
                 {
                     stringValue = value.ToString();
@@ -114,7 +114,7 @@
         /// </summary>
         /// <param name="strings">A list of strings to process.</param>
         /// <param name="obj">Object to take values from.</param>
-        /// <param name="skipMissingPlaceholders">
+        /// <param name="leaveMissingPlaceholders">
         /// If true - leave a "{placeholderName}" in the output document.
         /// If false - replace it with the empty string.
         /// </param>
@@ -122,7 +122,7 @@
         /// A new list of strings with replaced values.
         /// Note: If obj is null, return the same <paramref name="strings"/>
         /// </returns>
-        public static IEnumerable<string> ReplacePlaceholdersInStrings(IEnumerable<string> strings, object obj, bool skipMissingPlaceholders)
+        public static IEnumerable<string> ReplacePlaceholdersInStrings(IEnumerable<string> strings, object obj, bool leaveMissingPlaceholders)
         {
             if (obj == null)
             {
@@ -132,10 +132,20 @@
             var result = strings.ToList();
             for (var i = 0; i < result.Count; i++)
             {
-                result[i] = ReplacePlaceholdersInString(result[i], obj, skipMissingPlaceholders);
+                result[i] = ReplacePlaceholdersInString(result[i], obj, leaveMissingPlaceholders);
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Removes all placeholders in the string replacing them with empty string
+        /// </summary>
+        /// <param name="str">A string with placeholders</param>
+        /// <returns>String with removed placeholders</returns>
+        public static string RemovePlaceholders(string str)
+        {
+            return ReplacePlaceholdersInString(str, new object(), false);
         }
     }
 }
