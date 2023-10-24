@@ -1,7 +1,7 @@
 ﻿using Asumet.Doc.Match;
 using Asumet.Models;
 
-namespace Asumet.Doc.IntegrationTests.Ocr
+namespace Asumet.Doc.IntegrationTests.Match
 {
     public class PsaMatchPatternTest : IntegrationTestBase
     {

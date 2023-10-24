@@ -21,10 +21,10 @@
         int MatchDocumentWithPattern(IEnumerable<string> document);
 
         /// <summary>
-        /// Matches a document from <paramref name="documentFilePath"/>
-        /// with the pattern and returns matching percentage
+        /// OCRs a document from <paramref name="documentImageFilePath"/>
+        /// then matches it with the pattern for <see cref="DocumentObject"/>
         /// </summary>
         /// <returns>Matching percentage (0-100)</returns>
-        int MatchDocumentWithPattern(string documentFilePath);
+        int MatchDocumentImageWithPattern(string documentImageFilePath);
     }
 }

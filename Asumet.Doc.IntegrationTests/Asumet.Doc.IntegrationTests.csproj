@@ -48,4 +48,27 @@
     <ProjectReference Include="..\Asumet.Models\Asumet.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Ocr\" />
+    <Folder Include="TestInput\Scan\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="TestInput\Scan\PSA-01-144dpi.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestInput\Scan\PSA-01-300dpi-left.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestInput\Scan\PSA-01-300dpi-right.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestInput\Scan\PSA-01-300dpi.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestInput\Scan\PSA-01-300dpi.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

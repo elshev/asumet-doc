@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Asumet.Doc.Common;
     using Asumet.Doc.Ocr;
 
     /// <summary>
@@ -31,6 +30,7 @@
         /// <inheritdoc/>
         public int MatchDocumentWithPattern(IEnumerable<string> documentLines)
         {
+            const double passRate = 0.7;
             if (documentLines == null || !documentLines.Any())
             {
                 return 0;
@@ -39,30 +39,24 @@
             var patternLines = MatchPattern.GetPattern()
                 .Where(s => !string.IsNullOrWhiteSpace(s))
                 .ToList();
+            var patternFilledLines = MatchPattern.GetFilledPattern()
+                .Where(s => !string.IsNullOrWhiteSpace(s))
+                .ToList();
 
-            if (!patternLines.Any())
+            if (!patternFilledLines.Any())
             {
                 return 0;
             }
 
             double matchSum = 0;
-            var matchOptions = MatchOptions.DefaultOptions();
+            var matchOptions = MatchOptions.IgnoreSymbolsOptions();
 
-            for (int i = 0; i < patternLines.Count; i++)
+            for (int i = 0; i < patternFilledLines.Count; i++)
             {
-                var placeholderNames = DocHelper.GetPlaceholderNames(patternLines[i]);
-                var values = DocHelper.GetPlaceholderValues(DocumentObject, placeholderNames);
-                var placeHolderValues = values.ToDictionary(
-                    kvp => DocHelper.MakePlaceholder(kvp.Key),
-                    kvp => kvp.Value ?? string.Empty);
                 foreach (var documentLine in documentLines)
                 {
-                    double score = MatchHelper.MatchWithPattern(
-                        documentLine,
-                        patternLines[i],
-                        placeHolderValues,
-                        matchOptions);
-                    if (score > 0.7)
+                    double score = MatchHelper.Match(documentLine, patternFilledLines[i], matchOptions);
+                    if (score > passRate)
                     {
                         matchSum += score;
                         break;
@@ -70,11 +64,12 @@
                 }
             }
 
-            return (int)Math.Round(matchSum / patternLines.Count * 100);
+            var result = (int)Math.Round(matchSum / patternFilledLines.Count * 100);
+            return result;
         }
 
         /// <inheritdoc/>
-        public int MatchDocumentWithPattern(string documentImageFilePath)
+        public int MatchDocumentImageWithPattern(string documentImageFilePath)
         {
             if (string.IsNullOrWhiteSpace(documentImageFilePath))
             {
@@ -82,7 +77,8 @@
             }
 
             var documentLines = OcrWrapper.ImageToStrings(documentImageFilePath);
-            return MatchDocumentWithPattern(documentLines);
+            var result = MatchDocumentWithPattern(documentLines);
+            return result;
         }
     }
 }
