@@ -30,7 +30,7 @@
                 return 0;
             }
 
-            matchOptions ??= MatchOptions.DefaultOptions;
+            matchOptions ??= MatchOptions.DefaultOptions();
 
             const char blankChar = ' ';
             var s1 = str1;
@@ -58,7 +58,7 @@
         /// <returns>Levenshtein distance</returns>
         public static int Distance(string? str1, string? str2)
         {
-            return Distance(str1, str2, MatchOptions.DefaultOptions);
+            return Distance(str1, str2, MatchOptions.DefaultOptions());
         }
 
         /// <summary>
@@ -118,12 +118,14 @@
                 var placeholder = kvp.Key;
                 var placeholderValue = kvp.Value;
                 var placeholderIndex = pattern.LastIndexOf(placeholder);
-                if (placeholderIndex < 0)
+                if (placeholderIndex < 0 || placeholderIndex >= s.Length)
                 {
                     return 0;
                 }
 
-                var strValue = s.Substring(placeholderIndex, placeholderValue.Length);
+                var strValue = placeholderIndex + placeholderValue.Length > s.Length
+                    ? s[placeholderIndex..]
+                    : s.Substring(placeholderIndex, placeholderValue.Length);
                 var distance = Distance(placeholderValue, strValue, matchOptions);
                 valuesDistance += distance;
                 valuesLength += Math.Max(placeholderValue.Length, strValue.Length);

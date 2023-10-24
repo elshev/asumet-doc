@@ -49,7 +49,7 @@
         /// </remarks>
         public static string MakePlaceholder(string placeholderName)
         {
-            return $"{{{placeholderName}}}";
+            return placeholderName.StartsWith("{") ? placeholderName : $"{{{placeholderName}}}";
         }
 
         /// <summary>
@@ -67,6 +67,21 @@
         public static object GetMemberValue(object sourceObject, string memberName)
         {
             return ReflectionHelper.GetMemberValue(sourceObject, memberName);
+        }
+
+        /// <summary>
+        /// Gets placeholder values/
+        /// </summary>
+        /// <param name="sourceObject">An object instance to get values from.</param>
+        /// <param name="placeholderNames">List of placeholders.</param>
+        /// <returns>Dictionarty with Placeholder -> Value pairs</returns>
+        public static IDictionary<string, string?> GetPlaceholderValues(
+            object sourceObject, IEnumerable<string> placeholderNames)
+        {
+            var result = placeholderNames.ToDictionary(
+                s => s,
+                s => GetMemberValue(sourceObject, s)?.ToString());
+            return result;
         }
 
         /// <summary>

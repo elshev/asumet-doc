@@ -29,7 +29,7 @@ namespace Asumet.Doc.Tests.Match
         public void TestMatch_DontIgnoreCase()
         {
             // Arrange
-            var options = MatchOptions.DefaultOptions;
+            var options = MatchOptions.DefaultOptions();
             options.IgnoreCase = false;
 
             // Act, Assert
@@ -43,7 +43,7 @@ namespace Asumet.Doc.Tests.Match
         public void TestMatch_WithIgnoreSymbolsOptions()
         {
             // Arrange
-            var options = MatchOptions.IgnoreSymbolsOptions;
+            var options = MatchOptions.IgnoreSymbolsOptions();
 
             // Act, Assert
             MatchHelper.Match("190876_@#Value", "190876_@#Value", options).Should().Be(1);
@@ -137,6 +137,68 @@ namespace Asumet.Doc.Tests.Match
                     { "{p2}", "val2" }
                 })
                 .Should().BeLessThan(0.2);
+
+            MatchHelper.MatchWithPattern(
+                "111 Val1 222 val2 33333",
+                "One {p1} two {p2} three",
+                new Dictionary<string, string>
+                {
+                    { "{p1}", "Val1" },
+                    { "{p2}", "val2" }
+                })
+                .Should().Be(1);
+        }
+
+        [Fact]
+        public void TestMatchPattern_WithDifferentLengthsForPlaceholdersAndValues()
+        {
+            MatchHelper.MatchWithPattern(
+                "Text",
+                "Something another {p1}",
+                new Dictionary<string, string>
+                {
+                    { "{p1}", "Val1" }
+                })
+                .Should().Be(0);
+
+            MatchHelper.MatchWithPattern(
+                "Some text",
+                "One {p1} two {p2} three",
+                new Dictionary<string, string>
+                {
+                    { "{p1}", "Val1" },
+                    { "{p2}", "val2" }
+                })
+                .Should().Be(0);
+
+            MatchHelper.MatchWithPattern(
+                "Fix text: Value",
+                "Fix text: {p001}",
+                new Dictionary<string, string>
+                {
+                    { "{p001}", "Value" }
+                })
+                .Should().Be(1);
+
+            MatchHelper.MatchWithPattern(
+                "Fix text: Value",
+                "Fix text: {p01}",
+                new Dictionary<string, string>
+                {
+                    { "{p01}", "Value" }
+                })
+                .Should().Be(1);
+
+            MatchHelper.MatchWithPattern(
+                "Fix text: Value",
+                "1Fix text: {p01}",
+                new Dictionary<string, string>
+                {
+                    { "{p01}", "Value" }
+                })
+                .Should().BeGreaterThan(0.7);
+
+
         }
     }
 }
