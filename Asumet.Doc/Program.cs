@@ -12,13 +12,6 @@
     /// <summary> Entry point </summary>
     public class Program
     {
-        private static string GetOcrFilePath(string imageFilePath)
-        {
-            var fileName = Path.GetFileNameWithoutExtension(imageFilePath);
-            var textFilePath = Path.Combine(AppSettings.Instance.DocumentOutputDirectory, fileName, ".txt");
-            return Path.Combine(AppSettings.Instance.DocumentOutputDirectory, textFilePath);
-        }
-
         /// <summary> Entry point </summary>
         public static void Main()
         {
@@ -32,9 +25,18 @@
             Console.WriteLine($"AppSettings Templates Directory: {AppSettings.Instance.TemplatesDirectory}");
 
             // ExportPsa();
-            DoOcr();
+            DoOcr("PSA-01-300dpi-left.jpg");
             // GetMatchFile();
-            Match();
+            // Match();
+
+        }
+
+        private static string GetOcrFilePath(string imageFilePath)
+        {
+            var fileName = Path.GetFileNameWithoutExtension(imageFilePath);
+            var textFileName = Path.ChangeExtension(fileName, ".txt");
+            var textFilePath = Path.Combine(AppSettings.Instance.DocumentOutputDirectory, textFileName);
+            return Path.Combine(AppSettings.Instance.DocumentOutputDirectory, textFilePath);
         }
 
         private static void ExportPsa()
@@ -45,12 +47,13 @@
             Console.WriteLine(psaExporter.OutputFilePath);
         }
 
-        private static void DoOcr()
+        private static string DoOcr(string imageFileName)
         {
-            var imageFilePath = "./images/PSA-01-300dpi-left.jpg";
+            var imageFilePath = Path.Combine("./images", imageFileName);
             var lines = OcrWrapper.ImageToStrings(imageFilePath);
             var outputFilePath = GetOcrFilePath(imageFilePath);
             File.WriteAllLines(outputFilePath, lines);
+            return outputFilePath;
         }
 
         private static void GetMatchFile()
@@ -64,12 +67,12 @@
 
         private static void Match()
         {
+            var outputFilePath = DoOcr("PSA-01-300dpi-left.jpg");
+            var lines = File.ReadAllLines(outputFilePath);
+
             var psa = Psa.GetPsaStub();
             IMatchPattern<Psa> matchPattern = new PsaMatchPattern(psa);
             var matcher = new PsaMatcher(matchPattern);
-            var imageFilePath = "./images/PSA-01-300dpi-left.jpg";
-            var outputFilePath = GetOcrFilePath(imageFilePath);
-            var lines = File.ReadAllLines(outputFilePath);
             var score = matcher.MatchDocumentWithPattern(lines);
             Console.WriteLine($"Match Score = {score}%");
         }

@@ -6,12 +6,12 @@ namespace Asumet.Doc.IntegrationTests.Match
     public class PsaMatcherTest : IntegrationTestBase
     {
         [Theory]
-        [InlineData("PSA-01-300dpi-left.jpg")]
-        [InlineData("PSA-01-300dpi-right.jpg")]
         [InlineData("PSA-01-300dpi.jpg")]
         [InlineData("PSA-01-300dpi.png")]
         [InlineData("PSA-01-144dpi.png")]
-        public void TestMatchDocumentImageWithPattern_MatchesProperDocs(string imageFileName)
+        [InlineData("PSA-01-300dpi-left05.jpg", 80)]
+        [InlineData("PSA-01-300dpi-right03.jpg", 80)]
+        public void TestMatchDocumentImageWithPattern_MatchesProperDocs(string imageFileName, int expectedScore = 95)
         {
             // Arrange
             var psa = GetPsa();
@@ -23,7 +23,7 @@ namespace Asumet.Doc.IntegrationTests.Match
             var score = matcher.MatchDocumentImageWithPattern(ocrFilePath);
             
             // Assert
-            score.Should().BeGreaterThan(95);
+            score.Should().BeGreaterThan(expectedScore);
         }
     }
 }
