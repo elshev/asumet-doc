@@ -33,6 +33,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include=".\TestInput\**">
+      <Link>TestInput\%(RecursiveDir)\%(Filename)%(Extension)</Link>
+      <TargetPath>TestInput\%(RecursiveDir)\%(Filename)%(Extension)</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="appsettings.json" />
   </ItemGroup>
 
@@ -51,30 +59,6 @@
   <ItemGroup>
     <Folder Include="Ocr\" />
     <Folder Include="TestInput\Scan\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="TestInput\Scan\PSA-01-144dpi.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="TestInput\Scan\PSA-01-300dpi-left.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="TestInput\Scan\PSA-01-300dpi-left05.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="TestInput\Scan\PSA-01-300dpi-right.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="TestInput\Scan\PSA-01-300dpi-right03.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="TestInput\Scan\PSA-01-300dpi.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="TestInput\Scan\PSA-01-300dpi.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

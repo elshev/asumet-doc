@@ -9,7 +9,15 @@
     /// </summary>
     public static class OcrWrapper
     {
-        private static TesseractEngine Engine { get; } = new TesseractEngine(AppSettings.Instance.TesseractDataDirectory, "rus", EngineMode.Default);
+        /// <summary>
+        /// Static Constructor
+        /// </summary>
+        static OcrWrapper()
+        {
+            Engine = new TesseractEngine(AppSettings.Instance.TesseractDataDirectory, "rus", EngineMode.Default);
+        }
+
+        private static TesseractEngine Engine { get; }
 
         /// <summary>
         /// Processes the image and returns lines of the parsed text
@@ -22,6 +30,18 @@
             var text = page.GetText();
             var result = text.Split(new[] { Environment.NewLine, "\n" }, StringSplitOptions.None);
             return result;
+        }
+
+        /// <summary>
+        /// Do OSD
+        /// </summary>
+        /// <param name="imageFilePath">Path to an image file</param>
+        public static void ImageToOsd(string imageFilePath)
+        {
+            using var img = Pix.LoadFromFile(imageFilePath);
+            using var page = Engine.Process(img, PageSegMode.OsdOnly);
+            page.DetectBestOrientation(out int orientation, out float confidence);
+            Console.WriteLine($"Orientation = {orientation}, Confidence = {confidence}");
         }
 
         /// <summary>

@@ -7,7 +7,7 @@ namespace Asumet.Doc.Tests.Match
     {
         private static PsaMatcher CreatePsaMatcher()
         {
-            var psa = Psa.GetPsaStub();
+            var psa = Psa.GetPsaStub(1);
             IMatchPattern<Psa> matchPattern = new PsaMatchPattern(psa);
             return new PsaMatcher(matchPattern);
         }

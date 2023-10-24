@@ -9,7 +9,7 @@ namespace Asumet.Doc.IntegrationTests.Match
         public void TestGetFilledPattern_ReturnsFilledPlaceholders()
         {
             // Arrange
-            var psa = Psa.GetPsaStub();
+            var psa = GetPsa();
             IMatchPattern<Psa> matchPattern = new PsaMatchPattern(psa);
 
             // Act

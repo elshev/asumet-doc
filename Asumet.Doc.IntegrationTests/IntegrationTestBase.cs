@@ -19,9 +19,9 @@ namespace Asumet.Doc.IntegrationTests
             AppSettings.Instance.UpdateConfiguration(configuration);
         }
 
-        protected static Psa GetPsa()
+        protected static Psa GetPsa(int id = 1)
         {
-            return Psa.GetPsaStub();
+            return Psa.GetPsaStub(id);
         }
 
         protected static string GetScanFilePath(string fileName)

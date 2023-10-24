@@ -18,6 +18,12 @@
         string TemplateFileName { get; }
 
         /// <summary>
+        /// If true - leave a placeholderName in the output document
+        /// If false - replace it with the empty string
+        /// </summary>
+        bool LeaveMissingPlaceholders { get; set; }
+
+        /// <summary>
         /// Gets the output document file path.
         /// </summary>
         /// <returns>Returns the output document file path.</returns>

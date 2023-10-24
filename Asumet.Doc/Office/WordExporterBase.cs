@@ -41,6 +41,9 @@
         }
 
         /// <inheritdoc/>
+        public virtual bool LeaveMissingPlaceholders { get; set; } = true;
+
+        /// <inheritdoc/>
         public virtual string OutputFilePath
         {
             get
@@ -62,12 +65,6 @@
         /// Gets the document name.
         /// </summary>
         protected abstract string DocumentName { get; }
-
-        /// <summary>
-        /// If true - leave a placeholderName in the output document
-        /// If false - replace it with the empty string
-        /// </summary>
-        protected virtual bool LeaveMissingPlaceholders { get; } = true;
 
         /// <inheritdoc/>
         public virtual void Export()

@@ -93,12 +93,14 @@
 
         /// <summary>
         /// Tries to match only the unfixed part of the text.
+        /// Note! See remarks!
         /// </summary>
         /// <param name="str">String to match</param>
         /// <param name="pattern">Pattern with unfilled placeholders</param>
         /// <param name="placeholderValues">Mapping "{Placeholder}" -> "Value"</param>
         /// <param name="matchOptions">Additional matchOptions when comparing</param>
         /// <returns>A match score: placeholderValue between 0 and 1 </returns>
+        /// <remarks>This is an experimental method. Is not recommended to use now.</remarks>
         public static double MatchWithPattern(
             string str,
             string pattern,

@@ -5,6 +5,11 @@ namespace Asumet.Doc.Tests.Office
 {
     public class DocHelperTest
     {
+        protected static Psa GetPsa(int id = 1)
+        {
+            return Psa.GetPsaStub(id);
+        }
+
         [Fact]
         public void TestGetPlaceholders()
         {
@@ -38,7 +43,7 @@ namespace Asumet.Doc.Tests.Office
         public void TestReplacePlaceholdersInString()
         {
             //Arrange
-            var psa = Psa.GetPsaStub();
+            var psa = GetPsa();
 
             // Act, Assert
             DocHelper.ReplacePlaceholdersInString("", psa, false).Should().Be("");
@@ -56,7 +61,7 @@ namespace Asumet.Doc.Tests.Office
         public void TestReplacePlaceholdersInString_SkipPlaceholders()
         {
             //Arrange
-            var psa = Psa.GetPsaStub();
+            var psa = GetPsa();
 
             // Act, Assert
             DocHelper.ReplacePlaceholdersInString("{WrongPlaceholder}", psa, false)
@@ -78,7 +83,7 @@ namespace Asumet.Doc.Tests.Office
         public void TestReplacePlaceholdersInList()
         {
             //Arrange
-            var psa = Psa.GetPsaStub();
+            var psa = GetPsa();
 
             // Act, Assert
             DocHelper.ReplacePlaceholdersInStrings(Array.Empty<string>(), psa, false)
@@ -93,7 +98,7 @@ namespace Asumet.Doc.Tests.Office
         public void TestReplacePlaceholdersInList_SkipPlaceholders()
         {
             //Arrange
-            var psa = Psa.GetPsaStub();
+            var psa = GetPsa();
 
             // Act, Assert
             DocHelper.ReplacePlaceholdersInStrings(new string[] { "First {ActNumber} and {WrongValue}", "Second {Buyer.FullName}" }, psa, false)
@@ -106,7 +111,7 @@ namespace Asumet.Doc.Tests.Office
         public void TestReplacePlaceholdersInList_ReturnsDifferentObject()
         {
             //Arrange
-            var psa = Psa.GetPsaStub();
+            var psa = GetPsa();
             var list = new List<string>() {"s1", "s2"};
 
             // Act
