@@ -32,7 +32,7 @@
             return result;
         }
 
-        /// <summary>
+/*        /// <summary>
         /// Do OSD
         /// </summary>
         /// <param name="imageFilePath">Path to an image file</param>
@@ -43,7 +43,7 @@
             page.DetectBestOrientation(out int orientation, out float confidence);
             Console.WriteLine($"Orientation = {orientation}, Confidence = {confidence}");
         }
-
+*/
         /// <summary>
         /// Parses an image from <paramref name="imageFilePath"/> and returns <see cref="Tesseract.Page"/>
         /// </summary>

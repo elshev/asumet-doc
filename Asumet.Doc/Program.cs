@@ -62,7 +62,7 @@
         private static void TestOsd(string imageFileName)
         {
             var imageFilePath = Path.Combine("./images", imageFileName);
-            OcrWrapper.ImageToOsd(imageFilePath);
+            // OcrWrapper.ImageToOsd(imageFilePath);
         }
 
         private static void GetMatchFile()

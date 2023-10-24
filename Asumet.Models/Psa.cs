@@ -145,7 +145,7 @@
                             {
                                 ShortDescription = "Разный металлолом",
                                 TotalNetto = 2.123m,
-                                TotalNettoInWords = "Четыре тонны 466 кг",
+                                TotalNettoInWords = "Две тонны 123 кг",
                                 Total = 43567.88m,
                                 TotalInWords = "Сорок три тысячи пятьсот шестьдесят семь рублей 88 копеек",
                                 TotalNds = 0,
