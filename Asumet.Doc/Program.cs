@@ -25,6 +25,7 @@
             Console.WriteLine($"AppSettings Templates Directory: {AppSettings.Instance.TemplatesDirectory}");
 
             ExportPsa();
+
             // DoOcr("PSA-01-300dpi-left.jpg");
             // TestOsd("PSA-01-300dpi-left.jpg");
             // GetMatchFile();
@@ -41,7 +42,7 @@
 
         private static void ExportPsa()
         {
-            var psa = Psa.GetPsaStub(2);
+            var psa = PsaSeedData.GetPsa(2);
             IOfficeExporter<Psa> psaExporter = new PsaExporter(psa)
             {
                 LeaveMissingPlaceholders = false
@@ -59,15 +60,15 @@
             return outputFilePath;
         }
 
-        private static void TestOsd(string imageFileName)
+/*        private static void TestOsd(string imageFileName)
         {
             var imageFilePath = Path.Combine("./images", imageFileName);
-            // OcrWrapper.ImageToOsd(imageFilePath);
+            OcrWrapper.ImageToOsd(imageFilePath);
         }
-
+*/
         private static void GetMatchFile()
         {
-            var psa = Psa.GetPsaStub(1);
+            var psa = PsaSeedData.GetPsa(1);
             IMatchPattern<Psa> matchPattern = new PsaMatchPattern(psa);
             var lines = matchPattern.GetFilledPattern();
             var s = string.Join(Environment.NewLine, lines.ToArray());
@@ -79,7 +80,7 @@
             var outputFilePath = DoOcr("PSA-01-300dpi-left.jpg");
             var lines = File.ReadAllLines(outputFilePath);
 
-            var psa = Psa.GetPsaStub(1);
+            var psa = PsaSeedData.GetPsa(1);
             IMatchPattern<Psa> matchPattern = new PsaMatchPattern(psa);
             var matcher = new PsaMatcher(matchPattern);
             var score = matcher.MatchDocumentWithPattern(lines);

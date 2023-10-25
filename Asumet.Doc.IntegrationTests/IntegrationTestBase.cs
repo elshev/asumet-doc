@@ -21,7 +21,7 @@ namespace Asumet.Doc.IntegrationTests
 
         protected static Psa GetPsa(int id = 1)
         {
-            return Psa.GetPsaStub(id);
+            return PsaSeedData.GetPsa(id);
         }
 
         protected static string GetScanFilePath(string fileName)

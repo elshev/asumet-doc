@@ -7,7 +7,7 @@ namespace Asumet.Doc.Tests.Office
     {
         protected static Psa GetPsa(int id = 1)
         {
-            return Psa.GetPsaStub(id);
+            return PsaSeedData.GetPsa(id);
         }
 
         [Fact]

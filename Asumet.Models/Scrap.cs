@@ -1,25 +1,33 @@
-﻿namespace Asumet.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Asumet.Models
 {
     /// <summary> Scrap stub </summary>
     public class Scrap
     {
-        public string? ShortDescription { get; set; }
+        [Key]
+        public int Id { get; set; }
 
-        public decimal TotalNetto { get; set; }
+        [Required]
+        public string Name { get; set; }
         
-        public string? TotalNettoInWords { get; set; }
+        [Required]
+        public string Okpo { get; set; }
 
-        public decimal Total { get; set; }
+        public decimal GrossWeight { get; set; }
 
-        public string? TotalInWords { get; set; }
+        public decimal TareWeight { get; set; }
 
-        public decimal TotalWoNds { get; set; }
-        
-        public decimal TotalNds { get; set; }
+        public decimal NonmetallicMixtures { get; set; }
 
-        public string? TotalNdsInWords { get; set; }
+        public decimal MixturePercentage { get; set; }
 
+        public decimal NetWeight { get; set; }
 
-        public List<ScrapItem> ScrapItems { get; set; } = new List<ScrapItem>();
+        public decimal Price { get; set; }
+
+        public decimal SumWoNds { get; set; }
+
+        public decimal Sum { get; set; }
     }
 }

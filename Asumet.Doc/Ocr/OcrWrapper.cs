@@ -44,6 +44,7 @@
             Console.WriteLine($"Orientation = {orientation}, Confidence = {confidence}");
         }
 */
+
         /// <summary>
         /// Parses an image from <paramref name="imageFilePath"/> and returns <see cref="Tesseract.Page"/>
         /// </summary>

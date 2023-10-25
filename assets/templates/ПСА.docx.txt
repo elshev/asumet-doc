@@ -12,11 +12,11 @@
 Адрес: {Supplier.Address}
 Паспортные данные: {Supplier.Passport}
 
-Транспорт: {Supplier.Transport}
-Основание возникновения права собственности у сдатчика лома отходов на сдаваемые лом и отходы черных металлов: {Supplier.OwnershipReason}
-Краткое описание лома и отходов черных металлов: {Scrap.ShortDescription}
+Транспорт: {Transport}
+Основание возникновения права собственности у сдатчика лома отходов на сдаваемые лом и отходы черных металлов: {OwnershipReason}
+Краткое описание лома и отходов черных металлов: {ShortScrapDescription}
 
 
-Вес нетто: {Scrap.TotalNetto}т. ({Scrap.TotalNettoInWords})
-Итого на сумму: {Scrap.Total}руб. ({Scrap.TotalInWords})
-Кроме  того НДС: {Scrap.TotalNds} руб. ({Scrap.TotalNdsInWords})
+Вес нетто: {TotalNetto}т. ({TotalNettoInWords})
+Итого на сумму: {Total}руб. ({TotalInWords})
+Кроме  того НДС: {TotalNds} руб. ({TotalNdsInWords})

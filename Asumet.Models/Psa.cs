@@ -1,29 +1,56 @@
-﻿namespace Asumet.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Asumet.Models
 {
-    /// <summary> Psa stub </summary>
     public class Psa
     {
+        [Key]
         public int Id { get; set; }
 
-        public string? ActNumber { get; set; }
-        
+        [Required]
+        public string ActNumber { get; set; }
+
+        [Required]
         public DateTime? ActDate { get; set; }
+
+        [Required]
+        public Buyer Buyer { get; set; }
+
+        [Required]
+        public Supplier Supplier { get; set; }
+
+        public List<Scrap> Scraps { get; set; }
+
+        public string ShortScrapDescription { get; set; }
+
+        public string OwnershipReason { get; set; }
+
+        public string Transport { get; set; }
+
+        public decimal TotalNetto { get; set; }
         
-        /// <summary> Buyer </summary>
-        public Buyer? Buyer { get; set; }
+        public string TotalNettoInWords { get; set; }
 
-        /// <summary> Supplier </summary>
-        public Supplier? Supplier { get; set; }
+        public decimal Total { get; set; }
 
-        public Scrap? Scrap { get; set; }
+        public string TotalInWords { get; set; }
 
+        public decimal TotalWoNds { get; set; }
         
+        public decimal TotalNds { get; set; }
+
+        public string TotalNdsInWords { get; set; }
+    }
+
+    /// <summary> Psa seed data </summary>
+    public static class PsaSeedData
+    {
         public static Psa GetEmptyPsaStub()
         {
             return PsaStubs[0];
         }
 
-        public static Psa GetPsaStub(int id)
+        public static Psa GetPsa(int id)
         {
             return PsaStubs[id];
         }
@@ -42,7 +69,7 @@
                             ActNumber = "",
                             Buyer = null,
                             Supplier = null,
-                            Scrap = null
+                            Scraps = null
                         }
                     },
 
@@ -52,6 +79,16 @@
                         {
                             ActDate = new DateTime(2023, 10, 18, 15, 52, 09),
                             ActNumber = "А-012345",
+                            OwnershipReason = "Личное имущество",
+                            Transport = "Автомобиль",
+                            ShortScrapDescription = "Разный металлолом",
+                            TotalNetto = 4.464m,
+                            TotalNettoInWords = "Четыре тонны 466 кг",
+                            Total = 120974.40m,
+                            TotalInWords = "Сто двадцать тысяч девятсот семьдесят четыре рубля 40 копеек",
+                            TotalNds = 0,
+                            TotalNdsInWords = "Ноль рублей 00 коп.",
+                            TotalWoNds = 120974.40m,
                             Buyer = new Buyer 
                             {
                                 FullName = "Петр Байер",
@@ -69,48 +106,35 @@
                                 FullName = "Иван Суплаеров",
                                 Address = "гор. Орджоникидзе, ул. Московская, д.23/45, кв. 17",
                                 Passport = "0055 778899, выд. Ленинским районом, гор. Орджоникидзе",
-                                OwnershipReason = "Личное имущество",
-                                Transport = "Автомобиль"
                             },
-                            Scrap = new Scrap
+                            Scraps = new List<Scrap>
                             {
-                                ShortDescription = "Разный металлолом",
-                                TotalNetto = 4.464m,
-                                TotalNettoInWords = "Четыре тонны 466 кг",
-                                Total = 120974.40m,
-                                TotalInWords = "Сто двадцать тысяч девятсот семьдесят четыре рубля 40 копеек",
-                                TotalNds = 0,
-                                TotalNdsInWords = "Ноль рублей 00 коп.",
-                                TotalWoNds = 120974.40m,
-                                ScrapItems = new List<ScrapItem>
+                                new Scrap
                                 {
-                                    new ScrapItem
-                                    {
-                                        Name = "Лом и отходы чёрных металлов, 4HH",
-                                        Okpo = "1111122222",
-                                        GrossWeight = 19.26m,
-                                        TareWeight = 14.46m,
-                                        NonmetallicMixtures = 0.101m,
-                                        MixturePercentage = 5m,
-                                        NetWeight = 4.464m,
-                                        Price = 27100.00m,
-                                        SumWoNds = 120974.40m,
-                                        Sum = 120974.40m
-                                    },
-                                    new ScrapItem
-                                    {
-                                        Name = "Лом цветных металлов",
-                                        Okpo = "333444555",
-                                        GrossWeight = 3.25m,
-                                        TareWeight = 1.55m,
-                                        NonmetallicMixtures = 0.2m,
-                                        MixturePercentage = 6.50m,
-                                        NetWeight = 1.7m,
-                                        Price = 100000.00m,
-                                        SumWoNds = 170000.00m,
-                                        Sum = 170000.00m
-                                    },
-                                }
+                                    Name = "Лом и отходы чёрных металлов, 4HH",
+                                    Okpo = "1111122222",
+                                    GrossWeight = 19.26m,
+                                    TareWeight = 14.46m,
+                                    NonmetallicMixtures = 0.101m,
+                                    MixturePercentage = 5m,
+                                    NetWeight = 4.464m,
+                                    Price = 27100.00m,
+                                    SumWoNds = 120974.40m,
+                                    Sum = 120974.40m
+                                },
+                                new Scrap
+                                {
+                                    Name = "Лом цветных металлов",
+                                    Okpo = "333444555",
+                                    GrossWeight = 3.25m,
+                                    TareWeight = 1.55m,
+                                    NonmetallicMixtures = 0.2m,
+                                    MixturePercentage = 6.50m,
+                                    NetWeight = 1.7m,
+                                    Price = 100000.00m,
+                                    SumWoNds = 170000.00m,
+                                    Sum = 170000.00m
+                                },
                             }
                         } 
                     },
@@ -121,6 +145,16 @@
                         {
                             ActDate = new DateTime(2023, 09, 08, 05, 16, 55),
                             ActNumber = "А-9736115",
+                            OwnershipReason = "Личное имущество",
+                            Transport = "Автомобиль",
+                            ShortScrapDescription = "Разный металлолом",
+                            TotalNetto = 2.123m,
+                            TotalNettoInWords = "Две тонны 123 кг",
+                            Total = 43567.88m,
+                            TotalInWords = "Сорок три тысячи пятьсот шестьдесят семь рублей 88 копеек",
+                            TotalNds = 0,
+                            TotalNdsInWords = "Ноль рублей 00 коп.",
+                            TotalWoNds = 43567.88m,
                             Buyer = new Buyer 
                             {
                                 FullName = "ООО 'Лом и отходы'",
@@ -137,35 +171,22 @@
                             {
                                 FullName = "Сергей Сергеевич Сергеев",
                                 Address = "гор. Баку, ул. Бакинская, д.176, кв. 7",
-                                Passport = "3444 098774, выд. Бакинским районом, гор. Баку",
-                                OwnershipReason = "Личное имущество",
-                                Transport = "Автомобиль"
+                                Passport = "3444 098774, выд. Бакинским районом, гор. Баку"
                             },
-                            Scrap = new Scrap
+                            Scraps = new List<Scrap>
                             {
-                                ShortDescription = "Разный металлолом",
-                                TotalNetto = 2.123m,
-                                TotalNettoInWords = "Две тонны 123 кг",
-                                Total = 43567.88m,
-                                TotalInWords = "Сорок три тысячи пятьсот шестьдесят семь рублей 88 копеек",
-                                TotalNds = 0,
-                                TotalNdsInWords = "Ноль рублей 00 коп.",
-                                TotalWoNds = 43567.88m,
-                                ScrapItems = new List<ScrapItem>
+                                new Scrap
                                 {
-                                    new ScrapItem
-                                    {
-                                        Name = "Лом и отходы чёрных металлов, 4HH",
-                                        Okpo = "1111122222",
-                                        GrossWeight = 9.55m,
-                                        TareWeight = 10.6m,
-                                        NonmetallicMixtures = 0.05m,
-                                        MixturePercentage = 6m,
-                                        NetWeight = 2.123m,
-                                        Price = 22000.00m,
-                                        SumWoNds = 43567.88m,
-                                        Sum = 43567.88m
-                                    }
+                                    Name = "Лом и отходы чёрных металлов, 4HH",
+                                    Okpo = "1111122222",
+                                    GrossWeight = 9.55m,
+                                    TareWeight = 10.6m,
+                                    NonmetallicMixtures = 0.05m,
+                                    MixturePercentage = 6m,
+                                    NetWeight = 2.123m,
+                                    Price = 22000.00m,
+                                    SumWoNds = 43567.88m,
+                                    Sum = 43567.88m
                                 }
                             }
                         } 
