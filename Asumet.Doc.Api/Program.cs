@@ -1,8 +1,31 @@
 using Asumet.Doc.Repo;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace Asumet.Doc.Api
 {
+    internal static class DocDbInitializerExtension
+    {
+        public static IApplicationBuilder SeedDocDb(this IApplicationBuilder app)
+        {
+            ArgumentNullException.ThrowIfNull(app, nameof(app));
+
+            using var scope = app.ApplicationServices.CreateScope();
+            var services = scope.ServiceProvider;
+            try
+            {
+                var context = services.GetRequiredService<DocDbContext>();
+                DocDbInitializer.Initialize(context);
+            }
+            catch (Exception)
+            {
+
+            }
+
+            return app;
+        }
+    }
+
     public class Program
     {
         public static void Main(string[] args)
@@ -13,8 +36,12 @@ namespace Asumet.Doc.Api
             var connectionString = configuration.GetConnectionString("AsumetDoc");
             connectionString = connectionString?.Replace("{password}", configuration["AsumetDocSecrets:AsumetDocDbPassword"]);
             builder.Services.AddDbContext<DocDbContext>(o => o.UseNpgsql(connectionString));
-            
-            builder.Services.AddControllers();
+            builder.Services.AddScoped<DocDbInitializer>();
+
+            builder.Services.AddControllers().AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+                });
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -27,6 +54,7 @@ namespace Asumet.Doc.Api
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                app.SeedDocDb();
             }
 
             app.UseHttpsRedirection();

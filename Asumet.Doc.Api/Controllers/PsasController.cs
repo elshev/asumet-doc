@@ -22,7 +22,11 @@ namespace Asumet.Doc.Api.Controllers
         [HttpGet(Name = "GetPsa")]
         public IEnumerable<Psa> Get()
         {
-            var result = DbContext.Psas.Include(p => p.Buyer).ToList();
+            var result = DbContext.Psas
+                .Include(p => p.Buyer)
+                .Include(p => p.Supplier)
+                .Include(p => p.PsaScraps)
+                .ToList();
             return result;
         }
     }
