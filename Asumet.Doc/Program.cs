@@ -18,14 +18,19 @@
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                 .AddJsonFile("appsettings.json")
+                .AddEnvironmentVariables()
                 .Build();
 
             AppSettings.Instance.UpdateConfiguration(configuration);
 
+            foreach (var c in configuration.AsEnumerable())
+            {
+                Console.WriteLine(c.Key + " = " + c.Value);
+            }
+
             Console.WriteLine($"AppSettings Templates Directory: {AppSettings.Instance.TemplatesDirectory}");
 
-            ExportPsa();
-
+            // ExportPsa();
             // DoOcr("PSA-01-300dpi-left.jpg");
             // TestOsd("PSA-01-300dpi-left.jpg");
             // GetMatchFile();

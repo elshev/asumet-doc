@@ -15,6 +15,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Doc.IntegrationTests
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Models", "Asumet.Models\Asumet.Models.csproj", "{DA45B3D5-3892-4D96-91DA-240A4F1C0390}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Doc.Repo", "Asumet.Doc.Repo\Asumet.Doc.Repo.csproj", "{3B6ADBC2-DA7F-44DF-AEAD-4F05D4F9712A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Doc.Api", "Asumet.Doc.Api\Asumet.Doc.Api.csproj", "{8A4D0F9D-E87E-480D-A487-4CEECC174B83}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{DA45B3D5-3892-4D96-91DA-240A4F1C0390}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA45B3D5-3892-4D96-91DA-240A4F1C0390}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA45B3D5-3892-4D96-91DA-240A4F1C0390}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B6ADBC2-DA7F-44DF-AEAD-4F05D4F9712A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B6ADBC2-DA7F-44DF-AEAD-4F05D4F9712A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B6ADBC2-DA7F-44DF-AEAD-4F05D4F9712A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B6ADBC2-DA7F-44DF-AEAD-4F05D4F9712A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A4D0F9D-E87E-480D-A487-4CEECC174B83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A4D0F9D-E87E-480D-A487-4CEECC174B83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A4D0F9D-E87E-480D-A487-4CEECC174B83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A4D0F9D-E87E-480D-A487-4CEECC174B83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

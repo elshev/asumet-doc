@@ -49,6 +49,11 @@
         public string TesseractDataDirectory { get; set; } = "./Tessdata";
 
         /// <summary>
+        /// DocDbPassword
+        /// </summary>
+        public string AsumetDocDbPassword { get; set; } = string.Empty;
+
+        /// <summary>
         /// Updates configuration
         /// </summary>
         /// <param name="configuration">Cofiguration soutce</param>
@@ -56,6 +61,8 @@
         {
             var appSettingsSection = configuration.GetSection("AppSettings");
             appSettingsSection.Bind(this);
+            var secretsSection = configuration.GetSection("AsumetDocSecrets");
+            secretsSection.Bind(this);
         }
     }
 }
