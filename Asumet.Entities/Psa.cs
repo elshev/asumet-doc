@@ -1,14 +1,17 @@
 ﻿using Asumet.Common;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Asumet.Models
+namespace Asumet.Entities
 {
     public class Psa
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
+        [MaxLength(128)]
         public string ActNumber { get; set; }
 
         [Required]
@@ -22,10 +25,13 @@ namespace Asumet.Models
 
         public List<PsaScrap> PsaScraps { get; set; }
 
+        [MaxLength(64)]
         public string ShortScrapDescription { get; set; }
 
+        [MaxLength(128)]
         public string OwnershipReason { get; set; }
 
+        [MaxLength(128)]
         public string Transport { get; set; }
 
         public decimal TotalNetto { get; set; }

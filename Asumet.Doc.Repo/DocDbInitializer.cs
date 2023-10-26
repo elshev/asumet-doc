@@ -1,6 +1,6 @@
 ﻿namespace Asumet.Doc.Repo
 {
-    using Asumet.Models;
+    using Asumet.Entities;
 
     public class DocDbInitializer
     {

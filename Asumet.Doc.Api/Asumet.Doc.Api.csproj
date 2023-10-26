@@ -31,7 +31,7 @@
     <ProjectReference Include="..\Asumet.Doc.Common\Asumet.Doc.Common.csproj" />
     <ProjectReference Include="..\Asumet.Doc.Repo\Asumet.Doc.Repo.csproj" />
     <ProjectReference Include="..\Asumet.Doc\Asumet.Doc.csproj" />
-    <ProjectReference Include="..\Asumet.Models\Asumet.Models.csproj" />
+    <ProjectReference Include="..\Asumet.Entities\Asumet.Entities.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -6,7 +6,7 @@
     using Asumet.Doc.Match;
     using Asumet.Doc.Ocr;
     using Asumet.Doc.Office;
-    using Asumet.Models;
+    using Asumet.Entities;
     using Microsoft.Extensions.Configuration;
 
     /// <summary> Entry point </summary>

@@ -1,10 +1,10 @@
-using Asumet.Doc.Repo;
-using Asumet.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-
 namespace Asumet.Doc.Api.Controllers
 {
+    using Asumet.Doc.Repo;
+    using Asumet.Entities;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+
     [ApiController]
     [Route("[controller]")]
     public class PsasController : ControllerBase

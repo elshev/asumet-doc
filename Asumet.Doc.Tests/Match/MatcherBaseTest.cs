@@ -1,5 +1,5 @@
 ﻿using Asumet.Doc.Match;
-using Asumet.Models;
+using Asumet.Entities;
 
 namespace Asumet.Doc.Tests.Match
 {

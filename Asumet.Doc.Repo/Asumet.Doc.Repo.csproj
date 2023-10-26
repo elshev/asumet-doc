@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Asumet.Models\Asumet.Models.csproj" />
+    <ProjectReference Include="..\Asumet.Entities\Asumet.Entities.csproj" />
   </ItemGroup>
 
 </Project>

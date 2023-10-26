@@ -1,16 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Asumet.Models
+namespace Asumet.Entities
 {
     /// <summary> PsaScrap </summary>
     public class PsaScrap
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
+        [MaxLength(128)]
         public string Name { get; set; }
         
+        [MaxLength(14)]
         [Required]
         public string Okpo { get; set; }
 

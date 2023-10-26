@@ -1,6 +1,6 @@
 ﻿namespace Asumet.Doc.Match
 {
-    using Asumet.Models;
+    using Asumet.Entities;
 
     /// <summary>
     /// Exports "ПСА" document to a Word file.

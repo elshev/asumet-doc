@@ -53,7 +53,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Asumet.Common\Asumet.Common.csproj" />
     <ProjectReference Include="..\Asumet.Doc\Asumet.Doc.csproj" />
-    <ProjectReference Include="..\Asumet.Models\Asumet.Models.csproj" />
+    <ProjectReference Include="..\Asumet.Entities\Asumet.Entities.csproj" />
   </ItemGroup>
 
   <ItemGroup>

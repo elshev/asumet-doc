@@ -1,9 +1,9 @@
-﻿using Asumet.Doc.Office;
-using Asumet.Models;
-using NPOI.XWPF.UserModel;
-
-namespace Asumet.Doc.IntegrationTests.Office
+﻿namespace Asumet.Doc.IntegrationTests.Office
 {
+    using Asumet.Doc.Office;
+    using Asumet.Entities;
+    using NPOI.XWPF.UserModel;
+
     public class PsaExportTest : IntegrationTestBase
     {
         private static void AssertDocxFile(string filePath)

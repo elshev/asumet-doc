@@ -1,8 +1,8 @@
-﻿using Asumet.Doc.Common;
-using Asumet.Models;
-
-namespace Asumet.Doc.Tests.Office
+﻿namespace Asumet.Doc.Tests.Office
 {
+    using Asumet.Doc.Common;
+    using Asumet.Entities;
+
     public class DocHelperTest
     {
         protected static Psa GetPsa(int id = 1)

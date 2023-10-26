@@ -1,7 +1,7 @@
 ﻿namespace Asumet.Doc.Office
 {
     using Asumet.Doc.Common;
-    using Asumet.Models;
+    using Asumet.Entities;
 
     /// <summary>
     /// Exports "ПСА" document to a Word file.

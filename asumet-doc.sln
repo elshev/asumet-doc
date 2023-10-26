@@ -13,15 +13,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Common", "Asumet.Com
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Doc.IntegrationTests", "Asumet.Doc.IntegrationTests\Asumet.Doc.IntegrationTests.csproj", "{084405E6-E9C6-4393-867C-42C96FC604D9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Models", "Asumet.Models\Asumet.Models.csproj", "{DA45B3D5-3892-4D96-91DA-240A4F1C0390}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Entities", "Asumet.Entities\Asumet.Entities.csproj", "{DA45B3D5-3892-4D96-91DA-240A4F1C0390}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Doc.Repo", "Asumet.Doc.Repo\Asumet.Doc.Repo.csproj", "{3B6ADBC2-DA7F-44DF-AEAD-4F05D4F9712A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Doc.Api", "Asumet.Doc.Api\Asumet.Doc.Api.csproj", "{8A4D0F9D-E87E-480D-A487-4CEECC174B83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asumet.Doc", "Asumet.Doc\Asumet.Doc.csproj", "{0D529558-89BE-4E96-B997-42B2649D2900}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Doc", "Asumet.Doc\Asumet.Doc.csproj", "{0D529558-89BE-4E96-B997-42B2649D2900}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asumet.Doc.Common", "Asumet.Doc.Common\Asumet.Doc.Common.csproj", "{F0844A82-6217-4895-89B4-BB29EBC966F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Doc.Common", "Asumet.Doc.Common\Asumet.Doc.Common.csproj", "{F0844A82-6217-4895-89B4-BB29EBC966F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

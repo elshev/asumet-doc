@@ -1,7 +1,7 @@
-﻿using Asumet.Doc.Match;
-namespace Asumet.Doc.IntegrationTests.Match
+﻿namespace Asumet.Doc.IntegrationTests.Match
 {
-    using Asumet.Models;
+    using Asumet.Entities;
+    using Asumet.Doc.Match;
 
     public class PsaMatcherTest : IntegrationTestBase
     {

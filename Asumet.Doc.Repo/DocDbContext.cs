@@ -1,6 +1,6 @@
 ﻿namespace Asumet.Doc.Repo
 {
-    using Asumet.Models;
+    using Asumet.Entities;
     using Microsoft.EntityFrameworkCore;
 
     public class DocDbContext : DbContext

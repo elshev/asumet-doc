@@ -1,8 +1,8 @@
-﻿using Asumet.Models;
-using Microsoft.Extensions.Configuration;
-
-namespace Asumet.Doc.IntegrationTests
+﻿namespace Asumet.Doc.IntegrationTests
 {
+    using Asumet.Entities;
+    using Microsoft.Extensions.Configuration;
+
     public abstract class IntegrationTestBase
     {
         /// <summary>
