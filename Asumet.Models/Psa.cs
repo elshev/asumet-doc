@@ -19,7 +19,7 @@ namespace Asumet.Models
         [Required]
         public Supplier Supplier { get; set; }
 
-        public List<Scrap> Scraps { get; set; }
+        public List<PsaScrap> PsaScraps { get; set; }
 
         public string ShortScrapDescription { get; set; }
 
@@ -69,7 +69,7 @@ namespace Asumet.Models
                             ActNumber = "",
                             Buyer = null,
                             Supplier = null,
-                            Scraps = null
+                            PsaScraps = null
                         }
                     },
 
@@ -107,9 +107,9 @@ namespace Asumet.Models
                                 Address = "гор. Орджоникидзе, ул. Московская, д.23/45, кв. 17",
                                 Passport = "0055 778899, выд. Ленинским районом, гор. Орджоникидзе",
                             },
-                            Scraps = new List<Scrap>
+                            PsaScraps = new List<PsaScrap>
                             {
-                                new Scrap
+                                new PsaScrap
                                 {
                                     Name = "Лом и отходы чёрных металлов, 4HH",
                                     Okpo = "1111122222",
@@ -122,7 +122,7 @@ namespace Asumet.Models
                                     SumWoNds = 120974.40m,
                                     Sum = 120974.40m
                                 },
-                                new Scrap
+                                new PsaScrap
                                 {
                                     Name = "Лом цветных металлов",
                                     Okpo = "333444555",
@@ -173,9 +173,9 @@ namespace Asumet.Models
                                 Address = "гор. Баку, ул. Бакинская, д.176, кв. 7",
                                 Passport = "3444 098774, выд. Бакинским районом, гор. Баку"
                             },
-                            Scraps = new List<Scrap>
+                            PsaScraps = new List<PsaScrap>
                             {
-                                new Scrap
+                                new PsaScrap
                                 {
                                     Name = "Лом и отходы чёрных металлов, 4HH",
                                     Okpo = "1111122222",

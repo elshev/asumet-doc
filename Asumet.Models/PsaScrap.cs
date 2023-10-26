@@ -2,8 +2,8 @@
 
 namespace Asumet.Models
 {
-    /// <summary> Scrap stub </summary>
-    public class Scrap
+    /// <summary> PsaScrap </summary>
+    public class PsaScrap
     {
         [Key]
         public int Id { get; set; }
@@ -13,6 +13,9 @@ namespace Asumet.Models
         
         [Required]
         public string Okpo { get; set; }
+
+        [Required]
+        public Psa Psa { get; set; }
 
         public decimal GrossWeight { get; set; }
 

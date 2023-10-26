@@ -17,6 +17,11 @@
         }
 
         public DbSet<Buyer> Buyers { get; set; }
+
+        public DbSet<Supplier> Suppliers { get; set; }
+
+        public DbSet<PsaScrap> PsaScraps { get; set; }
+
         public DbSet<Psa> Psas { get; set; }
     }
 }
