@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Asumet.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace Asumet.Models
 {
@@ -55,6 +56,11 @@ namespace Asumet.Models
             return PsaStubs[id];
         }
 
+        public static IEnumerable<Psa> GetSeedData()
+        {
+            return PsaStubs.Values.Where(psa => psa.Id > 0);
+        }
+
         private static IDictionary<int, Psa> PsaStubs
         { 
             get
@@ -65,7 +71,7 @@ namespace Asumet.Models
                         new Psa
                         {
                             Id = 0,
-                            ActDate = new DateTime(2000, 01, 01),
+                            ActDate = new DateTime(2000, 01, 01).SetKindUtc(),
                             ActNumber = "",
                             Buyer = null,
                             Supplier = null,
@@ -77,7 +83,8 @@ namespace Asumet.Models
                         1,
                         new Psa
                         {
-                            ActDate = new DateTime(2023, 10, 18, 15, 52, 09),
+                            Id = 1,
+                            ActDate = new DateTime(2023, 10, 18, 15, 52, 09).SetKindUtc(),
                             ActNumber = "А-012345",
                             OwnershipReason = "Личное имущество",
                             Transport = "Автомобиль",
@@ -143,7 +150,8 @@ namespace Asumet.Models
                         2,
                         new Psa
                         {
-                            ActDate = new DateTime(2023, 09, 08, 05, 16, 55),
+                            Id = 2,
+                            ActDate = new DateTime(2023, 09, 08, 05, 16, 55).SetKindUtc(),
                             ActNumber = "А-9736115",
                             OwnershipReason = "Личное имущество",
                             Transport = "Автомобиль",
