@@ -48,15 +48,13 @@
         /// </summary>
         public string TesseractDataDirectory { get; set; } = "./Tessdata";
 
-        /// <summary>
-        /// DocDbPassword
-        /// </summary>
+        /// <summary> AsumetDocDb Password </summary>
         public string AsumetDocDbPassword { get; set; } = string.Empty;
 
         /// <summary>
         /// Updates configuration
         /// </summary>
-        /// <param name="configuration">Cofiguration soutce</param>
+        /// <param name="configuration">Cofiguration source</param>
         public void UpdateConfiguration(IConfiguration configuration)
         {
             var appSettingsSection = configuration.GetSection("AppSettings");

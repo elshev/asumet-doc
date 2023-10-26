@@ -9,12 +9,13 @@ namespace Asumet.Doc.Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            builder.Services.AddControllers();
-            var connectionString = builder.Configuration.GetConnectionString("AsumetDoc");
-            connectionString = connectionString?.Replace("{password}", builder.Configuration["AsumetDocSecrets:AsumetDocDbPassword"]);
+            var configuration = builder.Configuration;
+            var connectionString = configuration.GetConnectionString("AsumetDoc");
+            connectionString = connectionString?.Replace("{password}", configuration["AsumetDocSecrets:AsumetDocDbPassword"]);
             builder.Services.AddDbContext<DocDbContext>(o => o.UseNpgsql(connectionString));
             
+            builder.Services.AddControllers();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -29,10 +30,7 @@ namespace Asumet.Doc.Api
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
-
-
             app.MapControllers();
 
             app.Run();
