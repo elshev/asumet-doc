@@ -12,7 +12,12 @@
             connectionString = connectionString?.Replace("{password}", configuration["AsumetDocSecrets:AsumetDocDbPassword"]);
             services.AddDbContext<DocDbContext>(o => o.UseNpgsql(connectionString));
 
-            services.AddScoped<IBuyerRepository, BuyerRepository>();
+            services
+                .AddScoped<IBuyerRepository, BuyerRepository>()
+                .AddScoped<ISupplierRepository, SupplierRepository>()
+                .AddScoped<IPsaScrapRepository, PsaScrapRepository>()
+                .AddScoped<IPsaRepository, PsaRepository>()
+            ;
         }
 
         public static void SeedDocDb(IServiceProvider services)

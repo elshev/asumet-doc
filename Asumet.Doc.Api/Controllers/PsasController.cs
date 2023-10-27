@@ -1,30 +1,28 @@
 namespace Asumet.Doc.Api.Controllers
 {
+    using Asumet.Doc.Repo;
+    using Asumet.Entities;
     using Microsoft.AspNetCore.Mvc;
 
     [ApiController]
     [Route("[controller]")]
     public class PsasController : ControllerBase
     {
-/*        public PsasController(ILogger<PsasController> logger, DocDb dbContext)
+        public PsasController(ILogger<PsasController> logger, IPsaRepository psaRepository)
         {
             _logger = logger;
-            DbContext = dbContext;
+            PsaRepository = psaRepository;
         }
 
         private readonly ILogger<PsasController> _logger;
 
-        public DocDb DbContext { get; }
+        public IPsaRepository PsaRepository { get; }
 
         [HttpGet(Name = "GetPsa")]
-        public IEnumerable<Psa> Get()
+        public async Task<Psa?> Get(int id)
         {
-            var result = DbContext.Psas
-                .Include(p => p.Buyer)
-                .Include(p => p.Supplier)
-                .Include(p => p.PsaScraps)
-                .ToList();
+            var result = await PsaRepository.GetByIdAsync(id);
             return result;
         }
-*/    }
+    }
 }
