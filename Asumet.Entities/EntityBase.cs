@@ -5,6 +5,6 @@ namespace Asumet.Entities
     public class EntityBase<TKey>
     {
         [Key]
-        public TKey Id { get; set; }
+        public virtual TKey Id { get; set; }
     }
 }

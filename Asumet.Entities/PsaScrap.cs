@@ -4,11 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Asumet.Entities
 {
     /// <summary> PsaScrap </summary>
-    public class PsaScrap
+    public class PsaScrap : EntityBase<int>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public override int Id { get { return base.Id; } set { base.Id = value; } }
 
         [Required]
         [MaxLength(128)]

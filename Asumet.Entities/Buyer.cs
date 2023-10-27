@@ -1,9 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Asumet.Entities
 {
     public class Buyer : EntityBase<int>
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public override int Id { get { return base.Id; } set { base.Id = value; } }
+
         [Required]
         public string FullName { get; set; }
 
