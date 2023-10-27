@@ -3,7 +3,7 @@
     using Asumet.Entities;
     using Microsoft.EntityFrameworkCore;
 
-    public class DocDbContext : DbContext
+    internal class DocDbContext : DbContext
     {
         public DocDbContext(DbContextOptions<DocDbContext> options)
             : base(options)

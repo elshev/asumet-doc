@@ -2,9 +2,9 @@
 {
     using Asumet.Entities;
 
-    public class DocDbInitializer
+    internal class DocDbInitializer
     {
-        public static void Initialize(DocDbContext dbContext)
+        internal static void Initialize(DocDbContext dbContext)
         {
             ArgumentNullException.ThrowIfNull(dbContext, nameof(dbContext));
             dbContext.Database.EnsureCreated();

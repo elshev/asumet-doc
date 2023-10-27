@@ -1,5 +1,4 @@
 using Asumet.Doc.Repo;
-using Microsoft.EntityFrameworkCore;
 
 namespace Asumet.Doc.Api
 {
@@ -10,10 +9,7 @@ namespace Asumet.Doc.Api
             var builder = WebApplication.CreateBuilder(args);
 
             var configuration = builder.Configuration;
-            var connectionString = configuration.GetConnectionString("AsumetDoc");
-            connectionString = connectionString?.Replace("{password}", configuration["AsumetDocSecrets:AsumetDocDbPassword"]);
-            builder.Services.AddDbContext<DocDbContext>(o => o.UseNpgsql(connectionString));
-            builder.Services.AddScoped<DocDbInitializer>();
+            RepositoryModule.Initialize(builder.Services, configuration);
 
             builder.Services.AddControllers();
 

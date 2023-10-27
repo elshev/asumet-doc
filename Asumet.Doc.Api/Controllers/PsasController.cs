@@ -1,15 +1,12 @@
 namespace Asumet.Doc.Api.Controllers
 {
-    using Asumet.Doc.Repo;
-    using Asumet.Entities;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
 
     [ApiController]
     [Route("[controller]")]
     public class PsasController : ControllerBase
     {
-        public PsasController(ILogger<PsasController> logger, DocDbContext dbContext)
+/*        public PsasController(ILogger<PsasController> logger, DocDbContext dbContext)
         {
             _logger = logger;
             DbContext = dbContext;
@@ -29,5 +26,5 @@ namespace Asumet.Doc.Api.Controllers
                 .ToList();
             return result;
         }
-    }
+*/    }
 }

@@ -10,15 +10,7 @@ namespace Asumet.Doc.Api
 
             using var scope = app.ApplicationServices.CreateScope();
             var services = scope.ServiceProvider;
-            try
-            {
-                var context = services.GetRequiredService<DocDbContext>();
-                DocDbInitializer.Initialize(context);
-            }
-            catch (Exception)
-            {
-
-            }
+            RepositoryModule.SeedDocDb(services);
 
             return app;
         }
