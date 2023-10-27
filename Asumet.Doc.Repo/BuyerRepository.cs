@@ -1,29 +1,26 @@
 ﻿namespace Asumet.Doc.Repo
 {
     using Asumet.Entities;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore;
 
     internal class BuyerRepository : RepositoryBase<Buyer, int>, IBuyerRepository
     {
-        public override Task<IEnumerable<Buyer>> GetAllAsync()
+        public BuyerRepository(DocDbContext docDb)
+            : base(docDb)
         {
-            throw new NotImplementedException();
         }
 
-        public override Task<Buyer> GetByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
+        protected override DbSet<Buyer> DbSet => DocDb.Buyers;
 
         public override Buyer? RemoveEntity(int id)
         {
-            throw new NotImplementedException();
-        }
+            var psa = DocDb.Psas.FirstOrDefault(p => p.Buyer.Id == id);
+            if (psa != null)
+            {
+                return null;
+            }
 
-        public override Buyer? UpdateEntity(Buyer entity)
-        {
-            throw new NotImplementedException();
+            return base.RemoveEntity(id);
         }
     }
 }

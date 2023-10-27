@@ -1,15 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Asumet.Entities
 {
-    /// <summary> Supplier stub </summary>
-    public class Supplier
+    /// <summary> Supplier </summary>
+    public class Supplier : EntityBase<int>
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-        
         [Required]
         [MaxLength(128)]
         /// <summary> Full name </summary>

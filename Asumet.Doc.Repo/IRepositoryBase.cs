@@ -1,11 +1,17 @@
-﻿namespace Asumet.Doc.Repo
+﻿using Asumet.Entities;
+
+namespace Asumet.Doc.Repo
 {
     public interface IRepositoryBase<TEntity, TKey>
-        where TEntity : class
+        where TEntity : EntityBase<TKey>
     {
         Task<IEnumerable<TEntity>> GetAllAsync();
         
-        Task<TEntity> GetByIdAsync(TKey id);
+        TEntity? GetById(TKey id);
+
+        Task<TEntity?> GetByIdAsync(TKey id);
+
+        Task<TEntity?> InsertEntityAsync(TEntity entity);
 
         TEntity? UpdateEntity(TEntity entity);
 

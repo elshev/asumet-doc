@@ -6,7 +6,7 @@ namespace Asumet.Doc.Api.Controllers
     [Route("[controller]")]
     public class PsasController : ControllerBase
     {
-/*        public PsasController(ILogger<PsasController> logger, DocDbContext dbContext)
+/*        public PsasController(ILogger<PsasController> logger, DocDb dbContext)
         {
             _logger = logger;
             DbContext = dbContext;
@@ -14,7 +14,7 @@ namespace Asumet.Doc.Api.Controllers
 
         private readonly ILogger<PsasController> _logger;
 
-        public DocDbContext DbContext { get; }
+        public DocDb DbContext { get; }
 
         [HttpGet(Name = "GetPsa")]
         public IEnumerable<Psa> Get()
