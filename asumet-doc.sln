@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Doc", "Asumet.Doc\As
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Doc.Common", "Asumet.Doc.Common\Asumet.Doc.Common.csproj", "{F0844A82-6217-4895-89B4-BB29EBC966F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asumet.Doc.Dtos", "Asumet.Doc.Dtos\Asumet.Doc.Dtos.csproj", "{970F11F7-693B-40CE-899E-5E94BAA0EC45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Doc.Dtos", "Asumet.Doc.Dtos\Asumet.Doc.Dtos.csproj", "{970F11F7-693B-40CE-899E-5E94BAA0EC45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asumet.Doc.Services", "Asumet.Doc.Services\Asumet.Doc.Services.csproj", "{502412F4-126F-416A-ABD7-9F7B2E26100B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{970F11F7-693B-40CE-899E-5E94BAA0EC45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{970F11F7-693B-40CE-899E-5E94BAA0EC45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{970F11F7-693B-40CE-899E-5E94BAA0EC45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{502412F4-126F-416A-ABD7-9F7B2E26100B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{502412F4-126F-416A-ABD7-9F7B2E26100B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{502412F4-126F-416A-ABD7-9F7B2E26100B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{502412F4-126F-416A-ABD7-9F7B2E26100B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

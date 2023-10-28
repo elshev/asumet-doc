@@ -1,4 +1,4 @@
-using Asumet.Doc.Repo;
+using Asumet.Doc.Services;
 
 namespace Asumet.Doc.Api
 {
@@ -9,7 +9,8 @@ namespace Asumet.Doc.Api
             var builder = WebApplication.CreateBuilder(args);
 
             var configuration = builder.Configuration;
-            RepositoryModule.Initialize(builder.Services, configuration);
+            
+            ServicesModule.Initialize(builder.Services, configuration);
 
             builder.Services.AddControllers();
 

@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Asumet.Common\Asumet.Common.csproj" />
+    <ProjectReference Include="..\Asumet.Doc.Common\Asumet.Doc.Common.csproj" />
+    <ProjectReference Include="..\Asumet.Doc.Dtos\Asumet.Doc.Dtos.csproj" />
+    <ProjectReference Include="..\Asumet.Doc.Repo\Asumet.Doc.Repo.csproj" />
+    <ProjectReference Include="..\Asumet.Doc\Asumet.Doc.csproj" />
+    <ProjectReference Include="..\Asumet.Entities\Asumet.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

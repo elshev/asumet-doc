@@ -29,9 +29,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Asumet.Common\Asumet.Common.csproj" />
     <ProjectReference Include="..\Asumet.Doc.Common\Asumet.Doc.Common.csproj" />
-    <ProjectReference Include="..\Asumet.Doc.Repo\Asumet.Doc.Repo.csproj" />
+    <ProjectReference Include="..\Asumet.Doc.Dtos\Asumet.Doc.Dtos.csproj" />
+    <ProjectReference Include="..\Asumet.Doc.Services\Asumet.Doc.Services.csproj" />
     <ProjectReference Include="..\Asumet.Doc\Asumet.Doc.csproj" />
-    <ProjectReference Include="..\Asumet.Entities\Asumet.Entities.csproj" />
   </ItemGroup>
 
   <ItemGroup>

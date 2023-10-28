@@ -6,8 +6,15 @@
 
     public static class RepositoryModule
     {
+        public static bool IsInitialized { get; private set; } = false;
+
         public static void Initialize(IServiceCollection services, ConfigurationManager configuration)
         {
+            if (IsInitialized)
+            {
+                return;
+            }
+
             var connectionString = configuration.GetConnectionString("AsumetDoc");
             connectionString = connectionString?.Replace("{password}", configuration["AsumetDocSecrets:AsumetDocDbPassword"]);
             services.AddDbContext<DocDbContext>(o => o.UseNpgsql(connectionString));
@@ -18,6 +25,8 @@
                 .AddScoped<IPsaScrapRepository, PsaScrapRepository>()
                 .AddScoped<IPsaRepository, PsaRepository>()
             ;
+
+            IsInitialized = true;
         }
 
         public static void SeedDocDb(IServiceProvider services)
