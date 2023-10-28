@@ -1,8 +1,10 @@
 ﻿namespace Asumet.Doc.Services
 {
     using Asumet.Doc.Repo;
+    using Asumet.Doc.Services.Mapping;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using System.Reflection;
 
     public static class ServicesModule
     {
@@ -14,6 +16,8 @@
             {
                 return;
             }
+
+            services.AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
 
             RepositoryModule.Initialize(services, configuration);
 
