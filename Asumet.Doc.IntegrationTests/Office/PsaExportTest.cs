@@ -1,11 +1,18 @@
 ﻿namespace Asumet.Doc.IntegrationTests.Office
 {
+    using Asumet.Doc.Api;
     using Asumet.Doc.Office;
     using Asumet.Entities;
+    using Microsoft.AspNetCore.Mvc.Testing;
     using NPOI.XWPF.UserModel;
 
     public class PsaExportTest : IntegrationTestBase
     {
+        public PsaExportTest(WebApplicationFactory<Program> factory)
+            : base(factory)
+        {
+        }
+
         private static void AssertDocxFile(string filePath)
         {
             filePath.Should().NotBeNull();

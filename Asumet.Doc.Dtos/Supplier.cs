@@ -8,7 +8,6 @@ namespace Asumet.Doc.Dtos
         [Key]
         public int Id { get; set; }
 
-        [Required]
         [MaxLength(128)]
         /// <summary> Full name </summary>
         public string FullName { get; set; }

@@ -35,10 +35,13 @@ namespace Asumet.Doc.Repo
 
         public virtual async Task<TEntity?> InsertEntityAsync(TEntity entity)
         {
-            var existingEntity = GetByIdAsync(entity.Id);
-            if (existingEntity != null)
+            if (!entity.Id.Equals(default(TKey)))
             {
-                return null;
+                var existingEntity = await GetByIdAsync(entity.Id);
+                if (existingEntity != null)
+                {
+                    return null;
+                }
             }
 
             await DbSet.AddAsync(entity);
