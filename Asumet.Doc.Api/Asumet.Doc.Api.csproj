@@ -42,4 +42,9 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="..\stylecop.ruleset" Link="stylecop.ruleset" />
+  </ItemGroup>
+
+
 </Project>

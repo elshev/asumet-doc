@@ -23,6 +23,7 @@
 
             services
                 .AddScoped<IPsaService, PsaService>()
+                .AddScoped<IExportDocService, ExportDocService>()
             ;
 
             IsInitialized = true;

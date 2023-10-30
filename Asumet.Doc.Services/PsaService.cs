@@ -5,12 +5,6 @@ using AutoMapper;
 
 namespace Asumet.Doc.Services
 {
-
-    public interface IPsaService : IDocServiceBase
-    {
-        Task<PsaDto?> GetByIdAsync(int id);
-    }
-
     public class PsaService : DocServiceBase, IPsaService
     {
         public PsaService(IPsaRepository psaRepository, IMapper mapper)

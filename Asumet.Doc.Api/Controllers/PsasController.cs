@@ -6,15 +6,15 @@ namespace Asumet.Doc.Api.Controllers
 
     [ApiController]
     [Route("[controller]")]
-    public class PsasController : ControllerBase
+    public class PsasController : ApiControllerBase
     {
         public PsasController(ILogger<PsasController> logger, IPsaService psaService)
         {
-            _logger = logger;
+            Logger = logger;
             PsaService = psaService;
         }
 
-        private readonly ILogger<PsasController> _logger;
+        private ILogger<PsasController> Logger { get; }
 
         public IPsaService PsaService { get; }
 
