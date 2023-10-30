@@ -1,17 +1,10 @@
 ﻿namespace Asumet.Doc.IntegrationTests.Match
 {
-    using Asumet.Doc.Api;
     using Asumet.Doc.Match;
     using Asumet.Entities;
-    using Microsoft.AspNetCore.Mvc.Testing;
 
     public class PsaMatchPatternTest : IntegrationTestBase
     {
-        public PsaMatchPatternTest(WebApplicationFactory<Program> factory)
-            : base(factory)
-        {
-        }
-
         [Fact]
         public void TestGetFilledPattern_ReturnsFilledPlaceholders()
         {

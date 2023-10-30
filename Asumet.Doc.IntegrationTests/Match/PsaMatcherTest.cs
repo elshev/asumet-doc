@@ -2,16 +2,9 @@
 {
     using Asumet.Entities;
     using Asumet.Doc.Match;
-    using Microsoft.AspNetCore.Mvc.Testing;
-    using Asumet.Doc.Api;
 
     public class PsaMatcherTest : IntegrationTestBase
     {
-        public PsaMatcherTest(WebApplicationFactory<Program> factory)
-            : base(factory)
-        {
-        }
-
         private static PsaMatcher GetPsaMatcher(int psaId = 1)
         {
             var psa = GetPsa(psaId);
