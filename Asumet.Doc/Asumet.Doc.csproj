@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="Fastenshtein" Version="1.0.0.8" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     <PackageReference Include="NPOI" Version="2.6.2" />
     <PackageReference Include="Tesseract" Version="5.2.0" />
   </ItemGroup>

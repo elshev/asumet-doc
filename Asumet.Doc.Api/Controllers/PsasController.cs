@@ -24,5 +24,14 @@ namespace Asumet.Doc.Api.Controllers
             var result = await PsaService.GetByIdAsync(id);
             return result;
         }
+
+        [HttpPost]
+        public async Task<PsaDto?> Post([FromBody] PsaDto psaDto)
+        {
+            var result = await PsaService.InsertEntityAsync(psaDto);
+            return result;
+        }
+
+
     }
 }

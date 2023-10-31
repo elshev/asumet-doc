@@ -22,5 +22,17 @@ namespace Asumet.Doc.Services
             var psaDto = Mapper.Map(psa, typeof(Psa), typeof(PsaDto)) as PsaDto;
             return psaDto;
         }
+
+        public async Task<PsaDto?> InsertEntityAsync(PsaDto psaDto)
+        {
+            if (Mapper.Map(psaDto, typeof(PsaDto), typeof(Psa)) is not Psa psaToInsert)
+            {
+                return null;
+            }
+
+            var psa = await PsaRepository.InsertEntityAsync(psaToInsert);
+            var result = Mapper.Map(psa, typeof(Psa), typeof(PsaDto)) as PsaDto;
+            return result;
+        }
     }
 }

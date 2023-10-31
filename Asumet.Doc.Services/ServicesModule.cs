@@ -20,10 +20,12 @@
             services.AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
 
             RepositoryModule.Initialize(services, configuration);
+            DocModule.Initialize(services, configuration);
 
             services
                 .AddScoped<IPsaService, PsaService>()
                 .AddScoped<IExportDocService, ExportDocService>()
+                .AddScoped<IMatchService, MatchService>()
             ;
 
             IsInitialized = true;

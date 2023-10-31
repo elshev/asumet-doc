@@ -8,7 +8,7 @@
         public const string DocxContentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
         /// <summary>
-        /// Creates a result for .docx file
+        /// Creates an IActionResult for .docx file
         /// </summary>
         /// <param name="docxFilePath">A path to .docx file</param>
         /// <returns>IActionResult for a file</returns>

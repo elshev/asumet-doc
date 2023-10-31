@@ -13,14 +13,30 @@
 
         protected override DbSet<Psa> DbSet => DocDb.Psas;
 
-        public override Task<Psa?> GetByIdAsync(int id)
+        public override async Task<Psa?> GetByIdAsync(int id)
         {
-            var result = DbSet
+            var result = await DbSet
                 .Include(psa => psa.Buyer)
                 .Include(psa => psa.Supplier)
                 .Include(psa => psa.PsaScraps)
                 .FirstOrDefaultAsync(psa => psa.Id.Equals(id));
 
+            return result;
+        }
+
+        public override async Task<Psa?> InsertEntityAsync(Psa entity)
+        {
+            if (entity.Buyer.Id > 0)
+            {
+                entity.Buyer = await DocDb.Buyers.FirstOrDefaultAsync(b => b.Id == entity.Buyer.Id);
+            }
+            
+            if (entity.Supplier.Id > 0)
+            {
+                entity.Supplier = await DocDb.Suppliers.FirstOrDefaultAsync(s => s.Id == entity.Supplier.Id);
+            }
+            
+            var result = await base.InsertEntityAsync(entity);
             return result;
         }
     }
