@@ -21,7 +21,7 @@ namespace Asumet.Doc.IntegrationTests.Repo
             var psaRepository = scope.ServiceProvider.GetRequiredService<IPsaRepository>();
             Assert.NotNull(psaRepository);
             var psaToInsert = GetNewPsa();
-            LoadPsa(psaToInsert, scope);
+            await LoadPsa(psaToInsert, scope);
             
             // Act
             var psa = await psaRepository.InsertEntityAsync(psaToInsert);
@@ -33,7 +33,7 @@ namespace Asumet.Doc.IntegrationTests.Repo
 
         }
 
-        private async void LoadPsa(Psa psa, IServiceScope scope)
+        private async Task LoadPsa(Psa psa, IServiceScope scope)
         {
             var buyerRepository = scope.ServiceProvider.GetRequiredService<IBuyerRepository>();
             var supplierRepository = scope.ServiceProvider.GetRequiredService<ISupplierRepository>();
