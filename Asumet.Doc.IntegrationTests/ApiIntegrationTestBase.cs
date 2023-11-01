@@ -4,22 +4,26 @@
     using Asumet.Doc.Api;
     using Asumet.Doc.Repo;
     using Asumet.Entities;
-    using Microsoft.AspNetCore.Mvc.Testing;
     using Microsoft.Extensions.DependencyInjection;
 
-    public abstract class IntegrationApiTestBase : IntegrationTestBase, IClassFixture<WebApplicationFactory<Program>>
+    /// <summary>
+    /// A base class for all tests related to WebApi.
+    /// Loads and configures all the infrastructure which is set up in <see cref="Program"/>
+    /// </summary>
+    public abstract class ApiIntegrationTestBase : 
+        IntegrationTestBase,
+        IClassFixture<ApiTestWebApplicationFactory<Program>>
     {
-        protected WebApplicationFactory<Program> Factory { get; }
+        protected ApiTestWebApplicationFactory<Program> Factory { get; }
 
         /// <summary> Add here Psa Ids to remove on cleanup </summary>
         protected IList<int> PsasToDelete { get; } = new List<int>();
 
-        public IntegrationApiTestBase(WebApplicationFactory<Program> factory)
+        public ApiIntegrationTestBase(ApiTestWebApplicationFactory<Program> factory)
             : base()
         {
             Factory = factory;
         }
-
 
         public override void Dispose()
         {
@@ -32,7 +36,7 @@
 
             base.Dispose();
         }
-        
+
         protected Psa GetNewPsa()
         {
             var d = DateTime.Now.SetKindUtc();

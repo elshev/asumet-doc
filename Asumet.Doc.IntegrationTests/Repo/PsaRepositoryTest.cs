@@ -1,14 +1,13 @@
 ﻿using Asumet.Doc.Api;
 using Asumet.Doc.Repo;
 using Asumet.Entities;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Asumet.Doc.IntegrationTests.Repo
 {
-    public class PsaRepositoryTest : IntegrationApiTestBase
+    public class PsaRepositoryTest : ApiIntegrationTestBase
     {
-        public PsaRepositoryTest(WebApplicationFactory<Program> factory)
+        public PsaRepositoryTest(ApiTestWebApplicationFactory<Program> factory)
             : base(factory)
         {
         }
