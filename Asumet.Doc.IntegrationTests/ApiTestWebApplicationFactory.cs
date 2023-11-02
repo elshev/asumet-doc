@@ -9,6 +9,7 @@
     /// A factory for bootstrapping an application in memory for WebApi tests.
     /// For example, replaces "appsettings.json"
     /// </summary>
+    /// <remarks>https://github.com/dotnet/aspnetcore/issues/37680</remarks>
     public class ApiTestWebApplicationFactory<TProgram> : WebApplicationFactory<TProgram>
         where TProgram : class
     {

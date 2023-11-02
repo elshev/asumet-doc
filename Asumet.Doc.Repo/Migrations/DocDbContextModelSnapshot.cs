@@ -22,7 +22,7 @@ namespace Asumet.Doc.Repo.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Asumet.Models.Buyer", b =>
+            modelBuilder.Entity("Asumet.Entities.Buyer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -31,39 +31,47 @@ namespace Asumet.Doc.Repo.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Account")
-                        .HasColumnType("text");
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.Property<string>("Address")
-                        .HasColumnType("text");
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("Bank")
-                        .HasColumnType("text");
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("Bic")
-                        .HasColumnType("text");
+                        .HasMaxLength(9)
+                        .HasColumnType("character varying(9)");
 
                     b.Property<string>("CorrespondentAccount")
-                        .HasColumnType("text");
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Inn")
-                        .HasColumnType("text");
+                        .HasMaxLength(12)
+                        .HasColumnType("character varying(12)");
 
                     b.Property<string>("Kpp")
-                        .HasColumnType("text");
+                        .HasMaxLength(9)
+                        .HasColumnType("character varying(9)");
 
                     b.Property<string>("ResponsiblePerson")
-                        .HasColumnType("text");
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Buyers");
                 });
 
-            modelBuilder.Entity("Asumet.Models.Psa", b =>
+            modelBuilder.Entity("Asumet.Entities.Psa", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -77,16 +85,19 @@ namespace Asumet.Doc.Repo.Migrations
 
                     b.Property<string>("ActNumber")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.Property<int>("BuyerId")
                         .HasColumnType("integer");
 
                     b.Property<string>("OwnershipReason")
-                        .HasColumnType("text");
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("ShortScrapDescription")
-                        .HasColumnType("text");
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
 
                     b.Property<int>("SupplierId")
                         .HasColumnType("integer");
@@ -113,7 +124,8 @@ namespace Asumet.Doc.Repo.Migrations
                         .HasColumnType("numeric");
 
                     b.Property<string>("Transport")
-                        .HasColumnType("text");
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.HasKey("Id");
 
@@ -124,7 +136,7 @@ namespace Asumet.Doc.Repo.Migrations
                     b.ToTable("Psas");
                 });
 
-            modelBuilder.Entity("Asumet.Models.PsaScrap", b =>
+            modelBuilder.Entity("Asumet.Entities.PsaScrap", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -140,7 +152,8 @@ namespace Asumet.Doc.Repo.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.Property<decimal>("NetWeight")
                         .HasColumnType("numeric");
@@ -150,7 +163,8 @@ namespace Asumet.Doc.Repo.Migrations
 
                     b.Property<string>("Okpo")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(14)
+                        .HasColumnType("character varying(14)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
@@ -174,7 +188,7 @@ namespace Asumet.Doc.Repo.Migrations
                     b.ToTable("PsaScraps");
                 });
 
-            modelBuilder.Entity("Asumet.Models.Supplier", b =>
+            modelBuilder.Entity("Asumet.Entities.Supplier", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -183,29 +197,32 @@ namespace Asumet.Doc.Repo.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
-                        .HasColumnType("text");
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("FullName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("Passport")
-                        .HasColumnType("text");
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Suppliers");
                 });
 
-            modelBuilder.Entity("Asumet.Models.Psa", b =>
+            modelBuilder.Entity("Asumet.Entities.Psa", b =>
                 {
-                    b.HasOne("Asumet.Models.Buyer", "Buyer")
+                    b.HasOne("Asumet.Entities.Buyer", "Buyer")
                         .WithMany()
                         .HasForeignKey("BuyerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Asumet.Models.Supplier", "Supplier")
+                    b.HasOne("Asumet.Entities.Supplier", "Supplier")
                         .WithMany()
                         .HasForeignKey("SupplierId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -216,9 +233,9 @@ namespace Asumet.Doc.Repo.Migrations
                     b.Navigation("Supplier");
                 });
 
-            modelBuilder.Entity("Asumet.Models.PsaScrap", b =>
+            modelBuilder.Entity("Asumet.Entities.PsaScrap", b =>
                 {
-                    b.HasOne("Asumet.Models.Psa", "Psa")
+                    b.HasOne("Asumet.Entities.Psa", "Psa")
                         .WithMany("PsaScraps")
                         .HasForeignKey("PsaId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -227,7 +244,7 @@ namespace Asumet.Doc.Repo.Migrations
                     b.Navigation("Psa");
                 });
 
-            modelBuilder.Entity("Asumet.Models.Psa", b =>
+            modelBuilder.Entity("Asumet.Entities.Psa", b =>
                 {
                     b.Navigation("PsaScraps");
                 });

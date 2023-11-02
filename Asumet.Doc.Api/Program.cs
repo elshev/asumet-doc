@@ -9,7 +9,7 @@ namespace Asumet.Doc.Api
             var builder = WebApplication.CreateBuilder(args);
 
             var configuration = builder.Configuration;
-            
+
             ServicesModule.Initialize(builder.Services, configuration);
 
             builder.Services.AddControllers();
@@ -28,6 +28,12 @@ namespace Asumet.Doc.Api
                 app.UseSwagger();
                 app.UseSwaggerUI();
                 app.SeedDocDb();
+            }
+            
+            if (!app.Environment.IsDevelopment())
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseHsts();
             }
 
             app.UseHttpsRedirection();

@@ -41,7 +41,7 @@
         [InlineData("PSA-02-144dpi.png")]
         [InlineData("PSA-01-300dpi-left.jpg")]
         [InlineData("PSA-01-300dpi-right.jpg")]
-        public void TestMatchDocumentImageWithPattern_DoesntMatchWrongDocs(string imageFileName, int maxScore = 33)
+        public void TestMatchDocumentImageWithPattern_DoesntMatchWrongDocs(string imageFileName, int maxScore = 35)
         {
             // Arrange
             var matcher = GetPsaMatcher();

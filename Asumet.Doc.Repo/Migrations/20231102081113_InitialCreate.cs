@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Asumet.Doc.Repo.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,14 +19,14 @@ namespace Asumet.Doc.Repo.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     FullName = table.Column<string>(type: "text", nullable: false),
-                    Address = table.Column<string>(type: "text", nullable: true),
-                    Inn = table.Column<string>(type: "text", nullable: true),
-                    Kpp = table.Column<string>(type: "text", nullable: true),
-                    Bank = table.Column<string>(type: "text", nullable: true),
-                    Bic = table.Column<string>(type: "text", nullable: true),
-                    CorrespondentAccount = table.Column<string>(type: "text", nullable: true),
-                    Account = table.Column<string>(type: "text", nullable: true),
-                    ResponsiblePerson = table.Column<string>(type: "text", nullable: true)
+                    Address = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Inn = table.Column<string>(type: "character varying(12)", maxLength: 12, nullable: true),
+                    Kpp = table.Column<string>(type: "character varying(9)", maxLength: 9, nullable: true),
+                    Bank = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Bic = table.Column<string>(type: "character varying(9)", maxLength: 9, nullable: true),
+                    CorrespondentAccount = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
+                    Account = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
+                    ResponsiblePerson = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -39,9 +39,9 @@ namespace Asumet.Doc.Repo.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FullName = table.Column<string>(type: "text", nullable: false),
-                    Address = table.Column<string>(type: "text", nullable: true),
-                    Passport = table.Column<string>(type: "text", nullable: true)
+                    FullName = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    Address = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Passport = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -54,13 +54,13 @@ namespace Asumet.Doc.Repo.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ActNumber = table.Column<string>(type: "text", nullable: false),
+                    ActNumber = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
                     ActDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     BuyerId = table.Column<int>(type: "integer", nullable: false),
                     SupplierId = table.Column<int>(type: "integer", nullable: false),
-                    ShortScrapDescription = table.Column<string>(type: "text", nullable: true),
-                    OwnershipReason = table.Column<string>(type: "text", nullable: true),
-                    Transport = table.Column<string>(type: "text", nullable: true),
+                    ShortScrapDescription = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: true),
+                    OwnershipReason = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
+                    Transport = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
                     TotalNetto = table.Column<decimal>(type: "numeric", nullable: false),
                     TotalNettoInWords = table.Column<string>(type: "text", nullable: true),
                     Total = table.Column<decimal>(type: "numeric", nullable: false),
@@ -92,8 +92,8 @@ namespace Asumet.Doc.Repo.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Okpo = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    Okpo = table.Column<string>(type: "character varying(14)", maxLength: 14, nullable: false),
                     PsaId = table.Column<int>(type: "integer", nullable: false),
                     GrossWeight = table.Column<decimal>(type: "numeric", nullable: false),
                     TareWeight = table.Column<decimal>(type: "numeric", nullable: false),

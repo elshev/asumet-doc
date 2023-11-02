@@ -54,8 +54,8 @@
                 TotalNds = 0,
                 TotalNdsInWords = "Ноль рублей 00 коп.",
                 TotalWoNds = 215340.12m,
-                Buyer = new Buyer { Id = 3 },
-                Supplier = new Supplier { Id = 3 },
+                Buyer = new Buyer { Id = 1 },
+                Supplier = new Supplier { Id = 2 },
                 PsaScraps = new List<PsaScrap>
                 {
                     new PsaScrap
