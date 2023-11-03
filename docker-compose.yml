@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  asumet.doc.api:
+    image: ${DOCKER_REGISTRY-}asumetdocapi
+    build:
+      context: .
+      dockerfile: Asumet.Doc.Api/Dockerfile

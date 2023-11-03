@@ -18,5 +18,6 @@ RUN dotnet publish "Asumet.Doc.Api.csproj" -c Release -o /app/publish /p:UseAppH
 
 FROM base AS final
 WORKDIR /app
+RUN apt-get update && apt-get install -y procps && rm -rf /var/lib/apt/lists/*
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Asumet.Doc.Api.dll"]

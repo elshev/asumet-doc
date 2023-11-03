@@ -25,7 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Doc.Common", "Asumet
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Doc.Dtos", "Asumet.Doc.Dtos\Asumet.Doc.Dtos.csproj", "{970F11F7-693B-40CE-899E-5E94BAA0EC45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asumet.Doc.Services", "Asumet.Doc.Services\Asumet.Doc.Services.csproj", "{502412F4-126F-416A-ABD7-9F7B2E26100B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Doc.Services", "Asumet.Doc.Services\Asumet.Doc.Services.csproj", "{502412F4-126F-416A-ABD7-9F7B2E26100B}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{4538B862-A472-462A-96B0-8E7D9556F9EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{502412F4-126F-416A-ABD7-9F7B2E26100B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{502412F4-126F-416A-ABD7-9F7B2E26100B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{502412F4-126F-416A-ABD7-9F7B2E26100B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4538B862-A472-462A-96B0-8E7D9556F9EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4538B862-A472-462A-96B0-8E7D9556F9EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4538B862-A472-462A-96B0-8E7D9556F9EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4538B862-A472-462A-96B0-8E7D9556F9EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
