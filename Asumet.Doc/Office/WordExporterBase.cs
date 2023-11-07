@@ -69,7 +69,7 @@
         /// <inheritdoc/>
         public virtual void Export()
         {
-            CreatesOutputDirectoryIfNotExists();
+            CreateOutputDirectoryIfNotExists();
 
             BeforeExport();
 
@@ -94,39 +94,9 @@
         }
 
         /// <summary>
-        /// Clones a row <paramref name="count"/> times after the <paramref name="baseRow"/>
-        /// </summary>
-        /// <param name="baseRow">A row to clone.</param>
-        /// <param name="count">Row count to add.</param>
-        /// <remarks>
-        /// There was no working way found to clone a row to the specified index.
-        /// See: https://stackoverflow.com/questions/77311344/npoi-word-how-to-clone-row-and-insert-it-at-the-specified-index
-        /// Workaround:
-        /// 1. <paramref name="baseRow"/> is cloned to the end of the table.
-        /// 2. All remaining rows below it are cloned as well to be append to the end
-        /// 3. Then these all remaining rows below it are removed.
-        /// </remarks>
-        protected static void CloneRow(XWPFTableRow baseRow, int count)
-        {
-            var table = baseRow.GetTable();
-            var baseIndex = table.Rows.IndexOf(baseRow);
-            var lastRows = table.Rows.GetRange(baseIndex + 1, table.Rows.Count - (baseIndex + 1));
-            for (int i = 0; i < count; i++)
-            {
-                XWPFTableRow newRow = baseRow.CloneRow();
-            }
-
-            lastRows.ForEach(row =>
-            {
-                row.CloneRow();
-                table.RemoveRow(baseIndex + 1);
-            });
-        }
-
-        /// <summary>
         /// Creates output directory if not exists
         /// </summary>
-        protected void CreatesOutputDirectoryIfNotExists()
+        protected void CreateOutputDirectoryIfNotExists()
         {
             var outputDirName = Path.GetDirectoryName(OutputFilePath);
             if (!Directory.Exists(outputDirName) && outputDirName != null)
@@ -241,7 +211,7 @@
             paragraph.ReplaceText(DocHelper.MakePlaceholder($"{DataSetPrefix}{datasetMemberName}"), string.Empty);
 
             int rowCountToAdd = items.Count() - 1;
-            CloneRow(row, rowCountToAdd);
+            WordWrapper.CloneRow(row, rowCountToAdd);
 
             FillDatasetRows(row, datasetMemberName);
 

@@ -1,4 +1,4 @@
-﻿namespace Asumet.Doc.Tests.Office
+﻿namespace Asumet.Doc.Tests.Common
 {
     using Asumet.Doc.Common;
     using Asumet.Entities;
@@ -55,9 +55,8 @@
             DocHelper.ReplacePlaceholdersInString("Some text {ActNumber} bla-bla {Buyer.FullName} another text", psa, false)
                 .Should().Be($"Some text {psa.ActNumber} bla-bla {psa.Buyer?.FullName} another text");
         }
-        
-        [Fact]
 
+        [Fact]
         public void TestReplacePlaceholdersInString_SkipPlaceholders()
         {
             //Arrange
@@ -91,7 +90,7 @@
             DocHelper.ReplacePlaceholdersInStrings(new string[] { "s1", "s2" }, psa, false)
                 .Should().Equal(new string[] { "s1", "s2" });
             DocHelper.ReplacePlaceholdersInStrings(new string[] { "First {ActNumber} and {WrongValue}", "Second {Buyer.FullName}" }, psa, false)
-                .Should().Equal(new string[] { $"First {psa.ActNumber} and ", $"Second {psa.Buyer?.FullName}"});
+                .Should().Equal(new string[] { $"First {psa.ActNumber} and ", $"Second {psa.Buyer?.FullName}" });
         }
 
         [Fact]
@@ -102,9 +101,9 @@
 
             // Act, Assert
             DocHelper.ReplacePlaceholdersInStrings(new string[] { "First {ActNumber} and {WrongValue}", "Second {Buyer.FullName}" }, psa, false)
-                .Should().Equal(new string[] { $"First {psa.ActNumber} and ", $"Second {psa.Buyer?.FullName}"});
+                .Should().Equal(new string[] { $"First {psa.ActNumber} and ", $"Second {psa.Buyer?.FullName}" });
             DocHelper.ReplacePlaceholdersInStrings(new string[] { "First {ActNumber} and {WrongValue}", "Second {Buyer.FullName}" }, psa, true)
-                .Should().Equal(new string[] { $"First {psa.ActNumber} and {{WrongValue}}", $"Second {psa.Buyer?.FullName}"});
+                .Should().Equal(new string[] { $"First {psa.ActNumber} and {{WrongValue}}", $"Second {psa.Buyer?.FullName}" });
         }
 
         [Fact]
@@ -112,7 +111,7 @@
         {
             //Arrange
             var psa = GetPsa();
-            var list = new List<string>() {"s1", "s2"};
+            var list = new List<string>() { "s1", "s2" };
 
             // Act
             var result = DocHelper.ReplacePlaceholdersInStrings(list, psa, false);

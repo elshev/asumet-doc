@@ -29,4 +29,13 @@
     <ProjectReference Include="..\Asumet.Doc\Asumet.Doc.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="TestInput\Office\PSA-01.docx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestInput\PSA-01.docx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
