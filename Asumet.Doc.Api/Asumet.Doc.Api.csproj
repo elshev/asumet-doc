@@ -7,8 +7,9 @@
     <UserSecretsId>fb34c1f0-1135-4797-aa5b-7b967ad72607</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+    <SatelliteResourceLanguages>ru;en-US</SatelliteResourceLanguages>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.11">
       <PrivateAssets>all</PrivateAssets>

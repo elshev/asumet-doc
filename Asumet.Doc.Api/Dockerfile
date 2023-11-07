@@ -2,11 +2,14 @@
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
-RUN apt-get update && apt-get install -y procps && rm -rf /var/lib/apt/lists/*
+RUN alias ll='ls -la' \
+    && apt-get update && apt-get install -y procps \
+    && apt-get update && apt-get install -y tesseract-ocr && apt-get install -y tesseract-ocr-rus \
+    && rm -rf /var/lib/apt/lists/*
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 COPY ["Asumet.Doc.Api/Asumet.Doc.Api.csproj", "Asumet.Doc.Api/"]
 RUN dotnet restore "Asumet.Doc.Api/Asumet.Doc.Api.csproj"

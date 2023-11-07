@@ -65,6 +65,7 @@
             secretsSection.Bind(this);
             TemplatesDirectory = GetDirectoryFullPath(TemplatesDirectory);
             MatchPatternsDirectory = GetDirectoryFullPath(MatchPatternsDirectory);
+            TesseractDataDirectory = GetDirectoryFullPath(TesseractDataDirectory);
         }
 
         private static string GetDirectoryFullPath(string directory)
