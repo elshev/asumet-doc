@@ -1,6 +1,8 @@
 ﻿namespace Asumet.Doc
 {
     using Microsoft.Extensions.Configuration;
+    using System;
+    using System.Reflection;
 
     /// <summary>
     /// Application Settings.
@@ -40,7 +42,7 @@
         public string WordMatchPatternExtension { get; set; } = ".docx.txt";
 
         /// <summary> The output directory where documents will be exported. /// </summary>
-        public string DocumentOutputDirectory { get; set; } = string.Empty;
+        public string DocumentOutputDirectory { get; set; } = "./output";
 
         /// <summary>
         /// Tesseract Trained Data Directory.
@@ -61,6 +63,20 @@
             appSettingsSection.Bind(this);
             var secretsSection = configuration.GetSection("AsumetDocSecrets");
             secretsSection.Bind(this);
+            TemplatesDirectory = GetDirectoryFullPath(TemplatesDirectory);
+            MatchPatternsDirectory = GetDirectoryFullPath(MatchPatternsDirectory);
+        }
+
+        private static string GetDirectoryFullPath(string directory)
+        {
+            if (Path.IsPathRooted(directory))
+            {
+                return directory;
+            }
+
+            var basePath = Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location) ?? AppDomain.CurrentDomain.BaseDirectory;
+            var result = Path.Combine(basePath, directory);
+            return result;
         }
     }
 }
