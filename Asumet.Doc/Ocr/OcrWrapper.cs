@@ -1,5 +1,6 @@
 ﻿namespace Asumet.Doc.Ocr
 {
+    using Asumet.Common;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -42,7 +43,8 @@
             if (IsCommandLineMode)
             {
                 var textFilePath = ImageToTextFile(imageFilePath);
-                 result = File.ReadAllLines(textFilePath);
+                result = File.ReadAllLines(textFilePath);
+                File.Delete(textFilePath);
             }
             else
             {
@@ -61,7 +63,7 @@
             const string tesseractLanguage = "rus";
             const int ocrTimeout = 30 * 1000;
 
-            var outputFilePath = Path.GetTempFileName();
+            var outputFilePath = PathHelper.GetTempFileName("");
 
             var process = new Process();
             process.StartInfo.FileName="tesseract";

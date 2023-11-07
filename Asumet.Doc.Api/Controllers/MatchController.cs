@@ -1,5 +1,6 @@
 namespace Asumet.Doc.Api.Controllers
 {
+    using Asumet.Common;
     using Asumet.Doc.Services;
     using Microsoft.AspNetCore.Mvc;
 
@@ -25,13 +26,19 @@ namespace Asumet.Doc.Api.Controllers
                 return BadRequest($"Invalid file: {nameof(imageFile)}");
             }
 
-            var imageFilePath = Path.GetTempFileName();
+            var imageFilePath = PathHelper.GetTempFileName();
+            try
+            {
+                using var stream = new FileStream(imageFilePath, FileMode.Create);
+                await imageFile.CopyToAsync(stream);
 
-            using var stream = new FileStream(imageFilePath, FileMode.Create);
-            await imageFile.CopyToAsync(stream);
-
-            var result = await MatchService.MatchPsaAsync(psaId, imageFilePath);
-            return Ok(result);
+                var result = await MatchService.MatchPsaAsync(psaId, imageFilePath);
+                return Ok(result);
+            }
+            finally
+            {
+                System.IO.File.Delete(imageFilePath);
+            }
         }
     }
 }
