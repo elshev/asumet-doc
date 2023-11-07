@@ -3,6 +3,7 @@
 namespace Asumet.Doc.Repo
 {
     public interface IRepositoryBase<TEntity, TKey>
+        where TKey : unmanaged
         where TEntity : EntityBase<TKey>
     {
         Task<IEnumerable<TEntity>> GetAllAsync();

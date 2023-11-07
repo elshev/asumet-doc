@@ -13,9 +13,3 @@ $vsStartupProject = "Asumet.Doc.Api";
 #dotnet ef migrations add InitialCreate --project $vsProject --startup-project $vsStartupProject;
 dotnet ef database update --project $vsProject --startup-project $vsStartupProject;
 ```
-
-* To run `Asumet.Doc.Api` locally (not in Docker) create a link to the `assets` folder:
-```bash
-cd Asumet.Doc.Api
-New-Item -Path ./assets -ItemType SymbolicLink -Value ../assets
-```

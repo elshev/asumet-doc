@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Asumet.Doc.Repo
 {
     internal abstract class RepositoryBase<TEntity, TKey> : IRepositoryBase<TEntity, TKey>
+        where TKey : unmanaged
         where TEntity : EntityBase<TKey>
     {
         protected RepositoryBase(DocDbContext docDb)
