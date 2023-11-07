@@ -26,11 +26,15 @@
         /// </summary>
         /// <param name="extension">The extension of the new file</param>
         /// <returns>Returns a path to a temp file</returns>
-        public static string GetTempFileName(string extension = ".tmp")
+        public static string GetTempFileName(string extension = ".tmp", bool createFile = true)
         {
             var fileName = Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + extension;
             var result = Path.Combine(GetTempDirectory(), fileName);
-            File.Create(result).Dispose();
+            if (createFile)
+            {
+                File.Create(result).Dispose();
+            }
+
             return result;
         }
     }

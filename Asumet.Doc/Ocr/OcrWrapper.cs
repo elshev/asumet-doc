@@ -63,7 +63,7 @@
             const string tesseractLanguage = "rus";
             const int ocrTimeout = 30 * 1000;
 
-            var outputFilePath = PathHelper.GetTempFileName("");
+            var outputFilePath = PathHelper.GetTempFileName("", false);
 
             var process = new Process();
             process.StartInfo.FileName="tesseract";
