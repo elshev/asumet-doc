@@ -3,7 +3,7 @@ using Asumet.Doc.Repo;
 using Asumet.Entities;
 using AutoMapper;
 
-namespace Asumet.Doc.Services
+namespace Asumet.Doc.Services.Data
 {
     public class PsaService : DocServiceBase, IPsaService
     {

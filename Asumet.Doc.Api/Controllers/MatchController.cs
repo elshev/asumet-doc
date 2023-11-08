@@ -1,14 +1,13 @@
 namespace Asumet.Doc.Api.Controllers
 {
-    using Asumet.Common;
-    using Asumet.Doc.Services;
     using Microsoft.AspNetCore.Mvc;
 
     [ApiController]
     [Route("[controller]")]
     public class MatchController : ApiControllerBase
     {
-        public MatchController(ILogger<ExportController> logger, IMatchService matchService)
+/*
+        public MatchController(ILogger<ExportController> logger, IPsaMatchService matchService)
         {
             Logger = logger;
             MatchService = matchService;
@@ -16,7 +15,7 @@ namespace Asumet.Doc.Api.Controllers
 
         private ILogger<ExportController> Logger { get; }
 
-        public IMatchService MatchService { get; }
+        public IPsaMatchService MatchService { get; }
 
         [HttpPost("psa")]
         public async Task<IActionResult> MatchPsa([FromForm] int psaId, IFormFile imageFile)
@@ -32,7 +31,7 @@ namespace Asumet.Doc.Api.Controllers
                 using var stream = new FileStream(imageFilePath, FileMode.Create);
                 await imageFile.CopyToAsync(stream);
 
-                var result = await MatchService.MatchPsaAsync(psaId, imageFilePath);
+                var result = await MatchService.MatchAsync(psaId, imageFilePath);
                 return Ok(result);
             }
             finally
@@ -40,5 +39,6 @@ namespace Asumet.Doc.Api.Controllers
                 System.IO.File.Delete(imageFilePath);
             }
         }
+*/
     }
 }

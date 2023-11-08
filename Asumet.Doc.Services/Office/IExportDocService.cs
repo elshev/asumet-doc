@@ -1,4 +1,4 @@
-﻿namespace Asumet.Doc.Services
+﻿namespace Asumet.Doc.Services.Office
 {
     public interface IExportDocService : IDocServiceBase
     {

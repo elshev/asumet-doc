@@ -1,7 +1,12 @@
 ﻿namespace Asumet.Doc.Services
 {
     using Asumet.Doc.Repo;
+    using Asumet.Doc.Services.Data;
     using Asumet.Doc.Services.Mapping;
+    using Asumet.Doc.Services.Match;
+    using Asumet.Doc.Services.Office;
+    using Asumet.Doc.Services.Psas;
+    using Asumet.Entities;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using System.Reflection;
@@ -25,7 +30,8 @@
             services
                 .AddScoped<IPsaService, PsaService>()
                 .AddScoped<IExportDocService, ExportDocService>()
-                .AddScoped<IMatchService, MatchService>()
+                .AddScoped<IMatchService<Psa, int>, PsaMatchService>()
+                .AddScoped<IPsaMatchService, PsaMatchService>()
             ;
 
             IsInitialized = true;

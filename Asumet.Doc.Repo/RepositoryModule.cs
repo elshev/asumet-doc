@@ -1,5 +1,6 @@
 ﻿namespace Asumet.Doc.Repo
 {
+    using Asumet.Entities;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -20,9 +21,13 @@
             services.AddDbContext<DocDbContext>(o => o.UseNpgsql(connectionString));
 
             services
+                .AddScoped<IRepositoryBase<Buyer, int>, BuyerRepository>()
                 .AddScoped<IBuyerRepository, BuyerRepository>()
+                .AddScoped<IRepositoryBase<Supplier, int>, SupplierRepository>()
                 .AddScoped<ISupplierRepository, SupplierRepository>()
+                .AddScoped<IRepositoryBase<PsaScrap, int>, PsaScrapRepository>()
                 .AddScoped<IPsaScrapRepository, PsaScrapRepository>()
+                .AddScoped<IRepositoryBase<Psa, int>, PsaRepository>()
                 .AddScoped<IPsaRepository, PsaRepository>()
             ;
 

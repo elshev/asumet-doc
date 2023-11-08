@@ -24,11 +24,11 @@ namespace Asumet.Doc.Tests.Office
 
             var text = string.Join(Environment.NewLine, lines);
             text.Should().Contain("Получатель лома и отходов: Петр Байер");
-            const string tts = WordWrapper.TextTableSeparator;
-            text.Should().Contain($"Вид лома{tts}Код по ОКПО{tts}Вес брутто, тн{tts}Вес тары, тн{tts}Неметаллические примеси, т.{tts}");
-            text.Should().Contain($"Лом и отходы чёрных металлов, 4HH{tts}1111122222{tts}");
-            text.Should().Contain($"Лом цветных металлов{tts}333444555{tts}");
-            text.Should().Contain($"Итого:{tts}{tts}");
+            const string ts = WordWrapper.TextTableSeparator;
+            text.Should().Contain($"Вид лома{ts}Код по ОКПО{ts}Вес брутто, тн{ts}Вес тары, тн{ts}Неметаллические примеси, т.{ts}");
+            text.Should().Contain($"Лом и отходы чёрных металлов, 4HH{ts}1111122222{ts}");
+            text.Should().Contain($"Лом цветных металлов{ts}333444555{ts}");
+            text.Should().Contain($"Итого:{ts}{ts}");
         }
 
         [Theory]
@@ -51,11 +51,11 @@ namespace Asumet.Doc.Tests.Office
 
             var text = string.Join(Environment.NewLine, lines);
             text.Should().Contain("Получатель лома и отходов: Петр Байер");
-            const string tts = WordWrapper.TextTableSeparator;
-            text.Should().NotContain($"Вид лома{tts}Код по ОКПО{tts}Вес брутто, тн{tts}Вес тары, тн{tts}Неметаллические примеси, т.{tts}");
-            text.Should().Contain($"Лом и отходы чёрных металлов, 4HH{tts}1111122222{tts}");
-            text.Should().Contain($"Лом цветных металлов{tts}333444555{tts}");
-            text.Should().NotContain($"Итого:{tts}{tts}");
+            const string ts = WordWrapper.TextTableSeparator;
+            text.Should().NotContain($"Вид лома{ts}Код по ОКПО{ts}Вес брутто, тн{ts}Вес тары, тн{ts}Неметаллические примеси, т.{ts}");
+            text.Should().Contain($"Лом и отходы чёрных металлов, 4HH{ts}1111122222{ts}");
+            text.Should().Contain($"Лом цветных металлов{ts}333444555{ts}");
+            text.Should().NotContain($"Итого:{ts}{ts}");
         }
     }
 }

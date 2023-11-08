@@ -1,12 +1,12 @@
 namespace Asumet.Doc.Api.Controllers
 {
-    using Asumet.Doc.Services;
     using Microsoft.AspNetCore.Mvc;
 
     [ApiController]
     [Route("[controller]")]
     public class ExportController : ApiControllerBase
     {
+/*        
         public ExportController(ILogger<ExportController> logger, IExportDocService exportDocService)
         {
             Logger = logger;
@@ -29,5 +29,6 @@ namespace Asumet.Doc.Api.Controllers
             var result = GetDocxFileResult(filePath);
             return result;
         }
+*/
     }
 }
