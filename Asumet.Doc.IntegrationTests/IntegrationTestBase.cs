@@ -32,7 +32,7 @@
 
         public virtual void Dispose()
         {
+            GC.SuppressFinalize(this);
         }
-
     }
 }

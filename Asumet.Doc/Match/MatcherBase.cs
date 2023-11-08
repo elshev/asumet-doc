@@ -20,15 +20,10 @@
         }
 
         /// <inheritdoc/>
-        public T DocumentObject
-        {
-            get { return MatchPattern.DocumentObject; }
-        }
-
         private IMatchPattern<T> MatchPattern { get; }
 
         /// <inheritdoc/>
-        public int MatchDocumentWithPattern(IEnumerable<string> documentLines)
+        public int MatchDocumentWithPattern(IEnumerable<string> documentLines, T documentObject)
         {
             const double passRate = 0.7;
             if (documentLines == null || !documentLines.Any())
@@ -39,7 +34,7 @@
             var patternLines = MatchPattern.GetPattern()
                 .Where(s => !string.IsNullOrWhiteSpace(s))
                 .ToList();
-            var patternFilledLines = MatchPattern.GetFilledPattern()
+            var patternFilledLines = MatchPattern.GetFilledPattern(documentObject)
                 .Where(s => !string.IsNullOrWhiteSpace(s))
                 .ToList();
 
@@ -69,7 +64,7 @@
         }
 
         /// <inheritdoc/>
-        public int MatchDocumentImageWithPattern(string documentImageFilePath)
+        public int MatchDocumentImageWithPattern(string documentImageFilePath, T documentObject)
         {
             if (string.IsNullOrWhiteSpace(documentImageFilePath))
             {
@@ -77,7 +72,7 @@
             }
 
             var documentLines = OcrWrapper.ImageToStrings(documentImageFilePath);
-            var result = MatchDocumentWithPattern(documentLines);
+            var result = MatchDocumentWithPattern(documentLines, documentObject);
             return result;
         }
     }

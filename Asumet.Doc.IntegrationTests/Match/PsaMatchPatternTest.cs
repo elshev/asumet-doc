@@ -10,10 +10,10 @@
         {
             // Arrange
             var psa = GetPsa();
-            IMatchPattern<Psa> matchPattern = new PsaMatchPattern(psa);
+            IMatchPattern<Psa> matchPattern = new PsaMatchPattern();
 
             // Act
-            var result = matchPattern.GetFilledPattern();
+            var result = matchPattern.GetFilledPattern(psa);
 
             // Assert
             var patternFilePath = Path.Combine(AppSettings.Instance.MatchPatternsDirectory, matchPattern.PatternFileName);

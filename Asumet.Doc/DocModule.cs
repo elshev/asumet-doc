@@ -1,5 +1,8 @@
 ﻿namespace Asumet.Doc
 {
+    using Asumet.Doc.Match;
+    using Asumet.Doc.Office;
+    using Asumet.Entities;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
@@ -13,13 +16,13 @@
             {
                 return;
             }
-/*
+
             services
                 .AddScoped<IOfficeExporter<Psa>, PsaExporter>()
                 .AddScoped<IMatchPattern<Psa>, PsaMatchPattern>()
                 .AddScoped<IMatcher<Psa>, PsaMatcher>()
             ;
-*/
+
             IsInitialized = true;
         }
     }

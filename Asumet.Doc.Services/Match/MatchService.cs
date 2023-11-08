@@ -10,17 +10,16 @@ namespace Asumet.Doc.Services.Match
         where TEntity : EntityBase<TKey>
 
     {
-        public MatchService(IRepositoryBase<TEntity, TKey> repository)
+        public MatchService(
+            IRepositoryBase<TEntity, TKey> repository,
+            IMatcher<TEntity> matcher)
         {
             Repository = repository;
+            Matcher = matcher;
         }
 
         protected IRepositoryBase<TEntity, TKey> Repository { get; }
-
-
-        protected abstract IMatchPattern<TEntity> CreateMatchPattern(TEntity entity);
-
-        protected abstract IMatcher<TEntity> CreateMatcher(IMatchPattern<TEntity> matchPattern);
+        public IMatcher<TEntity> Matcher { get; }
 
         private static IEnumerable<string> DoOcr(string imageFilePath)
         {
@@ -31,10 +30,7 @@ namespace Asumet.Doc.Services.Match
         private int Match(TEntity entity, string imageFilePath)
         {
             var lines = DoOcr(imageFilePath);
-            var matchPattern = CreateMatchPattern(entity);
-            var matcher = CreateMatcher(matchPattern);
-            var score = matcher.MatchDocumentWithPattern(lines);
-
+            var score = Matcher.MatchDocumentWithPattern(lines, entity);
             return score;
         }
 

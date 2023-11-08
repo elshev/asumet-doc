@@ -5,10 +5,9 @@
 
     public class PsaMatcherTest : IntegrationTestBase
     {
-        private static PsaMatcher GetPsaMatcher(int psaId = 1)
+        private static PsaMatcher GetPsaMatcher()
         {
-            var psa = GetPsa(psaId);
-            IMatchPattern<Psa> matchPattern = new PsaMatchPattern(psa);
+            IMatchPattern<Psa> matchPattern = new PsaMatchPattern();
             var matcher = new PsaMatcher(matchPattern);
             return matcher;
         }
@@ -26,11 +25,12 @@
             int psaId = 1)
         {
             // Arrange
-            var matcher = GetPsaMatcher(psaId);
+            var psa = GetPsa(psaId);
+            var matcher = GetPsaMatcher();
             var scanFilePath = GetScanFilePath(imageFileName);
 
             // Act
-            var score = matcher.MatchDocumentImageWithPattern(scanFilePath);
+            var score = matcher.MatchDocumentImageWithPattern(scanFilePath, psa);
 
             // Assert
             score.Should().BeGreaterThan(minScore);
@@ -44,11 +44,12 @@
         public void TestMatchDocumentImageWithPattern_DoesntMatchWrongDocs(string imageFileName, int maxScore = 35)
         {
             // Arrange
+            var psa = GetPsa(1);
             var matcher = GetPsaMatcher();
             var scanFilePath = GetScanFilePath(imageFileName);
 
             // Act
-            var score = matcher.MatchDocumentImageWithPattern(scanFilePath);
+            var score = matcher.MatchDocumentImageWithPattern(scanFilePath, psa);
 
             // Assert
             score.Should().BeLessThan(maxScore);

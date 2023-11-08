@@ -15,11 +15,6 @@
         string PatternFileName { get; }
 
         /// <summary>
-        /// Gets the object which is exported to a pattern file.
-        /// </summary>
-        public T DocumentObject { get; }
-
-        /// <summary>
         /// Gets the pattern lines of strings
         /// </summary>
         /// <returns>Lines of the pattern</returns>
@@ -28,7 +23,8 @@
         /// <summary>
         /// Loads the pattern file and fills its placeholders
         /// </summary>
+        /// <param name="documentObject">The object to take values from</param>
         /// <returns>Lines of the pattern with filled placeholders</returns>
-        IEnumerable<string> GetFilledPattern();
+        IEnumerable<string> GetFilledPattern(T documentObject);
     }
 }

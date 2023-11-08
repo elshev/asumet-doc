@@ -32,7 +32,7 @@ namespace Asumet.Doc.IntegrationTests.Repo
 
         }
 
-        private async Task LoadPsa(Psa psa, IServiceScope scope)
+        private static async Task LoadPsa(Psa psa, IServiceScope scope)
         {
             var buyerRepository = scope.ServiceProvider.GetRequiredService<IBuyerRepository>();
             var supplierRepository = scope.ServiceProvider.GetRequiredService<ISupplierRepository>();

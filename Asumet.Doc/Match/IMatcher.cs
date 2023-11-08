@@ -10,21 +10,20 @@
         where T : class
     {
         /// <summary>
-        /// Gets the object which is exported to a pattern file.
+        /// Matches <paramref name="documentLines"/> with the pattern and returns matching percentage
         /// </summary>
-        public T DocumentObject { get; }
-
-        /// <summary>
-        /// Matches <paramref name="document"/> with the pattern and returns matching percentage
-        /// </summary>
+        /// <param name="documentLines">The document text that should be matched with the pattern</param>
+        /// <param name="documentObject">A documentLines to fill pattern from</param>
         /// <returns>Matching percentage (0-100)</returns>
-        int MatchDocumentWithPattern(IEnumerable<string> document);
+        int MatchDocumentWithPattern(IEnumerable<string> documentLines, T documentObject);
 
         /// <summary>
-        /// OCRs a document from <paramref name="documentImageFilePath"/>
+        /// OCRs a documentLines from <paramref name="documentImageFilePath"/>
         /// then matches it with the pattern for <see cref="DocumentObject"/>
         /// </summary>
+        /// <param name="documentImageFilePath">The documents image to OCR and get text from</param>
+        /// <param name="documentObject">A documentLines to fill pattern from</param>
         /// <returns>Matching percentage (0-100)</returns>
-        int MatchDocumentImageWithPattern(string documentImageFilePath);
+        int MatchDocumentImageWithPattern(string documentImageFilePath, T documentObject);
     }
 }

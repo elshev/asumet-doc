@@ -74,8 +74,8 @@
         private static void GetMatchFile()
         {
             var psa = PsaSeedData.GetPsa(1);
-            IMatchPattern<Psa> matchPattern = new PsaMatchPattern(psa);
-            var lines = matchPattern.GetFilledPattern();
+            IMatchPattern<Psa> matchPattern = new PsaMatchPattern();
+            var lines = matchPattern.GetFilledPattern(psa);
             var s = string.Join(Environment.NewLine, lines.ToArray());
             Console.WriteLine(s);
         }
@@ -86,9 +86,9 @@
             var lines = File.ReadAllLines(outputFilePath);
 
             var psa = PsaSeedData.GetPsa(1);
-            IMatchPattern<Psa> matchPattern = new PsaMatchPattern(psa);
+            IMatchPattern<Psa> matchPattern = new PsaMatchPattern();
             var matcher = new PsaMatcher(matchPattern);
-            var score = matcher.MatchDocumentWithPattern(lines);
+            var score = matcher.MatchDocumentWithPattern(lines, psa);
             Console.WriteLine($"Match Score = {score}%");
         }
     }

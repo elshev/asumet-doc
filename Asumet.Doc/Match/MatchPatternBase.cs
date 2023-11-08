@@ -11,18 +11,6 @@
     public abstract class MatchPatternBase<T> : IMatchPattern<T>
         where T : class
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="documentObject">Object to export to a document.</param>
-        public MatchPatternBase(T documentObject)
-        {
-            DocumentObject = documentObject;
-        }
-
-        /// <inheritdoc/>
-        public T DocumentObject { get; }
-
         /// <inheritdoc/>
         public virtual string PatternFileName
         {
@@ -32,9 +20,7 @@
             }
         }
 
-        /// <summary>
-        /// Gets the document name.
-        /// </summary>
+        /// <summary> Gets the document name, e.g. "ПСА" </summary>
         protected abstract string DocumentName { get; }
 
         /// <inheritdoc/>
@@ -44,10 +30,10 @@
         }
 
         /// <inheritdoc/>
-        public IEnumerable<string> GetFilledPattern()
+        public IEnumerable<string> GetFilledPattern(T documentObject)
         {
             var patternLines = GetPattern();
-            var result = FillPatternPlaceholders(patternLines);
+            var result = FillPatternPlaceholders(patternLines, documentObject);
 
             return result;
         }
@@ -62,13 +48,13 @@
         }
 
         /// <summary>
-        /// Fills placeholders in <paramref name="patternLines"/> from <see cref="DocumentObject"/>
+        /// Fills placeholders in <paramref name="patternLines"/> from <paramref="documentObject"/>
         /// </summary>
         /// <param name="patternLines">Text to fill</param>
         /// <returns> A new list of strings with replaced values./// </returns>
-        protected IEnumerable<string> FillPatternPlaceholders(IEnumerable<string> patternLines)
+        protected static IEnumerable<string> FillPatternPlaceholders(IEnumerable<string> patternLines, T documentObject)
         {
-            return DocHelper.ReplacePlaceholdersInStrings(patternLines, DocumentObject, false);
+            return DocHelper.ReplacePlaceholdersInStrings(patternLines, documentObject, false);
         }
     }
 }

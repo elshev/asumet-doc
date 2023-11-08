@@ -11,19 +11,9 @@ namespace Asumet.Doc.Services.Psas
 
     public class PsaMatchService : MatchService<Psa, int>, IPsaMatchService
     {
-        public PsaMatchService(IRepositoryBase<Psa, int> repository)
-            : base(repository)
+        public PsaMatchService(IRepositoryBase<Psa, int> repository, IMatcher<Psa> matcher) 
+            : base(repository, matcher)
         {
-        }
-
-        protected override IMatcher<Psa> CreateMatcher(IMatchPattern<Psa> matchPattern)
-        {
-            return new PsaMatcher(matchPattern);
-        }
-
-        protected override IMatchPattern<Psa> CreateMatchPattern(Psa entity)
-        {
-            return new PsaMatchPattern(entity);
         }
     }
 }
