@@ -4,20 +4,30 @@ using System.Text;
 
 namespace Asumet.Doc.Office
 {
+    public struct WordFileToTextOptions
+    {
+        public int SkipFirstTableRowCount { get; set; }
+        public int SkipLastTableRowCount { get; set; }
+    }
+
     public static class WordWrapper
     {
+        public const string TextTableSeparator = "| ";
+
         /// <summary>
         /// Extracts text from MS Word file and saves it to <paramref name="outputTextFilePath"/>
         /// </summary>
-        /// <param name="wordFilePath">MS Word file to process</param>
-        public static void GetWordFileAsTextFile(string wordFilePath, string outputTextFilePath)
+        /// <param name="wordFilePath">Path to MS Word file to process</param>
+        /// <param name="outputTextFilePath">Path to the output text file</param>
+        /// <param name="options">Conversion options</param>
+        public static void WordFileToTextFile(string wordFilePath, string outputTextFilePath, WordFileToTextOptions options)
         {
             ArgumentNullException.ThrowIfNull(nameof(wordFilePath));
             ArgumentNullException.ThrowIfNull(nameof(outputTextFilePath));
             
             using var fileStream = File.OpenRead(wordFilePath);
             using var doc = new XWPFDocument(fileStream);
-            var result = GetWordFileAsText(doc);
+            var result = WordFileToText(doc, options);
             PathHelper.CreatePathDirectoryIfNotExists(outputTextFilePath);
             if (File.Exists(outputTextFilePath))
             {
@@ -28,15 +38,16 @@ namespace Asumet.Doc.Office
         }
 
         /// <summary>
-        /// Gets extracted text from MS Word file
+        /// Gets text from MS Word file
         /// </summary>
         /// <param name="wordFilePath">MS Word file to process</param>
+        /// <param name="options">Conversion options</param>
         /// <returns>Lines of extracted text</returns>
-        public static IEnumerable<string> GetWordFileAsText(string wordFilePath)
+        public static IEnumerable<string> WordFileToText(string wordFilePath, WordFileToTextOptions options)
         {
             using var fileStream = File.OpenRead(wordFilePath);
             using var doc = new XWPFDocument(fileStream);
-            var result = GetWordFileAsText(doc);
+            var result = WordFileToText(doc, options);
             return result;
         }
 
@@ -70,7 +81,7 @@ namespace Asumet.Doc.Office
             });
         }
         
-        private static IEnumerable<string> GetWordFileAsText(XWPFDocument doc)
+        private static IEnumerable<string> WordFileToText(XWPFDocument doc, WordFileToTextOptions options)
         {
             var result = new List<string>();
             foreach (var bodyElement in doc.BodyElements)
@@ -86,15 +97,19 @@ namespace Asumet.Doc.Office
                     continue;
                 }
 
-                foreach (var row in table.Rows)
+                
+                for (int rowIndex = options.SkipFirstTableRowCount;
+                         rowIndex < table.Rows.Count - options.SkipLastTableRowCount;
+                         rowIndex++)
                 {
+                    var row = table.Rows[rowIndex];
                     var tableLine = new StringBuilder();
                     foreach (var cell in row.GetTableCells())
                     {
                         foreach (var cellParagraph in cell.Paragraphs)
                         {
                             tableLine.Append(cellParagraph.Text);
-                            tableLine.Append("|");
+                            tableLine.Append(TextTableSeparator);
                         }
                     }
 
