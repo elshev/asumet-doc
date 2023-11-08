@@ -39,10 +39,10 @@
         {
             // Arrange
             var psa = GetPsa();
-            IOfficeExporter<Psa> psaExporter = new PsaExporter(psa);
+            IOfficeExporter<Psa> psaExporter = new PsaExporter();
 
             // Act
-            psaExporter.Export();
+            psaExporter.Export(psa);
 
             // Assert
             var filePath = psaExporter.OutputFilePath;

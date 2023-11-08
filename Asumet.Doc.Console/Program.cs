@@ -48,11 +48,11 @@
         private static void ExportPsa()
         {
             var psa = PsaSeedData.GetPsa(2);
-            IOfficeExporter<Psa> psaExporter = new PsaExporter(psa)
+            IOfficeExporter<Psa> psaExporter = new PsaExporter()
             {
                 LeaveMissingPlaceholders = false
             };
-            psaExporter.Export();
+            psaExporter.Export(psa);
             Console.WriteLine(psaExporter.OutputFilePath);
         }
 

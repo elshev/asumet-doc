@@ -8,15 +8,6 @@
     /// </summary>
     public class PsaExporter : WordExporterBase<Psa>
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="documentObject">Object to export to a document</param>
-        public PsaExporter(Psa documentObject)
-            : base(documentObject)
-        {
-        }
-
         /// <inheritdoc/>
         protected override string DocumentName => DocHelper.PsaDocumentName;
     }

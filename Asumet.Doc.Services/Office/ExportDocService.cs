@@ -8,15 +8,18 @@ namespace Asumet.Doc.Services.Office
     public class ExportDocService : DocServiceBase, IExportDocService
     {
         public ExportDocService(
+            IMapper mapper,
             IPsaRepository psaRepository,
-            IMapper mapper)
+            IOfficeExporter<Psa> officeExporter
+            )
         {
             PsaRepository = psaRepository;
+            OfficeExporter = officeExporter;
             Mapper = mapper;
         }
 
         protected IPsaRepository PsaRepository { get; }
-
+        public IOfficeExporter<Psa> OfficeExporter { get; }
         public IMapper Mapper { get; }
 
         /// <inheritdoc/>
@@ -32,12 +35,10 @@ namespace Asumet.Doc.Services.Office
             return result;
         }
 
-        private static string ExportPsaToWord(Psa psa)
+        private string ExportPsaToWord(Psa psa)
         {
-            var psaExporter = new PsaExporter(psa);
-            psaExporter.Export();
-
-            return psaExporter.OutputFilePath;
+            OfficeExporter.Export(psa);
+            return OfficeExporter.OutputFilePath;
         }
     }
 }

@@ -19,18 +19,6 @@
 
         private string? _outputFilePath;
 
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="documentObject">Object to export to a document.</param>
-        public WordExporterBase(T documentObject)
-        {
-            DocumentObject = documentObject;
-        }
-
-        /// <inheritdoc/>
-        public T DocumentObject { get; }
-
         /// <inheritdoc/>
         public virtual string TemplateFileName
         {
@@ -61,36 +49,35 @@
             }
         }
 
-        /// <summary>
-        /// Gets the document name.
-        /// </summary>
+        /// <summary> Gets the document name. </summary>
         protected abstract string DocumentName { get; }
 
         /// <inheritdoc/>
-        public virtual void Export()
+        public virtual void Export(T documentObject)
         {
+            ArgumentNullException.ThrowIfNull(nameof(documentObject));
             CreateOutputDirectoryIfNotExists();
 
-            BeforeExport();
+            BeforeExport(documentObject);
 
             using (var rs = File.OpenRead(GetTemplateFilePath()))
             {
                 using var doc = new XWPFDocument(rs);
                 foreach (var paragraph in doc.Paragraphs)
                 {
-                    FillParagraph(paragraph);
+                    FillParagraph(paragraph, documentObject);
                 }
 
                 foreach (var table in doc.Tables.Where(t => t.NumberOfRows > 0))
                 {
-                    ProcessTable(table);
+                    ProcessTable(table, documentObject);
                 }
 
                 using var ws = File.Create(OutputFilePath);
                 doc.Write(ws);
             }
 
-            AfterExport();
+            AfterExport(documentObject);
         }
 
         /// <summary>
@@ -109,15 +96,17 @@
         /// Replaces placeholderNames in <paramref name="paragraph"/> with values from <paramref name="obj"/>
         /// </summary>
         /// <param name="paragraph">Paragraph to process.</param>
-        /// <param name="obj">Object with values. If null then takes values from <see cref="DocumentObject"/></param>
-        protected void FillParagraph(XWPFParagraph? paragraph, object? obj = null)
+        /// <param name="documentObject">Top level parent object with values.</param>
+        /// <param name="obj">Object with values. If null then takes values from <paramref="documentObject"/></param>
+        protected void FillParagraph(XWPFParagraph? paragraph, T documentObject, object? obj = null)
         {
             if (paragraph == null)
             {
                 return;
             }
+            ArgumentNullException.ThrowIfNull(nameof(documentObject));
 
-            obj ??= DocumentObject;
+            obj ??= documentObject;
 
             var placeholderNames = DocHelper.GetPlaceholderNames(paragraph.ParagraphText);
             foreach (var placeholderName in placeholderNames)
@@ -130,10 +119,10 @@
                 }
 
                 var value = DocHelper.GetMemberValue(obj, memberName);
-                if (value == null && isDatasetItem && obj != DocumentObject)
+                if (value == null && isDatasetItem && obj != documentObject)
                 {
                     // If we didn't find a value in child object, let's try to get it from the parent
-                    value = DocHelper.GetMemberValue(DocumentObject, memberName);
+                    value = DocHelper.GetMemberValue(documentObject, memberName);
                 }
 
                 string? stringValue = string.Empty;
@@ -159,16 +148,20 @@
         ///   Fill the cell values from <see cref="DocumentObject"/>
         /// </summary>
         /// <param name="table">A table to be processed</param>
-        protected void ProcessTable(XWPFTable table)
+        /// <param name="documentObject">An object to fill values from</param>
+        protected void ProcessTable(XWPFTable table, T documentObject)
         {
+            ArgumentNullException.ThrowIfNull(nameof(table));
+            ArgumentNullException.ThrowIfNull(nameof(documentObject));
+
             int rowIndex = 0;
             while (rowIndex < table.Rows.Count)
             {
                 var row = table.GetRow(rowIndex);
-                int rowCountAdded = ProcessDatasetRow(row);
+                int rowCountAdded = ProcessDatasetRow(row, documentObject);
                 if (rowCountAdded == 0)
                 {
-                    FillRow(row, DocumentObject);
+                    FillRow(row, documentObject, documentObject);
                 }
 
                 rowIndex += rowCountAdded + 1;
@@ -181,12 +174,13 @@
         /// </summary>
         /// <param name="row">Row clone if it's a "DataSet" row</param>
         /// <returns>Row count added to the table</returns>
-        protected int ProcessDatasetRow(XWPFTableRow? row)
+        protected int ProcessDatasetRow(XWPFTableRow? row, T documentObject)
         {
             if (row == null)
             {
                 return 0;
             }
+            ArgumentNullException.ThrowIfNull(nameof(documentObject));
 
             var firstCell = row.GetCell(0);
             var paragraph = firstCell.Paragraphs[0];
@@ -203,7 +197,7 @@
             }
 
             var datasetMemberName = tablePlaceholder[DataSetPrefix.Length..];
-            if (DocHelper.GetMemberValue(DocumentObject, datasetMemberName) is not IEnumerable<object> items || !items.Any())
+            if (DocHelper.GetMemberValue(documentObject, datasetMemberName) is not IEnumerable<object> items || !items.Any())
             {
                 return 0;
             }
@@ -213,7 +207,7 @@
             int rowCountToAdd = items.Count() - 1;
             WordWrapper.CloneRow(row, rowCountToAdd);
 
-            FillDatasetRows(row, datasetMemberName);
+            FillDatasetRows(row, documentObject, datasetMemberName);
 
             return rowCountToAdd;
         }
@@ -222,12 +216,16 @@
         /// Fills cells starting from <paramref name="startRow"/> taking values from <paramref name="datasetMemberName"/>
         /// </summary>
         /// <param name="startRow">Starting row of the table</param>
+        /// <param name="documentObject">An object to fill values from</param>
         /// <param name="datasetMemberName">Name of the dataset from <see cref="DocumentObject"/></param>
-        protected void FillDatasetRows(XWPFTableRow startRow, string datasetMemberName)
+        protected void FillDatasetRows(XWPFTableRow startRow, T documentObject, string datasetMemberName)
         {
+            ArgumentNullException.ThrowIfNull(nameof(startRow));
+            ArgumentNullException.ThrowIfNull(nameof(documentObject));
+            
             var table = startRow.GetTable();
             var rowIndex = table.Rows.IndexOf(startRow);
-            if (DocHelper.GetMemberValue(DocumentObject, datasetMemberName) is not IEnumerable<object> items)
+            if (DocHelper.GetMemberValue(documentObject, datasetMemberName) is not IEnumerable<object> items)
             {
                 return;
             }
@@ -235,7 +233,7 @@
             foreach (var item in items)
             {
                 var row = table.GetRow(rowIndex);
-                FillRow(row, item);
+                FillRow(row, documentObject, item);
                 rowIndex++;
             }
         }
@@ -244,13 +242,15 @@
         /// Fills cells in <paramref name="row"/> with values from <paramref name="obj"/>
         /// </summary>
         /// <param name="row">Row to process</param>
+        /// <param name="documentObject">A top level parent object for <paramref name="obj"/></param>
         /// <param name="obj">Object to take values from</param>
-        protected void FillRow(XWPFTableRow? row, object obj)
+        protected void FillRow(XWPFTableRow? row, T documentObject, object obj)
         {
             if (row == null)
             {
                 return;
             }
+            ArgumentNullException.ThrowIfNull(nameof(documentObject));
 
             var cells = row.GetTableCells();
             foreach (var cell in cells)
@@ -261,7 +261,7 @@
                     continue;
                 }
 
-                FillParagraph(paragraph, obj);
+                FillParagraph(paragraph, documentObject, obj);
             }
         }
 
@@ -277,14 +277,14 @@
         /// <summary>
         /// The method is called before export to a document
         /// </summary>
-        protected virtual void BeforeExport()
+        protected virtual void BeforeExport(T documentObject)
         {
         }
 
         /// <summary>
         /// The method is called after export to a document
         /// </summary>
-        protected virtual void AfterExport()
+        protected virtual void AfterExport(T documentObject)
         {
         }
     }

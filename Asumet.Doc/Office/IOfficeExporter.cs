@@ -8,11 +8,6 @@
         where T : class
     {
         /// <summary>
-        /// Gets the object which will be exported to a document file.
-        /// </summary>
-        public T DocumentObject { get; }
-
-        /// <summary>
         /// Gets a template file name with extension.
         /// </summary>
         string TemplateFileName { get; }
@@ -32,6 +27,7 @@
         /// <summary>
         /// Exports an <see cref="DocumentObject"/> to a document file.
         /// </summary>
-        void Export();
+        /// <param name="documentObject">An object to export values from.</param>
+        void Export(T documentObject);
     }
 }
