@@ -1,5 +1,6 @@
 ﻿namespace Asumet.Doc.Match
 {
+    using Asumet.Doc.Office;
     using Asumet.Entities;
 
     /// <summary>
@@ -10,9 +11,10 @@
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="wordMatchPattern">Match Pattern</param>
-        public PsaMatcher(IMatchPattern<Psa> wordMatchPattern)
-            : base(wordMatchPattern)
+        /// <param name="matchPattern">Match Pattern</param>
+        /// <param name="officeExporter">Office Exporter</param>
+        public PsaMatcher(IMatchPattern<Psa> matchPattern, IOfficeExporter<Psa> officeExporter)
+            : base(matchPattern, officeExporter)
         {
         }
     }

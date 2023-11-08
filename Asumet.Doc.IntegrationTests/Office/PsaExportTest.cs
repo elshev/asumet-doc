@@ -42,10 +42,9 @@
             IOfficeExporter<Psa> psaExporter = new PsaExporter();
 
             // Act
-            psaExporter.Export(psa);
+            var filePath = psaExporter.Export(psa);
 
             // Assert
-            var filePath = psaExporter.OutputFilePath;
             AssertDocxFile(filePath);
 
             using var rs = File.OpenRead(filePath);

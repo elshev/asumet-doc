@@ -52,8 +52,8 @@
             {
                 LeaveMissingPlaceholders = false
             };
-            psaExporter.Export(psa);
-            Console.WriteLine(psaExporter.OutputFilePath);
+            var outputFilePath = psaExporter.Export(psa);
+            Console.WriteLine(outputFilePath);
         }
 
         private static string DoOcr(string imageFileName)
@@ -87,7 +87,7 @@
 
             var psa = PsaSeedData.GetPsa(1);
             IMatchPattern<Psa> matchPattern = new PsaMatchPattern();
-            var matcher = new PsaMatcher(matchPattern);
+            var matcher = new PsaMatcher(matchPattern, new PsaExporter());
             var score = matcher.MatchDocumentWithPattern(lines, psa);
             Console.WriteLine($"Match Score = {score}%");
         }

@@ -2,13 +2,15 @@
 {
     using Asumet.Entities;
     using Asumet.Doc.Match;
+    using Asumet.Doc.Office;
 
     public class PsaMatcherTest : IntegrationTestBase
     {
         private static PsaMatcher GetPsaMatcher()
         {
             IMatchPattern<Psa> matchPattern = new PsaMatchPattern();
-            var matcher = new PsaMatcher(matchPattern);
+            IOfficeExporter<Psa> exporter = new PsaExporter();
+            var matcher = new PsaMatcher(matchPattern, exporter);
             return matcher;
         }
 

@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Asumet.Doc.Ocr;
+    using Asumet.Doc.Office;
 
     /// <summary>
     /// A Document match pattern that is stored in file
@@ -14,31 +15,44 @@
     {
         /// <summary> Constructor. /// </summary>
         /// <param name="matchPattern">Match Pattern for this documentLines</param>
-        public MatcherBase(IMatchPattern<T> matchPattern)
+        public MatcherBase(
+            IMatchPattern<T> matchPattern,
+            IOfficeExporter<T> officeExporter
+            )
         {
             MatchPattern = matchPattern;
+            OfficeExporter = officeExporter;
         }
 
         /// <inheritdoc/>
+        public MatchMode Mode { get; set; } = MatchMode.Pattern;
+        
         private IMatchPattern<T> MatchPattern { get; }
+        
+        public IOfficeExporter<T> OfficeExporter { get; }
 
         /// <inheritdoc/>
         public int MatchDocumentWithPattern(IEnumerable<string> documentLines, T documentObject)
         {
+            ArgumentNullException.ThrowIfNull(documentLines, nameof(documentLines));
+            ArgumentNullException.ThrowIfNull(documentObject, nameof(documentObject));
             const double passRate = 0.7;
             if (documentLines == null || !documentLines.Any())
             {
                 return 0;
             }
 
-            var patternLines = MatchPattern.GetPattern()
-                .Where(s => !string.IsNullOrWhiteSpace(s))
-                .ToList();
-            var patternFilledLines = MatchPattern.GetFilledPattern(documentObject)
-                .Where(s => !string.IsNullOrWhiteSpace(s))
-                .ToList();
+            IList<string> patternLines;
+            if (Mode == MatchMode.Pattern)
+            {
+                patternLines = GetPatternLines(documentObject);
+            }
+            else
+            {
+                patternLines = GetExportedLines(documentObject);
+            }
 
-            if (!patternFilledLines.Any())
+            if (patternLines == null || !patternLines.Any())
             {
                 return 0;
             }
@@ -46,11 +60,11 @@
             double matchSum = 0;
             var matchOptions = MatchOptions.IgnoreSymbolsOptions();
 
-            for (int i = 0; i < patternFilledLines.Count; i++)
+            for (int i = 0; i < patternLines.Count; i++)
             {
                 foreach (var documentLine in documentLines)
                 {
-                    double score = MatchHelper.Match(documentLine, patternFilledLines[i], matchOptions);
+                    double score = MatchHelper.Match(documentLine, patternLines[i], matchOptions);
                     if (score > passRate)
                     {
                         matchSum += score;
@@ -59,7 +73,7 @@
                 }
             }
 
-            var result = (int)Math.Round(matchSum / patternFilledLines.Count * 100);
+            var result = (int)Math.Round(matchSum / patternLines.Count * 100);
             return result;
         }
 
@@ -70,10 +84,46 @@
             {
                 return 0;
             }
+            ArgumentNullException.ThrowIfNull(documentObject, nameof(documentObject));
 
             var documentLines = OcrWrapper.ImageToStrings(documentImageFilePath);
             var result = MatchDocumentWithPattern(documentLines, documentObject);
             return result;
+        }
+
+        /// <summary>
+        /// Loads a pattern from file first then fills its values from <paramref name="documentObject"/>
+        /// </summary>
+        /// <param name="documentObject">The object to get values from.</param>
+        /// <returns>Filled pattern values</returns>
+        private IList<string> GetPatternLines(T documentObject)
+        {
+            ArgumentNullException.ThrowIfNull(documentObject, nameof(documentObject));
+            var patternLines = MatchPattern.GetPattern()
+                .Where(s => !string.IsNullOrWhiteSpace(s))
+                .ToList();
+            
+            var result = MatchPattern.GetFilledPattern(documentObject)
+                .Where(s => !string.IsNullOrWhiteSpace(s))
+                .ToList();
+
+            return result;
+        }
+        
+        /// <summary>
+        /// Exports first <paramref name="documentObject"/> to Word file.
+        /// Then converts from Word file to a plain text.
+        /// </summary>
+        /// <param name="documentObject">The object to get values from.</param>
+        /// <returns>Plain text lines after conversion <paramref name="documentObject"/> -> Word -> Text</returns>
+        private IList<string> GetExportedLines(T documentObject)
+        {
+            ArgumentNullException.ThrowIfNull(documentObject, nameof(documentObject));
+            var wordFilePath = OfficeExporter.Export(documentObject);
+            var options = new WordFileToTextOptions { SkipFirstTableRowCount = 1 };
+            var result = WordWrapper.WordFileToText(wordFilePath, options);
+
+            return result.ToList();
         }
     }
 }

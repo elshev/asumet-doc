@@ -10,6 +10,12 @@
         where T : class
     {
         /// <summary>
+        /// How to compare a recognized document
+        /// See documentation in <see cref="MatchMode"/>
+        /// </summary>
+        MatchMode Mode { get; set; }
+        
+        /// <summary>
         /// Matches <paramref name="documentLines"/> with the pattern and returns matching percentage
         /// </summary>
         /// <param name="documentLines">The document text that should be matched with the pattern</param>

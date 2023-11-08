@@ -19,15 +19,10 @@
         bool LeaveMissingPlaceholders { get; set; }
 
         /// <summary>
-        /// Gets the output document file path.
-        /// </summary>
-        /// <returns>Returns the output document file path.</returns>
-        string OutputFilePath { get; }
-
-        /// <summary>
         /// Exports an <see cref="DocumentObject"/> to a document file.
         /// </summary>
         /// <param name="documentObject">An object to export values from.</param>
-        void Export(T documentObject);
+        /// <returns>The output file path</returns>
+        string Export(T documentObject);
     }
 }

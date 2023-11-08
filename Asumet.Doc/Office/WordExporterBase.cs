@@ -17,8 +17,6 @@
         private const string DataSetPrefix = "DataSet:";
         private const string DataSetItemPrefix = "DataSetItem:";
 
-        private string? _outputFilePath;
-
         /// <inheritdoc/>
         public virtual string TemplateFileName
         {
@@ -31,34 +29,34 @@
         /// <inheritdoc/>
         public virtual bool LeaveMissingPlaceholders { get; set; } = true;
 
-        /// <inheritdoc/>
-        public virtual string OutputFilePath
+        /// <summary>
+        /// Gets the output document file path.
+        /// </summary>
+        /// <returns>Returns the output document file path.</returns>
+        protected virtual string GetOutputFilePath()
         {
-            get
-            {
-                if (string.IsNullOrEmpty(_outputFilePath))
-                {
-                    var templateFileName = TemplateFileName;
-                    string name = Path.GetFileNameWithoutExtension(templateFileName);
-                    string extension = Path.GetExtension(templateFileName);
-                    string outputFileName = $"{name}-{DateTime.Now:yyyyMMdd-HHmmss-fffffff}{extension}";
-                    _outputFilePath = Path.Combine(AppSettings.Instance.DocumentOutputDirectory, outputFileName);
-                }
-
-                return _outputFilePath;
-            }
+            var templateFileName = TemplateFileName;
+            string name = Path.GetFileNameWithoutExtension(templateFileName);
+            string extension = Path.GetExtension(templateFileName);
+            string outputFileName = $"{name}-{DateTime.Now:yyyyMMdd-HHmmss-fffffff}{extension}";
+            var result = Path.Combine(AppSettings.Instance.DocumentOutputDirectory, outputFileName);
+            
+            return result;
         }
 
         /// <summary> Gets the document name. </summary>
         protected abstract string DocumentName { get; }
 
         /// <inheritdoc/>
-        public virtual void Export(T documentObject)
+        public string Export(T documentObject)
         {
             ArgumentNullException.ThrowIfNull(nameof(documentObject));
-            CreateOutputDirectoryIfNotExists();
+
 
             BeforeExport(documentObject);
+
+            var outputFilePath = GetOutputFilePath();
+            CreateOutputDirectoryIfNotExists(outputFilePath);
 
             using (var rs = File.OpenRead(GetTemplateFilePath()))
             {
@@ -73,19 +71,21 @@
                     ProcessTable(table, documentObject);
                 }
 
-                using var ws = File.Create(OutputFilePath);
+                using var ws = File.Create(outputFilePath);
                 doc.Write(ws);
             }
 
             AfterExport(documentObject);
+
+            return outputFilePath;
         }
 
         /// <summary>
         /// Creates output directory if not exists
         /// </summary>
-        protected void CreateOutputDirectoryIfNotExists()
+        protected void CreateOutputDirectoryIfNotExists(string outputFilePath)
         {
-            var outputDirName = Path.GetDirectoryName(OutputFilePath);
+            var outputDirName = Path.GetDirectoryName(outputFilePath);
             if (!Directory.Exists(outputDirName) && outputDirName != null)
             {
                 Directory.CreateDirectory(outputDirName);

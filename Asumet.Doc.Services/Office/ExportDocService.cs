@@ -37,8 +37,8 @@ namespace Asumet.Doc.Services.Office
 
         private string ExportPsaToWord(Psa psa)
         {
-            OfficeExporter.Export(psa);
-            return OfficeExporter.OutputFilePath;
+            var outputFilePath = OfficeExporter.Export(psa);
+            return outputFilePath;
         }
     }
 }
