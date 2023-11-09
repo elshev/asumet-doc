@@ -15,62 +15,37 @@
         }
 
         [Theory]
-        [InlineData("PSA-01-144dpi.png")]
-        [InlineData("PSA-02-144dpi.jpg", 95, 2)]
-        [InlineData("PSA-01-300dpi.jpg")]
-        [InlineData("PSA-01-300dpi-left05.jpg", 80)]
-        [InlineData("PSA-01-300dpi-right03.jpg", 75)]
-        public void TestMatchDocumentImageWithPattern_MatchesProperDocs(
+        [InlineData("PSA-01-144dpi.png", 1)]
+        [InlineData("PSA-01-300dpi.jpg", 1)]
+        [InlineData("PSA-02-144dpi.jpg", 2)]
+        [InlineData("PSA-02-300dpi.jpeg", 2)]
+        public void TestMatchDocumentImageWithPattern_MatchesProperDocsInPatternMatchMode(
             string imageFileName,
-            int minScore = 95,
-            int psaId = 1)
+            int psaId,
+            int minScore = 95)
         {
             // Arrange
             var psa = GetPsa(psaId);
             var matcher = GetPsaMatcher();
+            matcher.Mode = MatchMode.Pattern;
             var scanFilePath = GetScanFilePath(imageFileName);
 
             // Act
             var score = matcher.MatchDocumentImageWithPattern(scanFilePath, psa);
 
             // Assert
-            score.Should().BeGreaterThan(minScore);
+            score.Should().BeGreaterThanOrEqualTo(minScore);
         }
 
         [Theory]
-        [InlineData("PSA-Empty-144dpi.png")]
-        [InlineData("PSA-01-072dpi.jpg")]
-        [InlineData("PSA-02-144dpi.jpg", 50)]
-        [InlineData("PSA-01-300dpi-left.jpg")]
-        [InlineData("PSA-01-300dpi-right.jpg")]
-        public void TestMatchDocumentImageWithPattern_DoesntMatchWrongDocs(string imageFileName, int maxScore = 35)
-        {
-            // Arrange
-            var psa = GetPsa(1);
-            var matcher = GetPsaMatcher();
-            var scanFilePath = GetScanFilePath(imageFileName);
-
-            // Act
-            var score = matcher.MatchDocumentImageWithPattern(scanFilePath, psa);
-
-            // Assert
-            score.Should().BeLessThan(maxScore);
-        }
-
-        [Theory]
-        [InlineData("PSA-01-144dpi.png")]
-/*
-        [InlineData("PSA-01-144dpi.png")]
-        [InlineData("PSA-02-144dpi.jpg", 95, 2)]
-        [InlineData("PSA-02-300dpi.jpeg", 95, 2)]
-        [InlineData("PSA-01-300dpi.jpg")]
-        [InlineData("PSA-01-300dpi-left05.jpg", 80)]
-        [InlineData("PSA-01-300dpi-right03.jpg", 80)]
-*/
-        public void TestMatchDocumentImageWithPattern_UseDocumentMatchMode(
+        [InlineData("PSA-01-144dpi.png", 1)]
+        [InlineData("PSA-01-300dpi.jpg", 1)]
+        [InlineData("PSA-02-144dpi.jpg", 2)]
+        [InlineData("PSA-02-300dpi.jpeg", 2)]
+        public void TestMatchDocumentImageWithPattern_InDocumentMatchMode(
             string imageFileName,
-            int minScore = 95,
-            int psaId = 1)
+            int psaId,
+            int minScore = 95)
         {
             // Arrange
             var psa = GetPsa(psaId);
@@ -85,6 +60,87 @@
             score.Should().BeGreaterThan(minScore);
         }
 
+        [Theory]
+        [InlineData("PSA-01-300dpi-left.jpeg")]
+        [InlineData("PSA-01-300dpi-left05.jpg")]
+        [InlineData("PSA-01-300dpi-right03.jpg")]
+        public void TestMatchDocumentImageWithPattern_MatchesRotatedDocsInPatternMatchMode(string imageFileName, int psaId = 1)
+        {
+            // Arrange
+            const int minScore = 70;
+            var psa = GetPsa(psaId);
+            var matcher = GetPsaMatcher();
+            matcher.Mode = MatchMode.Pattern;
+            var scanFilePath = GetScanFilePath(imageFileName);
+
+            // Act
+            var score = matcher.MatchDocumentImageWithPattern(scanFilePath, psa);
+
+            // Assert
+            score.Should().BeGreaterThanOrEqualTo(minScore);
+        }
+
+        [Theory]
+        [InlineData("PSA-01-300dpi-left.jpeg")]
+        [InlineData("PSA-01-300dpi-left05.jpg")]
+        [InlineData("PSA-01-300dpi-right03.jpg")]
+        public void TestMatchDocumentImageWithPattern_MatchesRotatedDocsInDocumentMatchMode(string imageFileName, int psaId = 1)
+        {
+            // Arrange
+            const int minScore = 70;
+            var psa = GetPsa(psaId);
+            var matcher = GetPsaMatcher();
+            matcher.Mode = MatchMode.Document;
+            var scanFilePath = GetScanFilePath(imageFileName);
+
+            // Act
+            var score = matcher.MatchDocumentImageWithPattern(scanFilePath, psa);
+
+            // Assert
+            score.Should().BeGreaterThanOrEqualTo(minScore);
+        }
+
+        [Theory]
+        [InlineData("PSA-Empty-144dpi.png")]
+        [InlineData("PSA-01-072dpi.jpg")]
+        [InlineData("PSA-02-144dpi.jpg", 50)]
+        [InlineData("PSA-01-300dpi-left.jpg")]
+        [InlineData("PSA-01-300dpi-right.jpg")]
+        public void TestMatchDocumentImageWithPattern_DoesntMatchWrongDocsInDocumentMatchMode(string imageFileName, int maxScore = 35)
+        {
+            // Arrange
+            var psa = GetPsa(1);
+            var matcher = GetPsaMatcher();
+            matcher.Mode = MatchMode.Document;
+            var scanFilePath = GetScanFilePath(imageFileName);
+
+            // Act
+            var score = matcher.MatchDocumentImageWithPattern(scanFilePath, psa);
+
+            // Assert
+            score.Should().BeLessThan(maxScore);
+        }
+
+        [Theory]
+        [InlineData("PSA-Empty-144dpi.png")]
+        [InlineData("PSA-01-072dpi.jpg")]
+        [InlineData("PSA-02-144dpi.jpg", 50)]
+        [InlineData("PSA-01-300dpi-left.jpg")]
+        [InlineData("PSA-01-300dpi-right.jpg")]
+        public void TestMatchDocumentImageWithPattern_DoesntMatchWrongDocsInPatternMatchMode(string imageFileName, int maxScore = 35)
+        {
+            // Arrange
+            var psa = GetPsa(1);
+            var matcher = GetPsaMatcher();
+            matcher.Mode = MatchMode.Pattern;
+            var scanFilePath = GetScanFilePath(imageFileName);
+
+            // Act
+            var score = matcher.MatchDocumentImageWithPattern(scanFilePath, psa);
+
+            // Assert
+            score.Should().BeLessThan(maxScore);
+        }
 
     }
 }

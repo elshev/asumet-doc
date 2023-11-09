@@ -25,7 +25,7 @@
         }
 
         /// <inheritdoc/>
-        public MatchMode Mode { get; set; } = MatchMode.Pattern;
+        public MatchMode Mode { get; set; } = MatchMode.Document;
         
         private IMatchPattern<T> MatchPattern { get; }
         
