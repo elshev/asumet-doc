@@ -5,10 +5,16 @@
     /// </summary>
     public enum MatchMode
     {
-        /// <summary> Export an object first to a corresponding pattern and then compare with it.</summary>
+        /// <summary>
+        /// Object -> [PatternFileName].txt -> Compare
+        /// Export an object first to a corresponding pattern and then compare with it.
+        /// </summary>
         Pattern,
 
-        /// <summary> Export an object first to a Word file, then from Word to '.txt' file, and then compare with it.</summary>
+        /// <summary>
+        /// Object -> Word -> Text -> Compare
+        /// Export an object first to a Word file, then from Word to '.txt' file, and then compare with it.
+        /// </summary>
         Document
     }
 }

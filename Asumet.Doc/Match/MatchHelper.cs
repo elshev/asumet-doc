@@ -5,40 +5,52 @@
     using System.Linq;
     using System.Text;
 
+    public struct DistanceResult
+    {
+        public int Distance { get; internal set; }
+        public double Score { get; internal set; }
+    }
+
     /// <summary>
     /// Wraps Match lib.
     /// Contains useful methods to match
     /// </summary>
     public static class MatchHelper
     {
+        /// <summary>Min Score that Matcher can return </summary>
+        public const double MinScore = 0;
+
+        /// <summary>Max Score that Matcher can return </summary>
+        public const double MaxScore = 1;
+        
         /// <summary>
-        /// Finds the Levenshtein distance between two strings
+        /// Finds the Levenshtein distanceResult between two strings
         /// </summary>
         /// <param name="str1">string 1</param>
         /// <param name="str2">string 2</param>
         /// <param name="matchOptions">Additional matchOptions when comparing</param>
-        /// <returns>Levenshtein distance</returns>
-        public static int Distance(string? str1, string? str2, MatchOptions? matchOptions)
+        /// <returns>Levenshtein distanceResult</returns>
+        public static DistanceResult Distance(string? str1, string? str2, MatchOptions? matchOptions)
         {
             if (string.IsNullOrEmpty(str1) || string.IsNullOrEmpty(str2))
             {
-                return int.MaxValue;
+                return new DistanceResult { Distance = int.MaxValue, Score = MinScore };
             }
 
             if (str1 == str2)
             {
-                return 0;
+                return new DistanceResult { Distance = 0, Score = MaxScore };
             }
 
             matchOptions ??= MatchOptions.DefaultOptions();
 
-            const char blankChar = ' ';
+            const string blankStr = "";
             var s1 = str1;
             var s2 = str2;
             if (matchOptions.SymbolsToIgnore.Length > 0)
             {
-                s1 = ReplaceChars(s1, matchOptions.SymbolsToIgnore, blankChar);
-                s2 = ReplaceChars(s2, matchOptions.SymbolsToIgnore, blankChar);
+                s1 = ReplaceChars(s1, matchOptions.SymbolsToIgnore, blankStr);
+                s2 = ReplaceChars(s2, matchOptions.SymbolsToIgnore, blankStr);
             }
 
             if (matchOptions.IgnoreCase)
@@ -47,16 +59,19 @@
                 s2 = s2?.ToLower();
             }
 
-            return Fastenshtein.Levenshtein.Distance(s1, s2);
+            var distance = Fastenshtein.Levenshtein.Distance(s1, s2);
+            double score = MaxScore - ((double)distance / (double)Math.Max(s1?.Length ?? 0, s2?.Length ?? 0));
+            
+            return new DistanceResult { Distance = distance, Score = score };
         }
 
         /// <summary>
-        /// Finds the Levenshtein distance between two strings
+        /// Finds the Levenshtein distanceResult between two strings
         /// </summary>
         /// <param name="str1">string 1</param>
         /// <param name="str2">string 2</param>
-        /// <returns>Levenshtein distance</returns>
-        public static int Distance(string? str1, string? str2)
+        /// <returns>Levenshtein distanceResult</returns>
+        public static DistanceResult Distance(string? str1, string? str2)
         {
             return Distance(str1, str2, MatchOptions.DefaultOptions());
         }
@@ -72,12 +87,11 @@
         {
             if (string.IsNullOrEmpty(str1) || string.IsNullOrEmpty(str2))
             {
-                return 0;
+                return MinScore;
             }
 
-            int distance = Distance(str1, str2, matchOptions);
-            double result = 1.0 - ((double)distance / (double)Math.Max(str1.Length, str2.Length));
-            return result;
+            var distanceResult = Distance(str1, str2, matchOptions);
+            return distanceResult.Score;
         }
 
         /// <summary>
@@ -109,7 +123,7 @@
         {
             if (string.IsNullOrEmpty(str) || string.IsNullOrEmpty(pattern))
             {
-                return 0;
+                return MinScore;
             }
 
             string s = str;
@@ -122,25 +136,25 @@
                 var placeholderIndex = pattern.LastIndexOf(placeholder);
                 if (placeholderIndex < 0 || placeholderIndex >= s.Length)
                 {
-                    return 0;
+                    return MinScore;
                 }
 
                 var strValue = placeholderIndex + placeholderValue.Length > s.Length
                     ? s[placeholderIndex..]
                     : s.Substring(placeholderIndex, placeholderValue.Length);
-                var distance = Distance(placeholderValue, strValue, matchOptions);
-                valuesDistance += distance;
+                var distanceResult = Distance(placeholderValue, strValue, matchOptions);
+                valuesDistance += distanceResult.Distance;
                 valuesLength += Math.Max(placeholderValue.Length, strValue.Length);
                 s = s[.. (placeholderIndex + 1)];
             }
 
             double result = valuesLength > 0
-                ? 1.0 - ((double)valuesDistance / valuesLength)
-                : 0;
+                ? MaxScore - ((double)valuesDistance / valuesLength)
+                : MinScore;
             return result;
         }
 
-        private static string? ReplaceChars(string? str, char[] charsToReplace, char newChar)
+        private static string? ReplaceChars(string? str, string[] stringsToReplace, string newStr)
         {
             if (str == null)
             {
@@ -148,9 +162,9 @@
             }
 
             var sb = new StringBuilder(str);
-            foreach (var ch in charsToReplace)
+            foreach (var s in stringsToReplace)
             {
-                sb.Replace(ch, newChar);
+                sb.Replace(s, newStr);
             }
 
             return sb.ToString();

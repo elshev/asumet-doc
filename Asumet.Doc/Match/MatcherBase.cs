@@ -59,17 +59,48 @@
 
             double matchSum = 0;
             var matchOptions = MatchOptions.IgnoreSymbolsOptions();
-
-            for (int i = 0; i < patternLines.Count; i++)
+            var lines = documentLines.Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
+            var lastLineIndex = 0;
+            for (int patternIndex = 0; patternIndex < patternLines.Count; patternIndex++)
             {
-                foreach (var documentLine in documentLines)
+                var patternLine = patternLines[patternIndex];
+                int lineIndex = lastLineIndex;
+                while (lineIndex < lines.Length)
                 {
-                    double score = MatchHelper.Match(documentLine, patternLines[i], matchOptions);
-                    if (score > passRate)
+                    var documentLine = lines[lineIndex];
+                    double score = MatchHelper.Match(documentLine, patternLine, matchOptions);
+                    
+                    // If we match in the Document mode (Object -> Word -> Text),
+                    // try to improve by concatenating recognized consecutive lines
+                    // Let's do it for lines with length more than minLineLength
+                    const int minLineLength = 50;
+                    if (score < passRate 
+                        && Mode == MatchMode.Document 
+                        && patternLine.Length > documentLine.Length 
+                        && documentLine.Length > minLineLength)
+                    {
+                        var concatenatedLine = documentLine;
+                        while (lineIndex < lines.Length - 1)
+                        {
+                            concatenatedLine += lines[lineIndex + 1];
+                            double curScore = MatchHelper.Match(concatenatedLine, patternLine, matchOptions);
+                            if (curScore <= score)
+                            {
+                                break;
+                            }
+
+                            score = curScore;
+                            lineIndex++;
+                        }
+                    }
+                    if (score >= passRate)
                     {
                         matchSum += score;
+                        lastLineIndex = lineIndex + 1;
                         break;
                     }
+                    
+                    lineIndex++;
                 }
             }
 
@@ -121,9 +152,11 @@
             ArgumentNullException.ThrowIfNull(documentObject, nameof(documentObject));
             var wordFilePath = OfficeExporter.Export(documentObject);
             var options = new WordFileToTextOptions { SkipFirstTableRowCount = 1 };
-            var result = WordWrapper.WordFileToText(wordFilePath, options);
+            var result = WordWrapper.WordFileToText(wordFilePath, options)
+                .Where(s => !string.IsNullOrWhiteSpace(s))
+                .ToList();
 
-            return result.ToList();
+            return result;
         }
     }
 }

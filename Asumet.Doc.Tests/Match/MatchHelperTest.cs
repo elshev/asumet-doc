@@ -52,7 +52,8 @@ namespace Asumet.Doc.Tests.Match
             MatchHelper.Match("A.b:C", "A b C", options).Should().Be(1);
             MatchHelper.Match("Some text with, comma and: semicolon", "Some text with. comma and; semicolon", options)
                 .Should().Be(1);
-            MatchHelper.Match("A.b:C", "AbC", options).Should().Be(0.6);
+            MatchHelper.Match("A.b:C", "AbC", options).Should().Be(1);
+            MatchHelper.Match($"abc{new string(' ', 97)}", "def", options).Should().Be(0);
         }
 
         [Fact]

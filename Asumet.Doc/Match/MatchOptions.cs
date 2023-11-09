@@ -11,7 +11,7 @@
         public bool IgnoreCase { get; set; } = true;
 
         /// <summary> Symbols to ignore when matching </summary>
-        public char[] SymbolsToIgnore { get; set; } = Array.Empty<char>();
+        public string[] SymbolsToIgnore { get; set; } = Array.Empty<string>();
 
         /// <summary> Default options </summary>
         public static MatchOptions DefaultOptions()
@@ -22,7 +22,7 @@
         /// <summary> Options with ignored symbols like comma, dot, colon, etc.</summary>
         public static MatchOptions IgnoreSymbolsOptions()
         {
-            return new MatchOptions { SymbolsToIgnore = new char[] { '.', ',', ':', ';', '/', '\\', '|' } };
+            return new MatchOptions { SymbolsToIgnore = new string[] { " ", ".", ",", ":", ";", "/", "\\", "|", "_" } };
         }
     }
 }

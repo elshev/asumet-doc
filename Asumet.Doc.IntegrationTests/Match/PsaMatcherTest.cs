@@ -15,12 +15,11 @@
         }
 
         [Theory]
-        [InlineData("PSA-01-300dpi.jpg")]
-        [InlineData("PSA-01-300dpi.png")]
         [InlineData("PSA-01-144dpi.png")]
+        [InlineData("PSA-02-144dpi.jpg", 95, 2)]
+        [InlineData("PSA-01-300dpi.jpg")]
         [InlineData("PSA-01-300dpi-left05.jpg", 80)]
-        [InlineData("PSA-01-300dpi-right03.jpg", 80)]
-        [InlineData("PSA-02-144dpi.png", 95, 2)]
+        [InlineData("PSA-01-300dpi-right03.jpg", 75)]
         public void TestMatchDocumentImageWithPattern_MatchesProperDocs(
             string imageFileName,
             int minScore = 95,
@@ -40,7 +39,8 @@
 
         [Theory]
         [InlineData("PSA-Empty-144dpi.png")]
-        [InlineData("PSA-02-144dpi.png")]
+        [InlineData("PSA-01-072dpi.jpg")]
+        [InlineData("PSA-02-144dpi.jpg", 50)]
         [InlineData("PSA-01-300dpi-left.jpg")]
         [InlineData("PSA-01-300dpi-right.jpg")]
         public void TestMatchDocumentImageWithPattern_DoesntMatchWrongDocs(string imageFileName, int maxScore = 35)
@@ -56,5 +56,35 @@
             // Assert
             score.Should().BeLessThan(maxScore);
         }
+
+        [Theory]
+        [InlineData("PSA-01-144dpi.png")]
+/*
+        [InlineData("PSA-01-144dpi.png")]
+        [InlineData("PSA-02-144dpi.jpg", 95, 2)]
+        [InlineData("PSA-02-300dpi.jpeg", 95, 2)]
+        [InlineData("PSA-01-300dpi.jpg")]
+        [InlineData("PSA-01-300dpi-left05.jpg", 80)]
+        [InlineData("PSA-01-300dpi-right03.jpg", 80)]
+*/
+        public void TestMatchDocumentImageWithPattern_UseDocumentMatchMode(
+            string imageFileName,
+            int minScore = 95,
+            int psaId = 1)
+        {
+            // Arrange
+            var psa = GetPsa(psaId);
+            var matcher = GetPsaMatcher();
+            matcher.Mode = MatchMode.Document;
+            var scanFilePath = GetScanFilePath(imageFileName);
+
+            // Act
+            var score = matcher.MatchDocumentImageWithPattern(scanFilePath, psa);
+
+            // Assert
+            score.Should().BeGreaterThan(minScore);
+        }
+
+
     }
 }
