@@ -97,7 +97,7 @@
         /// </summary>
         /// <param name="paragraph">Paragraph to process.</param>
         /// <param name="documentObject">Top level parent object with values.</param>
-        /// <param name="obj">Object with values. If null then takes values from <paramref="documentObject"/></param>
+        /// <param name="obj">Object with values. If null then takes values from <paramref name="documentObject"/></param>
         protected void FillParagraph(XWPFParagraph? paragraph, T documentObject, object? obj = null)
         {
             if (paragraph == null)
@@ -143,9 +143,9 @@
         /// <summary>
         /// If the first firstCell in the table starts with <see cref="DataSetPrefix"/>:
         ///   1. Add rows to the table
-        ///   2. Fill the cell values from the enumberable property of <see cref="DocumentObject"/>
+        ///   2. Fill the cell values from the enumberable property of <paramref name="documentObject"/>
         /// Else
-        ///   Fill the cell values from <see cref="DocumentObject"/>
+        ///   Fill the cell values from <paramref name="documentObject"/>
         /// </summary>
         /// <param name="table">A table to be processed</param>
         /// <param name="documentObject">An object to fill values from</param>
@@ -170,9 +170,10 @@
 
         /// <summary>
         /// Checks if the <paramref name="row"/> is "DataSet" row.
-        /// If so, clones this row and fills it from dataset taken from <see cref="DocumentObject"/>
+        /// If so, clones this row and fills it from dataset taken from <paramref name="documentObject"/>
         /// </summary>
         /// <param name="row">Row clone if it's a "DataSet" row</param>
+        /// <param name="documentObject">An object to take values from</param>
         /// <returns>Row count added to the table</returns>
         protected int ProcessDatasetRow(XWPFTableRow? row, T documentObject)
         {
@@ -217,7 +218,7 @@
         /// </summary>
         /// <param name="startRow">Starting row of the table</param>
         /// <param name="documentObject">An object to fill values from</param>
-        /// <param name="datasetMemberName">Name of the dataset from <see cref="DocumentObject"/></param>
+        /// <param name="datasetMemberName">Name of the dataset from <paramref name="documentObject"/></param>
         protected void FillDatasetRows(XWPFTableRow startRow, T documentObject, string datasetMemberName)
         {
             ArgumentNullException.ThrowIfNull(nameof(startRow));

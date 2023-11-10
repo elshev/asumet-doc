@@ -48,9 +48,10 @@
         }
 
         /// <summary>
-        /// Fills placeholders in <paramref name="patternLines"/> from <paramref="documentObject"/>
+        /// Fills placeholders in <paramref name="patternLines"/> from <paramref name="documentObject"/>
         /// </summary>
         /// <param name="patternLines">Text to fill</param>
+        /// <param name="documentObject">The object to take values from</param>
         /// <returns> A new list of strings with replaced values./// </returns>
         protected static IEnumerable<string> FillPatternPlaceholders(IEnumerable<string> patternLines, T documentObject)
         {

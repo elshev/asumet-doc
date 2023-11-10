@@ -19,7 +19,7 @@
         bool LeaveMissingPlaceholders { get; set; }
 
         /// <summary>
-        /// Exports an <see cref="DocumentObject"/> to a document file.
+        /// Exports an <paramref name="documentObject"/> to a document file.
         /// </summary>
         /// <param name="documentObject">An object to export values from.</param>
         /// <returns>The output file path</returns>

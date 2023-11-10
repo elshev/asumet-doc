@@ -13,8 +13,9 @@
     public abstract class MatcherBase<T> : IMatcher<T>
         where T : class
     {
-        /// <summary> Constructor. /// </summary>
+        /// <summary> Constructor. </summary>
         /// <param name="matchPattern">Match Pattern for this documentLines</param>
+        /// <param name="officeExporter">Office Export Service</param>
         public MatcherBase(
             IMatchPattern<T> matchPattern,
             IOfficeExporter<T> officeExporter
@@ -27,9 +28,11 @@
         /// <inheritdoc/>
         public MatchMode Mode { get; set; } = MatchMode.Document;
         
-        private IMatchPattern<T> MatchPattern { get; }
+        /// <summary>Match Pattern</summary>
+        protected IMatchPattern<T> MatchPattern { get; }
         
-        public IOfficeExporter<T> OfficeExporter { get; }
+        /// <summary>Office Export Service</summary>
+        protected IOfficeExporter<T> OfficeExporter { get; }
 
         /// <inheritdoc/>
         public int MatchDocumentWithPattern(IEnumerable<string> documentLines, T documentObject)
@@ -61,6 +64,11 @@
             return result;
         }
 
+        /// <summary>
+        /// Does OCR for <paramref name="imageFilePath"/>
+        /// </summary>
+        /// <param name="imageFilePath">Path to an image file</param>
+        /// <returns>Lines extracted from image</returns>
         protected static IEnumerable<string> DoOcr(string imageFilePath)
         {
             var lines = OcrWrapper.ImageToStrings(imageFilePath);

@@ -3,7 +3,7 @@
     using System.Collections.Generic;
 
     /// <summary>
-    /// Interface for all march patterns.
+    /// Interface for all match patterns.
     /// </summary>
     /// <typeparam name="T">Type of the exported object.</typeparam>
     public interface IMatchPattern<T>

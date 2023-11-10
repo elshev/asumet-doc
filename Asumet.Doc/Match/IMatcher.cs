@@ -25,7 +25,7 @@
 
         /// <summary>
         /// OCRs a documentLines from <paramref name="documentImageFilePath"/>
-        /// then matches it with the pattern for <see cref="DocumentObject"/>
+        /// then matches it with the pattern for <paramref name="documentObject"/>
         /// </summary>
         /// <param name="documentImageFilePath">The documents image to OCR and get text from</param>
         /// <param name="documentObject">A documentLines to fill pattern from</param>

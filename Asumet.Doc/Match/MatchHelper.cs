@@ -5,9 +5,15 @@
     using System.Linq;
     using System.Text;
 
+    /// <summary>
+    /// Incapsulates the result of matching
+    /// </summary>
     public struct DistanceResult
     {
+        /// <summary> Levenshtein distance </summary>
         public int Distance { get; internal set; }
+        
+        /// <summary> Score from 0 to 1 </summary>
         public double Score { get; internal set; }
     }
 
@@ -159,6 +165,7 @@
         /// </summary>
         /// <param name="document">The document text that should be matched with the pattern</param>
         /// <param name="pattern">The pattern to be matched with</param>
+        /// <param name="matchMode">See <see cref="MatchMode"/> for details</param>
         /// <returns>Matching percentage (0-100)</returns>
         public static int MatchDocumentLinesWithPatternLines(
             IEnumerable<string> document,

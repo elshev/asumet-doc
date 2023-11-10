@@ -4,14 +4,22 @@ using System.Text;
 
 namespace Asumet.Doc.Office
 {
+    /// <summary>Options for conversion Word -> Text</summary>
     public struct WordFileToTextOptions
     {
+        /// <summary>Table header rows to skip when processing a table</summary>
         public int SkipFirstTableRowCount { get; set; }
+
+        /// <summary>Table summary rows to skip when processing a table</summary>
         public int SkipLastTableRowCount { get; set; }
     }
 
+    /// <summary>
+    /// Contains methods to work with .docx file via 3rd party libraries like NPOI
+    /// </summary>
     public static class WordWrapper
     {
+        /// <summary>Table separator when exporting to text</summary>
         public const string TextTableSeparator = "| ";
 
         /// <summary>
