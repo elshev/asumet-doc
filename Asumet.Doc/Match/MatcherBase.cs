@@ -36,7 +36,6 @@
         {
             ArgumentNullException.ThrowIfNull(documentLines, nameof(documentLines));
             ArgumentNullException.ThrowIfNull(documentObject, nameof(documentObject));
-            const double passRate = 0.7;
             if (documentLines == null || !documentLines.Any())
             {
                 return 0;
@@ -52,61 +51,10 @@
                 patternLines = GetExportedLines(documentObject);
             }
 
-            if (patternLines == null || !patternLines.Any())
-            {
-                return 0;
-            }
-
-            double matchSum = 0;
-            var matchOptions = MatchOptions.IgnoreSymbolsOptions();
-            var lines = documentLines.Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
-            var lastLineIndex = 0;
-            for (int patternIndex = 0; patternIndex < patternLines.Count; patternIndex++)
-            {
-                var patternLine = patternLines[patternIndex];
-                int lineIndex = lastLineIndex;
-                while (lineIndex < lines.Length)
-                {
-                    var documentLine = lines[lineIndex];
-                    double score = MatchHelper.Match(documentLine, patternLine, matchOptions);
-                    
-                    // If we match in the Document mode (Object -> Word -> Text),
-                    // try to improve by concatenating recognized consecutive lines
-                    // Let's do it for lines with length more than minLineLength
-                    const int minLineLength = 50;
-                    if (score < passRate 
-                        && Mode == MatchMode.Document 
-                        && patternLine.Length > documentLine.Length 
-                        && documentLine.Length > minLineLength)
-                    {
-                        var concatenatedLine = documentLine;
-                        while (lineIndex < lines.Length - 1)
-                        {
-                            concatenatedLine += lines[lineIndex + 1];
-                            double curScore = MatchHelper.Match(concatenatedLine, patternLine, matchOptions);
-                            if (curScore <= score)
-                            {
-                                break;
-                            }
-
-                            score = curScore;
-                            lineIndex++;
-                        }
-                    }
-                    if (score >= passRate)
-                    {
-                        matchSum += score;
-                        lastLineIndex = lineIndex + 1;
-                        break;
-                    }
-                    
-                    lineIndex++;
-                }
-            }
-
-            var result = (int)Math.Round(matchSum / patternLines.Count * 100);
+            var result = MatchHelper.MatchDocumentLinesWithPatternLines(documentLines, patternLines, Mode);
             return result;
         }
+
 
         /// <inheritdoc/>
         public int MatchDocumentImageWithPattern(string documentImageFilePath, T documentObject)

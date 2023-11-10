@@ -154,6 +154,77 @@
             return result;
         }
 
+        /// <summary>
+        /// Matches <paramref name="document"/> with the <paramref name="pattern"/> and returns matching percentage
+        /// </summary>
+        /// <param name="document">The document text that should be matched with the pattern</param>
+        /// <param name="pattern">The pattern to be matched with</param>
+        /// <returns>Matching percentage (0-100)</returns>
+        public static int MatchDocumentLinesWithPatternLines(
+            IEnumerable<string> document,
+            IEnumerable<string> pattern,
+            MatchMode matchMode)
+        {
+            const double passRate = 0.7;
+            ArgumentNullException.ThrowIfNull(document, nameof(document));
+            ArgumentNullException.ThrowIfNull(document, nameof(pattern));
+            var patternLines = pattern.Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
+            if (!patternLines.Any())
+            {
+                return 0;
+            }
+
+            double scoreSum = 0;
+            var matchOptions = MatchOptions.IgnoreSymbolsOptions();
+            var lines = document.Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
+            var lastLineIndex = 0;
+            for (int patternIndex = 0; patternIndex < patternLines.Length; patternIndex++)
+            {
+                var patternLine = patternLines[patternIndex];
+                int lineIndex = lastLineIndex;
+                while (lineIndex < lines.Length)
+                {
+                    var documentLine = lines[lineIndex];
+                    double score = Match(documentLine, patternLine, matchOptions);
+                    
+                    // If we match in the Document mode (Object -> Word -> Text),
+                    // try to improve by concatenating recognized consecutive lines
+                    // Let's do it for lines with length more than minLineLength
+                    const int minLineLength = 50;
+                    if (score < passRate 
+                        && matchMode == MatchMode.Document 
+                        && patternLine.Length > documentLine.Length 
+                        && documentLine.Length > minLineLength)
+                    {
+                        var concatenatedLine = documentLine;
+                        while (lineIndex < lines.Length - 1)
+                        {
+                            concatenatedLine += lines[lineIndex + 1];
+                            double curScore = Match(concatenatedLine, patternLine, matchOptions);
+                            if (curScore <= score)
+                            {
+                                break;
+                            }
+
+                            score = curScore;
+                            lineIndex++;
+                        }
+                    }
+                    if (score >= passRate)
+                    {
+                        scoreSum += score;
+                        lastLineIndex = lineIndex + 1;
+                        break;
+                    }
+                    
+                    lineIndex++;
+                }
+            }
+
+            var result = (int)Math.Round(scoreSum / patternLines.Length * 100);
+            return result;
+        }
+
         private static string? ReplaceChars(string? str, string[] stringsToReplace, string newStr)
         {
             if (str == null)
