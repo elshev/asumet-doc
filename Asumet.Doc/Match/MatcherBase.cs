@@ -39,10 +39,6 @@
         {
             ArgumentNullException.ThrowIfNull(documentLines, nameof(documentLines));
             ArgumentNullException.ThrowIfNull(documentObject, nameof(documentObject));
-            if (documentLines == null || !documentLines.Any())
-            {
-                return 0;
-            }
 
             IList<string> patternLines = GetPattern(documentObject);
             var result = MatchHelper.MatchDocumentLinesWithPatternLines(documentLines, patternLines, Mode);
@@ -51,16 +47,17 @@
 
 
         /// <inheritdoc/>
-        public int MatchDocumentImageWithPattern(string documentImageFilePath, T documentObject)
+        public async Task<int> MatchDocumentImageWithPatternAsync(string documentImageFilePath, T documentObject)
         {
-            if (string.IsNullOrWhiteSpace(documentImageFilePath))
-            {
-                return 0;
-            }
+            ArgumentNullException.ThrowIfNull(documentImageFilePath, nameof(documentImageFilePath));
             ArgumentNullException.ThrowIfNull(documentObject, nameof(documentObject));
 
-            var documentLines = DoOcr(documentImageFilePath);
-            var result = MatchDocumentWithPattern(documentLines, documentObject);
+            var ocrTask = Task.Run(() => DoOcr(documentImageFilePath));
+            var getPatterTask = Task.Run(() => GetPattern(documentObject));
+            await Task.WhenAll(ocrTask, getPatterTask).ConfigureAwait(false);
+            var documentLines = ocrTask.Result;
+            IList<string> patternLines = getPatterTask.Result;
+            var result = MatchHelper.MatchDocumentLinesWithPatternLines(documentLines, patternLines, Mode);
             return result;
         }
 

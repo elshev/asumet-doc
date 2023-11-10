@@ -30,6 +30,6 @@
         /// <param name="documentImageFilePath">The documents image to OCR and get text from</param>
         /// <param name="documentObject">A documentLines to fill pattern from</param>
         /// <returns>Matching percentage (0-100)</returns>
-        int MatchDocumentImageWithPattern(string documentImageFilePath, T documentObject);
+        Task<int> MatchDocumentImageWithPatternAsync(string documentImageFilePath, T documentObject);
     }
 }

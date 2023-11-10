@@ -97,7 +97,9 @@
             var psa = PsaSeedData.GetPsa(1);
             IMatchPattern<Psa> matchPattern = new PsaMatchPattern();
             var matcher = new PsaMatcher(matchPattern, new PsaExporter());
-            var score = matcher.MatchDocumentImageWithPattern(imageFilePath, psa);
+            var scoreTask = matcher.MatchDocumentImageWithPatternAsync(imageFilePath, psa);
+            scoreTask.Wait();
+            var score = scoreTask.Result;
             Console.WriteLine($"Match Score = {score}%");
         }
     }

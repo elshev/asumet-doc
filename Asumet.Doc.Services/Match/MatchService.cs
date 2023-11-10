@@ -28,7 +28,7 @@ namespace Asumet.Doc.Services.Match
                 return 0;
             }
 
-            var result = Matcher.MatchDocumentImageWithPattern(imageFilePath, entity);
+            var result = await Matcher.MatchDocumentImageWithPatternAsync(imageFilePath, entity);
             return result;
         }
     }

@@ -19,7 +19,7 @@
         [InlineData("PSA-01-300dpi.jpg", 1)]
         [InlineData("PSA-02-144dpi.jpg", 2)]
         [InlineData("PSA-02-300dpi.jpeg", 2)]
-        public void TestMatchDocumentImageWithPattern_MatchesProperDocsInPatternMatchMode(
+        public async Task TestMatchDocumentImageWithPattern_MatchesProperDocsInPatternMatchMode(
             string imageFileName,
             int psaId,
             int minScore = 95)
@@ -31,7 +31,7 @@
             var scanFilePath = GetScanFilePath(imageFileName);
 
             // Act
-            var score = matcher.MatchDocumentImageWithPattern(scanFilePath, psa);
+            var score = await matcher.MatchDocumentImageWithPatternAsync(scanFilePath, psa);
 
             // Assert
             score.Should().BeGreaterThanOrEqualTo(minScore);
@@ -42,7 +42,7 @@
         [InlineData("PSA-01-300dpi.jpg", 1)]
         [InlineData("PSA-02-144dpi.jpg", 2)]
         [InlineData("PSA-02-300dpi.jpeg", 2)]
-        public void TestMatchDocumentImageWithPattern_InDocumentMatchMode(
+        public async Task TestMatchDocumentImageWithPattern_InDocumentMatchMode(
             string imageFileName,
             int psaId,
             int minScore = 95)
@@ -54,7 +54,7 @@
             var scanFilePath = GetScanFilePath(imageFileName);
 
             // Act
-            var score = matcher.MatchDocumentImageWithPattern(scanFilePath, psa);
+            var score = await matcher.MatchDocumentImageWithPatternAsync(scanFilePath, psa);
 
             // Assert
             score.Should().BeGreaterThan(minScore);
@@ -64,7 +64,7 @@
         [InlineData("PSA-01-300dpi-left.jpeg")]
         [InlineData("PSA-01-300dpi-left05.jpg")]
         [InlineData("PSA-01-300dpi-right03.jpg")]
-        public void TestMatchDocumentImageWithPattern_MatchesRotatedDocsInPatternMatchMode(string imageFileName, int psaId = 1)
+        public async Task TestMatchDocumentImageWithPattern_MatchesRotatedDocsInPatternMatchMode(string imageFileName, int psaId = 1)
         {
             // Arrange
             const int minScore = 70;
@@ -74,7 +74,7 @@
             var scanFilePath = GetScanFilePath(imageFileName);
 
             // Act
-            var score = matcher.MatchDocumentImageWithPattern(scanFilePath, psa);
+            var score = await matcher.MatchDocumentImageWithPatternAsync(scanFilePath, psa);
 
             // Assert
             score.Should().BeGreaterThanOrEqualTo(minScore);
@@ -84,7 +84,7 @@
         [InlineData("PSA-01-300dpi-left.jpeg")]
         [InlineData("PSA-01-300dpi-left05.jpg")]
         [InlineData("PSA-01-300dpi-right03.jpg")]
-        public void TestMatchDocumentImageWithPattern_MatchesRotatedDocsInDocumentMatchMode(string imageFileName, int psaId = 1)
+        public async Task TestMatchDocumentImageWithPattern_MatchesRotatedDocsInDocumentMatchMode(string imageFileName, int psaId = 1)
         {
             // Arrange
             const int minScore = 70;
@@ -94,7 +94,7 @@
             var scanFilePath = GetScanFilePath(imageFileName);
 
             // Act
-            var score = matcher.MatchDocumentImageWithPattern(scanFilePath, psa);
+            var score = await matcher.MatchDocumentImageWithPatternAsync(scanFilePath, psa);
 
             // Assert
             score.Should().BeGreaterThanOrEqualTo(minScore);
@@ -106,7 +106,7 @@
         [InlineData("PSA-02-144dpi.jpg", 50)]
         [InlineData("PSA-01-300dpi-left.jpg")]
         [InlineData("PSA-01-300dpi-right.jpg")]
-        public void TestMatchDocumentImageWithPattern_DoesntMatchWrongDocsInDocumentMatchMode(string imageFileName, int maxScore = 35)
+        public async Task TestMatchDocumentImageWithPattern_DoesntMatchWrongDocsInDocumentMatchMode(string imageFileName, int maxScore = 35)
         {
             // Arrange
             var psa = GetPsa(1);
@@ -115,7 +115,7 @@
             var scanFilePath = GetScanFilePath(imageFileName);
 
             // Act
-            var score = matcher.MatchDocumentImageWithPattern(scanFilePath, psa);
+            var score = await matcher.MatchDocumentImageWithPatternAsync(scanFilePath, psa);
 
             // Assert
             score.Should().BeLessThan(maxScore);
@@ -127,7 +127,7 @@
         [InlineData("PSA-02-144dpi.jpg", 50)]
         [InlineData("PSA-01-300dpi-left.jpg")]
         [InlineData("PSA-01-300dpi-right.jpg")]
-        public void TestMatchDocumentImageWithPattern_DoesntMatchWrongDocsInPatternMatchMode(string imageFileName, int maxScore = 35)
+        public async Task TestMatchDocumentImageWithPattern_DoesntMatchWrongDocsInPatternMatchMode(string imageFileName, int maxScore = 35)
         {
             // Arrange
             var psa = GetPsa(1);
@@ -136,7 +136,7 @@
             var scanFilePath = GetScanFilePath(imageFileName);
 
             // Act
-            var score = matcher.MatchDocumentImageWithPattern(scanFilePath, psa);
+            var score = await matcher.MatchDocumentImageWithPatternAsync(scanFilePath, psa);
 
             // Assert
             score.Should().BeLessThan(maxScore);
