@@ -25,7 +25,7 @@
             services.AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
 
             RepositoryModule.Initialize(services, configuration);
-            DocModule.Initialize(services, configuration);
+            DocModule.Initialize(services);
 
             services
                 .AddScoped<IPsaService, PsaService>()

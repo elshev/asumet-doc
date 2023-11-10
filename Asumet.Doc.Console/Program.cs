@@ -4,7 +4,6 @@
     using System.IO;
     using System.Linq;
     using Asumet.Doc.Match;
-    using Asumet.Doc.Ocr;
     using Asumet.Doc.Office;
     using Asumet.Entities;
     using Microsoft.Extensions.Configuration;
@@ -34,9 +33,16 @@
             // DoOcr("PSA-01-300dpi-left.jpg");
             // TestOsd("PSA-01-300dpi-left.jpg");
             // GetMatchFile();
-            // Match();
+            Match();
         }
 
+        private static string GetImageFilePath(string imageFileName)
+        {
+            var result = Path.Combine("./images", imageFileName);
+            return result;
+        }
+
+/*
         private static string GetOcrFilePath(string imageFilePath)
         {
             var fileName = Path.GetFileNameWithoutExtension(imageFilePath);
@@ -44,7 +50,8 @@
             var textFilePath = Path.Combine(AppSettings.Instance.DocumentOutputDirectory, textFileName);
             return Path.Combine(AppSettings.Instance.DocumentOutputDirectory, textFilePath);
         }
-
+*/
+/*
         private static void ExportPsa()
         {
             var psa = PsaSeedData.GetPsa(2);
@@ -55,22 +62,25 @@
             var outputFilePath = psaExporter.Export(psa);
             Console.WriteLine(outputFilePath);
         }
-
+*/
+/*
         private static string DoOcr(string imageFileName)
         {
-            var imageFilePath = Path.Combine("./images", imageFileName);
+            var imageFilePath = GetImageFilePath(imageFileName);
             var lines = OcrWrapper.ImageToStrings(imageFilePath);
             var outputFilePath = GetOcrFilePath(imageFilePath);
             File.WriteAllLines(outputFilePath, lines);
             return outputFilePath;
         }
-
+*/
 /*        private static void TestOsd(string imageFileName)
         {
             var imageFilePath = Path.Combine("./images", imageFileName);
             OcrWrapper.ImageToOsd(imageFilePath);
         }
 */
+
+/*
         private static void GetMatchFile()
         {
             var psa = PsaSeedData.GetPsa(1);
@@ -79,16 +89,15 @@
             var s = string.Join(Environment.NewLine, lines.ToArray());
             Console.WriteLine(s);
         }
+*/
 
         private static void Match()
         {
-            var outputFilePath = DoOcr("PSA-01-300dpi-left.jpg");
-            var lines = File.ReadAllLines(outputFilePath);
-
+            var imageFilePath = GetImageFilePath("PSA-01-300dpi-left.jpg");
             var psa = PsaSeedData.GetPsa(1);
             IMatchPattern<Psa> matchPattern = new PsaMatchPattern();
             var matcher = new PsaMatcher(matchPattern, new PsaExporter());
-            var score = matcher.MatchDocumentWithPattern(lines, psa);
+            var score = matcher.MatchDocumentImageWithPattern(imageFilePath, psa);
             Console.WriteLine($"Match Score = {score}%");
         }
     }

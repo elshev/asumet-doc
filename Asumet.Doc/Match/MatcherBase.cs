@@ -41,16 +41,7 @@
                 return 0;
             }
 
-            IList<string> patternLines;
-            if (Mode == MatchMode.Pattern)
-            {
-                patternLines = GetPatternLines(documentObject);
-            }
-            else
-            {
-                patternLines = GetExportedLines(documentObject);
-            }
-
+            IList<string> patternLines = GetPattern(documentObject);
             var result = MatchHelper.MatchDocumentLinesWithPatternLines(documentLines, patternLines, Mode);
             return result;
         }
@@ -65,9 +56,33 @@
             }
             ArgumentNullException.ThrowIfNull(documentObject, nameof(documentObject));
 
-            var documentLines = OcrWrapper.ImageToStrings(documentImageFilePath);
+            var documentLines = DoOcr(documentImageFilePath);
             var result = MatchDocumentWithPattern(documentLines, documentObject);
             return result;
+        }
+
+        protected static IEnumerable<string> DoOcr(string imageFilePath)
+        {
+            var lines = OcrWrapper.ImageToStrings(imageFilePath);
+            return lines;
+        }
+
+        /// <summary>
+        /// For <paramref name="documentObject"/> returns pattern lines for it.
+        /// The way of getting the result depends on the <see cref="Mode"/>
+        /// See <see cref="MatchMode"/> documentation.
+        /// </summary>
+        /// <param name="documentObject"></param>
+        /// <returns></returns>
+        protected IList<string> GetPattern(T documentObject)
+        {
+            ArgumentNullException.ThrowIfNull(documentObject, nameof(documentObject));
+            if (Mode == MatchMode.Pattern)
+            {
+                return GetPatternLines(documentObject);
+            }
+
+            return GetExportedLines(documentObject);
         }
 
         /// <summary>

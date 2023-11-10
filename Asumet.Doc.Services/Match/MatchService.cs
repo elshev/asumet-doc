@@ -1,5 +1,4 @@
 ﻿using Asumet.Doc.Match;
-using Asumet.Doc.Ocr;
 using Asumet.Doc.Repo;
 using Asumet.Entities;
 
@@ -21,19 +20,6 @@ namespace Asumet.Doc.Services.Match
         protected IRepositoryBase<TEntity, TKey> Repository { get; }
         public IMatcher<TEntity> Matcher { get; }
 
-        private static IEnumerable<string> DoOcr(string imageFilePath)
-        {
-            var lines = OcrWrapper.ImageToStrings(imageFilePath);
-            return lines;
-        }
-
-        private int Match(TEntity entity, string imageFilePath)
-        {
-            var lines = DoOcr(imageFilePath);
-            var score = Matcher.MatchDocumentWithPattern(lines, entity);
-            return score;
-        }
-
         public async Task<int> MatchAsync(TKey id, string imageFilePath)
         {
             var entity = await Repository.GetByIdAsync(id);
@@ -42,7 +28,7 @@ namespace Asumet.Doc.Services.Match
                 return 0;
             }
 
-            var result = Match(entity, imageFilePath);
+            var result = Matcher.MatchDocumentImageWithPattern(imageFilePath, entity);
             return result;
         }
     }
