@@ -142,5 +142,26 @@
             score.Should().BeLessThan(maxScore);
         }
 
+        [Theory]
+        [InlineData("PSA-01-144dpi-RotateDown.png", 1)]
+        [InlineData("PSA-01-144dpi-RotateLeft.png", 1)]
+        [InlineData("PSA-02-300dpi-RotateRight.jpeg", 2)]
+        public async Task TestMatchDocumentImageWithPattern_MatchRotatedImagesInDocumentMatchMode(
+            string imageFileName,
+            int psaId,
+            int minScore = 95)
+        {
+            // Arrange
+            var psa = GetPsa(psaId);
+            var matcher = GetPsaMatcher();
+            matcher.Mode = MatchMode.Document;
+            var scanFilePath = GetScanFilePath(imageFileName);
+
+            // Act
+            var score = await matcher.MatchDocumentImageWithPatternAsync(scanFilePath, psa);
+
+            // Assert
+            score.Should().BeGreaterThan(minScore);
+        }
     }
 }

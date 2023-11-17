@@ -39,7 +39,7 @@
         public static IEnumerable<string> ImageToStrings(string imageFilePath)
         {
             ArgumentNullException.ThrowIfNull(nameof(imageFilePath));
-            
+
             string[] result;
             if (IsCommandLineMode)
             {
@@ -67,7 +67,7 @@
             var outputFilePath = PathHelper.GetTempFileName("", false);
 
             var process = new Process();
-            process.StartInfo.FileName="tesseract";
+            process.StartInfo.FileName = "tesseract";
             process.StartInfo.Arguments = $"{imageFilePath} {outputFilePath} -l {tesseractLanguage}";
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.CreateNoWindow = true;
@@ -81,7 +81,7 @@
             var isSuccess = process.WaitForExit(ocrTimeout);
             if (!isSuccess)
             {
-                throw new Exception($"Tesseract process timed out ({ocrTimeout/1000}seconds). Output:{Environment.NewLine}{sb}");
+                throw new Exception($"Tesseract process timed out ({ocrTimeout / 1000}seconds). Output:{Environment.NewLine}{sb}");
             }
 
             return outputFilePath + ".txt";
@@ -122,6 +122,12 @@
             return page;
         }
 
+        private static double DegreesToRadians(double degrees)
+        {
+            double radians = Math.PI / 180 * degrees;
+            return radians;
+        }
+
         /// <summary>
         /// Determines if the image in the <paramref name="pix"/> is rotated by 90, 180, 270 degrees.
         /// If so, rotate it to Up orientation.
@@ -135,7 +141,7 @@
             {
                 throw new NullReferenceException(nameof(Engine));
             }
-            
+
             using var page = Engine.Process(pix, PageSegMode.AutoOsd);
             using var pageIter = page.AnalyseLayout();
             pageIter.Begin();
@@ -151,13 +157,13 @@
                     result = pix.Rotate90(1);
                     break;
                 case Orientation.PageDown:
-                    pix.Rotate90(1);
-                    result = pix.Rotate90(1);
+                    var radians = (float)DegreesToRadians(180);
+                    result = pix.Rotate(radians);
                     break;
                 default:
                     break;
             }
-            
+
             return result;
         }
     }
