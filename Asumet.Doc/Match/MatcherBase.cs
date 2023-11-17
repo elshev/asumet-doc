@@ -52,11 +52,13 @@
             ArgumentNullException.ThrowIfNull(documentImageFilePath, nameof(documentImageFilePath));
             ArgumentNullException.ThrowIfNull(documentObject, nameof(documentObject));
 
+            // Asynchronously do OCR and export document to text
             var ocrTask = Task.Run(() => DoOcr(documentImageFilePath));
             var getPatterTask = Task.Run(() => GetPattern(documentObject));
             await Task.WhenAll(ocrTask, getPatterTask).ConfigureAwait(false);
             var documentLines = ocrTask.Result;
             IList<string> patternLines = getPatterTask.Result;
+
             var result = MatchHelper.MatchDocumentLinesWithPatternLines(documentLines, patternLines, Mode);
             return result;
         }

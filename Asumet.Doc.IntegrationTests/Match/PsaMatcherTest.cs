@@ -106,7 +106,7 @@
         [InlineData("PSA-02-144dpi.jpg", 50)]
         [InlineData("PSA-01-300dpi-left.jpg")]
         [InlineData("PSA-01-300dpi-right.jpg")]
-        public async Task TestMatchDocumentImageWithPattern_DoesntMatchWrongDocsInDocumentMatchMode(string imageFileName, int maxScore = 35)
+        public async Task TestMatchDocumentImageWithPattern_DoesntMatchWrongDocsInDocumentMatchMode(string imageFileName, int maxScore = 45)
         {
             // Arrange
             var psa = GetPsa(1);

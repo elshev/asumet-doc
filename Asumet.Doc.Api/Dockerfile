@@ -1,11 +1,17 @@
 #See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-bookworm-slim AS base
 WORKDIR /app
-RUN alias ll='ls -la' \
-    && apt-get update && apt-get install -y procps \
-    && apt-get update && apt-get install -y tesseract-ocr && apt-get install -y tesseract-ocr-rus \
+RUN apt-get update \
+    && apt-get install -y --allow-unauthenticated \
+        libleptonica-dev \
+        libtesseract-dev \
+        #procps \
+        #wget \
     && rm -rf /var/lib/apt/lists/*
+RUN ln -s /usr/lib/x86_64-linux-gnu/libdl.so.2 /usr/lib/x86_64-linux-gnu/libdl.so
+RUN ln -s /usr/lib/x86_64-linux-gnu/liblept.so.5 /app/x64/libleptonica-1.82.0.so
+RUN ln -s /usr/lib/x86_64-linux-gnu/libtesseract.so.5 /app/x64/libtesseract50.so
 EXPOSE 80
 EXPOSE 443
 

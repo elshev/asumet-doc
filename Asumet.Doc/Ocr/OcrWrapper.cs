@@ -17,6 +17,7 @@
         static OcrWrapper()
         {
             IsCommandLineMode = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+            IsCommandLineMode = false;
             if (!IsCommandLineMode)
             {
                 Engine = new TesseractEngine(AppSettings.Instance.TesseractDataDirectory, "rus", EngineMode.Default);
