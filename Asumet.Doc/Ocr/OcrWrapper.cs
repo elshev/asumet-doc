@@ -93,8 +93,8 @@
                 /// <param name="imageFilePath">Path to an image file</param>
                 public static void ImageToOsd(string imageFilePath)
                 {
-                    using var img = Pix.LoadFromFile(imageFilePath);
-                    using var page = Engine.Process(img, PageSegMode.OsdOnly);
+                    using var pix = Pix.LoadFromFile(imageFilePath);
+                    using var page = Engine.Process(pix, PageSegMode.OsdOnly);
                     page.DetectBestOrientation(out int orientation, out float confidence);
                     Console.WriteLine($"Orientation = {orientation}, Confidence = {confidence}");
                 }
@@ -104,19 +104,61 @@
         /// Parses an image from <paramref name="imageFilePath"/> and returns <see cref="Tesseract.Page"/>
         /// </summary>
         /// <param name="imageFilePath">Path to an image file</param>
-        /// <returns>A parsed page</returns>
+        /// <returns>A parsed page.</returns>
+        /// <remarks>Don't forget to use 'using' with the result of this method</remarks>
+        /// <example>using var page = ImageToPage('path/to/image.png')</example>
         private static Page ImageToPage(string imageFilePath)
         {
             ArgumentNullException.ThrowIfNull(nameof(imageFilePath));
             if (Engine == null)
             {
                 throw new NullReferenceException(nameof(Engine));
-
             }
 
-            using var img = Pix.LoadFromFile(imageFilePath);
-            var page = Engine.Process(img);
+            using var initialPix = Pix.LoadFromFile(imageFilePath);
+            using var pix = GetNormalizedImage(initialPix);
+            var page = Engine.Process(pix);
+
             return page;
+        }
+
+        /// <summary>
+        /// Determines if the image in the <paramref name="pix"/> is rotated by 90, 180, 270 degrees.
+        /// If so, rotate it to Up orientation.
+        /// </summary>
+        /// <param name="pix">An image</param>
+        /// <returns>A new <see cref="Pix"/> object with image in Up orientation</returns>
+        private static Pix GetNormalizedImage(Pix pix)
+        {
+            ArgumentNullException.ThrowIfNull(nameof(pix));
+            if (Engine == null)
+            {
+                throw new NullReferenceException(nameof(Engine));
+            }
+            
+            using var page = Engine.Process(pix, PageSegMode.AutoOsd);
+            using var pageIter = page.AnalyseLayout();
+            pageIter.Begin();
+            var pageProps = pageIter.GetProperties();
+            var orientation = pageProps.Orientation;
+            var result = pix;
+            switch (orientation)
+            {
+                case Orientation.PageRight:
+                    result = pix.Rotate90(-1);
+                    break;
+                case Orientation.PageLeft:
+                    result = pix.Rotate90(1);
+                    break;
+                case Orientation.PageDown:
+                    pix.Rotate90(1);
+                    result = pix.Rotate90(1);
+                    break;
+                default:
+                    break;
+            }
+            
+            return result;
         }
     }
 }

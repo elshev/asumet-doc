@@ -2,10 +2,7 @@
 {
     using System;
     using System.IO;
-    using System.Linq;
-    using Asumet.Doc.Match;
-    using Asumet.Doc.Office;
-    using Asumet.Entities;
+    using Asumet.Doc.Ocr;
     using Microsoft.Extensions.Configuration;
 
     /// <summary> Entry point </summary>
@@ -21,11 +18,12 @@
                 .Build();
 
             AppSettings.Instance.UpdateConfiguration(configuration);
-
+/*
             foreach (var c in configuration.AsEnumerable())
             {
                 Console.WriteLine(c.Key + " = " + c.Value);
             }
+*/
 
             Console.WriteLine($"AppSettings Templates Directory: {AppSettings.Instance.TemplatesDirectory}");
 
@@ -33,7 +31,9 @@
             // DoOcr("PSA-01-300dpi-left.jpg");
             // TestOsd("PSA-01-300dpi-left.jpg");
             // GetMatchFile();
-            Match();
+            // Match();
+            DoOcrForRotatedImages("PSA-01-144dpi.png");
+            DoOcrForRotatedImages("PSA-01-144dpi-RotateLeft.png");
         }
 
         private static string GetImageFilePath(string imageFileName)
@@ -42,7 +42,6 @@
             return result;
         }
 
-/*
         private static string GetOcrFilePath(string imageFilePath)
         {
             var fileName = Path.GetFileNameWithoutExtension(imageFilePath);
@@ -50,7 +49,7 @@
             var textFilePath = Path.Combine(AppSettings.Instance.DocumentOutputDirectory, textFileName);
             return Path.Combine(AppSettings.Instance.DocumentOutputDirectory, textFilePath);
         }
-*/
+
 /*
         private static void ExportPsa()
         {
@@ -80,6 +79,15 @@
         }
 */
 
+        private static string DoOcrForRotatedImages(string imageFileName)
+        {
+            var imageFilePath = GetImageFilePath(imageFileName);
+            var lines = OcrWrapper.ImageToStrings(imageFilePath);
+            var outputFilePath = GetOcrFilePath(imageFilePath);
+            File.WriteAllLines(outputFilePath, lines);
+            return outputFilePath;
+        }
+
 /*
         private static void GetMatchFile()
         {
@@ -90,7 +98,7 @@
             Console.WriteLine(s);
         }
 */
-
+/*
         private static void Match()
         {
             var imageFilePath = GetImageFilePath("PSA-01-300dpi-left.jpg");
@@ -102,5 +110,6 @@
             var score = scoreTask.Result;
             Console.WriteLine($"Match Score = {score}%");
         }
+*/
     }
 }

@@ -48,7 +48,7 @@
         /// Tesseract Trained Data Directory.
         /// Used by Tesseract library.
         /// </summary>
-        public string TesseractDataDirectory { get; set; } = "./Tessdata";
+        public string TesseractDataDirectory { get; set; } = "./tessdata";
 
         /// <summary> AsumetDocDb Password </summary>
         public string AsumetDocDbPassword { get; set; } = string.Empty;
