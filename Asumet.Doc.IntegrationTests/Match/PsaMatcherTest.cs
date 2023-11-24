@@ -14,7 +14,7 @@
             return matcher;
         }
 
-        private async Task MatchPsa(
+        private static async Task MatchPsa(
             string imageFileName,
             int psaId,
             MatchMode matchMode,
