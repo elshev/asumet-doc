@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Doc.Services", "Asum
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{4538B862-A472-462A-96B0-8E7D9556F9EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asumet.Doc.Api.Tests", "..\Asumet.Doc.Api.Tests\Asumet.Doc.Api.Tests.csproj", "{04A22757-DC36-4700-9933-A225B8176A66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asumet.Doc.Api.Tests", "Asumet.Doc.Api.Tests\Asumet.Doc.Api.Tests.csproj", "{D3F81D5E-E249-411B-BD62-4978272EC8E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,10 +89,10 @@ Global
 		{4538B862-A472-462A-96B0-8E7D9556F9EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4538B862-A472-462A-96B0-8E7D9556F9EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4538B862-A472-462A-96B0-8E7D9556F9EA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{04A22757-DC36-4700-9933-A225B8176A66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{04A22757-DC36-4700-9933-A225B8176A66}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{04A22757-DC36-4700-9933-A225B8176A66}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{04A22757-DC36-4700-9933-A225B8176A66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3F81D5E-E249-411B-BD62-4978272EC8E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3F81D5E-E249-411B-BD62-4978272EC8E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3F81D5E-E249-411B-BD62-4978272EC8E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3F81D5E-E249-411B-BD62-4978272EC8E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
