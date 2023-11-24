@@ -30,17 +30,27 @@ namespace Asumet.Doc.Api.Controllers
         public IExportDocService ExportDocService { get; }
 
         [HttpGet]
-        public async Task<PsaDto?> Get(int id)
+        public async Task<ActionResult<PsaDto>> Get(int id)
         {
             var result = await PsaService.GetByIdAsync(id);
-            return result;
+            if (result == null)
+            {
+                return new NotFoundObjectResult(null);
+            }
+
+            return new OkObjectResult(result);
         }
 
         [HttpPost]
-        public async Task<PsaDto?> Post([FromBody] PsaDto psaDto)
+        public async Task<ActionResult<PsaDto?>> Post([FromBody] PsaDto psaDto)
         {
             var result = await PsaService.InsertEntityAsync(psaDto);
-            return result;
+            if (result == null)
+            {
+                return new BadRequestObjectResult("The error happened when creating PSA");
+            }
+
+            return new OkObjectResult(result);
         }
         
         [HttpGet("export")]
