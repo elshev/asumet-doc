@@ -16,13 +16,16 @@
         /// <summary> Constructor. </summary>
         /// <param name="matchPattern">Match Pattern for this documentLines</param>
         /// <param name="officeExporter">Office Export Service</param>
+        /// <param name="ocrWrapper">OCR wrapper</param>
         public MatcherBase(
             IMatchPattern<T> matchPattern,
-            IOfficeExporter<T> officeExporter
+            IOfficeExporter<T> officeExporter,
+            IOcrWrapper ocrWrapper
             )
         {
             MatchPattern = matchPattern;
             OfficeExporter = officeExporter;
+            OcrWrapper = ocrWrapper;
         }
 
         /// <inheritdoc/>
@@ -33,6 +36,9 @@
         
         /// <summary>Office Export Service</summary>
         protected IOfficeExporter<T> OfficeExporter { get; }
+        
+        /// <summary>OCR Wrapper</summary>
+        protected IOcrWrapper OcrWrapper { get; }
 
         /// <inheritdoc/>
         public int MatchDocumentWithPattern(IEnumerable<string> documentLines, T documentObject)
@@ -68,7 +74,7 @@
         /// </summary>
         /// <param name="imageFilePath">Path to an image file</param>
         /// <returns>Lines extracted from image</returns>
-        protected static IEnumerable<string> DoOcr(string imageFilePath)
+        protected IEnumerable<string> DoOcr(string imageFilePath)
         {
             var lines = OcrWrapper.ImageToStrings(imageFilePath);
             return lines;

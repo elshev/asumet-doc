@@ -5,27 +5,31 @@
     using Asumet.Doc.Ocr;
     using Microsoft.Extensions.Configuration;
 
-    /// <summary> Entry point </summary>
+    /// <summary>
+    /// The Console application is used only for testing runs.
+    /// </summary>
     public class Program
     {
-        /// <summary> Entry point </summary>
-        public static void Main()
+        /// <summary>Static constructor</summary>
+        static Program()
         {
-            IConfigurationRoot configuration = new ConfigurationBuilder()
+            Configuration = new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                 .AddJsonFile("appsettings.json")
                 .AddEnvironmentVariables()
                 .Build();
 
-            AppSettings.Instance.UpdateConfiguration(configuration);
-/*
-            foreach (var c in configuration.AsEnumerable())
-            {
-                Console.WriteLine(c.Key + " = " + c.Value);
-            }
-*/
+            AppSettings = new AppSettings(Configuration);
+        }
 
-            Console.WriteLine($"AppSettings Templates Directory: {AppSettings.Instance.TemplatesDirectory}");
+        private static IConfigurationRoot Configuration { get; }
+
+        private static AppSettings AppSettings { get; }
+
+        /// <summary>Entry point</summary>
+        public static void Main()
+        {
+            Console.WriteLine($"AppSettings Templates Directory: {AppSettings.TemplatesDirectory}");
 
             // ExportPsa();
             // DoOcr("PSA-01-300dpi-left.jpg");
@@ -46,8 +50,8 @@
         {
             var fileName = Path.GetFileNameWithoutExtension(imageFilePath);
             var textFileName = Path.ChangeExtension(fileName, ".txt");
-            var textFilePath = Path.Combine(AppSettings.Instance.DocumentOutputDirectory, textFileName);
-            return Path.Combine(AppSettings.Instance.DocumentOutputDirectory, textFilePath);
+            var textFilePath = Path.Combine(AppSettings.DocumentOutputDirectory, textFileName);
+            return Path.Combine(AppSettings.DocumentOutputDirectory, textFilePath);
         }
 
 /*
@@ -82,7 +86,8 @@
         private static string DoOcrForRotatedImages(string imageFileName)
         {
             var imageFilePath = GetImageFilePath(imageFileName);
-            var lines = OcrWrapper.ImageToStrings(imageFilePath);
+            var ocrWrapper = new OcrWrapper(AppSettings);
+            var lines = ocrWrapper.ImageToStrings(imageFilePath);
             var outputFilePath = GetOcrFilePath(imageFilePath);
             File.WriteAllLines(outputFilePath, lines);
             return outputFilePath;

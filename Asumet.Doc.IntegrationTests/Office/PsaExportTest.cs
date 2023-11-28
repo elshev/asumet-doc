@@ -1,11 +1,17 @@
 ﻿namespace Asumet.Doc.IntegrationTests.Office
 {
+    using Asumet.Doc.Api;
     using Asumet.Doc.Office;
     using Asumet.Entities;
     using NPOI.XWPF.UserModel;
 
-    public class PsaExportTest : IntegrationTestBase
+    public class PsaExportTest : ApiIntegrationTestBase
     {
+        public PsaExportTest(ApiTestWebApplicationFactory<Program> factory)
+            : base(factory)
+        {
+        }
+
         private static void AssertDocxFile(string filePath)
         {
             filePath.Should().NotBeNull();
@@ -39,7 +45,7 @@
         {
             // Arrange
             var psa = GetPsa();
-            IOfficeExporter<Psa> psaExporter = new PsaExporter();
+            var psaExporter = GetService<IOfficeExporter<Psa>>();
 
             // Act
             var filePath = psaExporter.Export(psa);

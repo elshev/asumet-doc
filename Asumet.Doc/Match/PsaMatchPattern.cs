@@ -1,5 +1,6 @@
 ﻿namespace Asumet.Doc.Match
 {
+    using Asumet.Doc;
     using Asumet.Doc.Common;
     using Asumet.Entities;
 
@@ -8,6 +9,12 @@
     /// </summary>
     public class PsaMatchPattern : MatchPatternBase<Psa>
     {
+        /// <inheritdoc/>
+        public PsaMatchPattern(IAppSettings appSettings)
+            : base(appSettings)
+        {
+        }
+
         /// <inheritdoc/>
         protected override string DocumentName => DocHelper.PsaDocumentName;
     }

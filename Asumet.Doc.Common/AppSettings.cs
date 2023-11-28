@@ -7,56 +7,35 @@
     /// <summary>
     /// Application Settings.
     /// </summary>
-    public class AppSettings
+    public class AppSettings : IAppSettings
     {
-        private static readonly object LockObject = new ();
-
-        private static AppSettings? instance;
-
-        /// <summary>
-        /// Gets the singleton instance
-        /// </summary>
-        public static AppSettings Instance
+        public AppSettings(IConfiguration configuration)
         {
-            get
-            {
-                lock (LockObject)
-                {
-                    instance ??= new AppSettings();
-
-                    return instance;
-                }
-            }
+            UpdateConfiguration(configuration);
         }
 
-        /// <summary> The directory where document templates are stored. /// </summary>
+        /// <inheritdoc/>
         public string TemplatesDirectory { get; set; } = "./Templates";
 
-        /// <summary> Word template file extension. /// </summary>
+        /// <inheritdoc/>
         public string WordTemplateExtension { get; set; } = ".docx";
 
-        /// <summary> The directory where match pattern files are stored. /// </summary>
+        /// <inheritdoc/>
         public string MatchPatternsDirectory { get; set; } = "./Templates";
 
-        /// <summary> Word template file extension. /// </summary>
+        /// <inheritdoc/>
         public string WordMatchPatternExtension { get; set; } = ".docx.txt";
 
-        /// <summary> The output directory where documents will be exported. /// </summary>
+        /// <inheritdoc/>
         public string DocumentOutputDirectory { get; set; } = "./output";
 
-        /// <summary>
-        /// Tesseract Trained Data Directory.
-        /// Used by Tesseract library.
-        /// </summary>
+        /// <inheritdoc/>
         public string TesseractDataDirectory { get; set; } = "./tessdata";
 
-        /// <summary> AsumetDocDb Password </summary>
+        /// <inheritdoc/>
         public string AsumetDocDbPassword { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Updates configuration
-        /// </summary>
-        /// <param name="configuration">Cofiguration source</param>
+        /// <inheritdoc/>
         public void UpdateConfiguration(IConfiguration configuration)
         {
             var appSettingsSection = configuration.GetSection("AppSettings");

@@ -17,12 +17,18 @@
         private const string DataSetPrefix = "DataSet:";
         private const string DataSetItemPrefix = "DataSetItem:";
 
+        /// <summary>Constructor</summary>
+        public WordExporterBase(IAppSettings appSettings)
+        {
+            AppSettings = appSettings;
+        }
+
         /// <inheritdoc/>
         public virtual string TemplateFileName
         {
             get
             {
-                return Path.ChangeExtension(DocumentName, AppSettings.Instance.WordTemplateExtension);
+                return Path.ChangeExtension(DocumentName, AppSettings.WordTemplateExtension);
             }
         }
 
@@ -39,13 +45,16 @@
             string name = Path.GetFileNameWithoutExtension(templateFileName);
             string extension = Path.GetExtension(templateFileName);
             string outputFileName = $"{name}-{DateTime.Now:yyyyMMdd-HHmmss-fffffff}{extension}";
-            var result = Path.Combine(AppSettings.Instance.DocumentOutputDirectory, outputFileName);
+            var result = Path.Combine(AppSettings.DocumentOutputDirectory, outputFileName);
             
             return result;
         }
 
         /// <summary> Gets the document name. </summary>
         protected abstract string DocumentName { get; }
+        
+        /// <summary>Application Settings</summary>
+        public IAppSettings AppSettings { get; }
 
         /// <inheritdoc/>
         public string Export(T documentObject)
@@ -272,7 +281,7 @@
         /// <returns>The full path to the document template file.</returns>
         protected virtual string GetTemplateFilePath()
         {
-            return Path.Combine(AppSettings.Instance.TemplatesDirectory, TemplateFileName);
+            return Path.Combine(AppSettings.TemplatesDirectory, TemplateFileName);
         }
 
         /// <summary>

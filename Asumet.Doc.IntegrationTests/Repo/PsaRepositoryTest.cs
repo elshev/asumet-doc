@@ -1,7 +1,6 @@
 ﻿using Asumet.Doc.Api;
 using Asumet.Doc.Repo;
 using Asumet.Entities;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Asumet.Doc.IntegrationTests.Repo
 {
@@ -16,11 +15,10 @@ namespace Asumet.Doc.IntegrationTests.Repo
         public async void TestInsertPsa()
         {
             // Arrange
-            using var scope = Factory.Services.CreateScope();
-            var psaRepository = scope.ServiceProvider.GetRequiredService<IPsaRepository>();
+            var psaRepository = GetService<IPsaRepository>();
             Assert.NotNull(psaRepository);
             var psaToInsert = GetNewPsa();
-            await LoadPsa(psaToInsert, scope);
+            await LoadPsa(psaToInsert);
             
             // Act
             var psa = await psaRepository.InsertEntityAsync(psaToInsert);
@@ -29,13 +27,12 @@ namespace Asumet.Doc.IntegrationTests.Repo
             psa.Should().NotBeNull();
             Assert.NotNull(psa);
             PsasToDelete.Add(psa.Id);
-
         }
 
-        private static async Task LoadPsa(Psa psa, IServiceScope scope)
+        private async Task LoadPsa(Psa psa)
         {
-            var buyerRepository = scope.ServiceProvider.GetRequiredService<IBuyerRepository>();
-            var supplierRepository = scope.ServiceProvider.GetRequiredService<ISupplierRepository>();
+            var buyerRepository = GetService<IBuyerRepository>();
+            var supplierRepository = GetService<ISupplierRepository>();
 
             if (psa.Buyer == null || psa.Buyer.Id == 0)
             {

@@ -4,41 +4,59 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Runtime.InteropServices;
     using System.Text;
     using Tesseract;
 
-    /// <summary>
-    /// Wraps Tesseract OCR
-    /// </summary>
-    public static class OcrWrapper
+    /// <inheritdoc/>
+    public class OcrWrapper : IOcrWrapper
     {
-        /// <summary> Static Constructor </summary>
-        static OcrWrapper()
+        /// <summary>Static constructor</summary>
+        public OcrWrapper(IAppSettings appSettings)
         {
-            IsCommandLineMode = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
-            IsCommandLineMode = false;
-            if (!IsCommandLineMode)
-            {
-                Engine = new TesseractEngine(AppSettings.Instance.TesseractDataDirectory, "rus", EngineMode.Default);
-            }
+            AppSettings = appSettings;
         }
 
         /// <summary>
-        /// A workaround for Tesseract NuGet package that is not working in Linux
+        /// A workaround for Tesseract NuGet package that doesn't work in MS .net6 Bullseye Docker image.
+        /// Set this property to True if you want to run Tesseract via command line.
         /// </summary>
-        private static bool IsCommandLineMode { get; }
+        /// <remarks>
+        /// This workaround is not necessary anymore.
+        /// Tesseract works fine in the MS .net6 Bookworm Docker image.
+        /// But was left here as an option.
+        /// </remarks>
+        /// <example>IsCommandLineMode = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);</example>
+        private bool IsCommandLineMode { get; } = false;
 
-        private static TesseractEngine? Engine { get; }
+        private static TesseractEngine? _engine = null;
 
-        /// <summary>
-        /// Processes the image and returns lines of the parsed text
-        /// </summary>
-        /// <param name="imageFilePath">Path to an image file</param>
-        /// <returns>A parsed image as a list of strings</returns>
-        public static IEnumerable<string> ImageToStrings(string imageFilePath)
+        private readonly object initializeEngineLock = new();
+
+        private TesseractEngine Engine
         {
-            ArgumentNullException.ThrowIfNull(nameof(imageFilePath));
+            get
+            {
+                if (_engine != null)
+                {
+                    return _engine;
+                }
+
+                lock (initializeEngineLock)
+                {
+                    _engine ??= new TesseractEngine(AppSettings.TesseractDataDirectory, "rus", EngineMode.Default);
+                }
+
+                return _engine;
+            }
+        }
+
+        /// <summary>Application Settings</summary>
+        public IAppSettings AppSettings { get; }
+
+        /// <inheritdoc/>
+        public IEnumerable<string> ImageToStrings(string imageFilePath)
+        {
+            ArgumentNullException.ThrowIfNull(imageFilePath, nameof(imageFilePath));
 
             string[] result;
             if (IsCommandLineMode)
@@ -87,19 +105,6 @@
             return outputFilePath + ".txt";
         }
 
-        /*        /// <summary>
-                /// Do OSD
-                /// </summary>
-                /// <param name="imageFilePath">Path to an image file</param>
-                public static void ImageToOsd(string imageFilePath)
-                {
-                    using var pix = Pix.LoadFromFile(imageFilePath);
-                    using var page = Engine.Process(pix, PageSegMode.OsdOnly);
-                    page.DetectBestOrientation(out int orientation, out float confidence);
-                    Console.WriteLine($"Orientation = {orientation}, Confidence = {confidence}");
-                }
-        */
-
         /// <summary>
         /// Parses an image from <paramref name="imageFilePath"/> and returns <see cref="Tesseract.Page"/>
         /// </summary>
@@ -107,7 +112,7 @@
         /// <returns>A parsed page.</returns>
         /// <remarks>Don't forget to use 'using' with the result of this method</remarks>
         /// <example>using var page = ImageToPage('path/to/image.png')</example>
-        private static Page ImageToPage(string imageFilePath)
+        private Page ImageToPage(string imageFilePath)
         {
             ArgumentNullException.ThrowIfNull(nameof(imageFilePath));
             if (Engine == null)
@@ -134,7 +139,7 @@
         /// </summary>
         /// <param name="pix">An image</param>
         /// <returns>A new <see cref="Pix"/> object with image in Up orientation</returns>
-        private static Pix GetNormalizedImage(Pix pix)
+        private Pix GetNormalizedImage(Pix pix)
         {
             ArgumentNullException.ThrowIfNull(nameof(pix));
             if (Engine == null)

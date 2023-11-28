@@ -11,17 +11,26 @@
     public abstract class MatchPatternBase<T> : IMatchPattern<T>
         where T : class
     {
+        /// <summary>Constructor </summary>
+        public MatchPatternBase(IAppSettings appSettings)
+        {
+            AppSettings = appSettings;
+        }
+
         /// <inheritdoc/>
         public virtual string PatternFileName
         {
             get
             {
-                return Path.ChangeExtension(DocumentName, AppSettings.Instance.WordMatchPatternExtension);
+                return Path.ChangeExtension(DocumentName, AppSettings.WordMatchPatternExtension);
             }
         }
 
-        /// <summary> Gets the document name, e.g. "ПСА" </summary>
+        /// <summary>Gets the document name, e.g. "ПСА"</summary>
         protected abstract string DocumentName { get; }
+        
+        /// <summary>Application settings</summary>
+        public IAppSettings AppSettings { get; }
 
         /// <inheritdoc/>
         public IEnumerable<string> GetPattern()
@@ -44,7 +53,7 @@
         /// <returns>The full path to the match pattern file.</returns>
         protected virtual string GetPatternFilePath()
         {
-            return Path.Combine(AppSettings.Instance.MatchPatternsDirectory, PatternFileName);
+            return Path.Combine(AppSettings.MatchPatternsDirectory, PatternFileName);
         }
 
         /// <summary>

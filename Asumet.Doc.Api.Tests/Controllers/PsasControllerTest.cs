@@ -13,7 +13,7 @@ namespace Asumet.Doc.Api.Tests.Controllers
 {
     public class PsasControllerTest
     {
-        private PsasController CreatePsasController(
+        private static PsasController CreatePsasController(
             Mock<ILogger<PsasController>>? logger = null,
             Mock<IPsaService>? psaService = null,
             Mock<IPsaMatchService>? matchService = null,

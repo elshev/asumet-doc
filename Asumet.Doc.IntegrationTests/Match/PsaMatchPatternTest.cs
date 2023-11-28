@@ -1,22 +1,34 @@
 ﻿namespace Asumet.Doc.IntegrationTests.Match
 {
+    using Asumet.Doc.Api;
     using Asumet.Doc.Match;
     using Asumet.Entities;
 
-    public class PsaMatchPatternTest : IntegrationTestBase
+    public class PsaMatchPatternTest : ApiIntegrationTestBase
     {
+        public PsaMatchPatternTest(ApiTestWebApplicationFactory<Program> factory)
+            : base(factory)
+        {
+        }
+
+        private IMatchPattern<Psa> GetPsaMatcher()
+        {
+            return GetService<IMatchPattern<Psa>>();
+        }
+        
         [Fact]
         public void TestGetFilledPattern_ReturnsFilledPlaceholders()
         {
             // Arrange
             var psa = GetPsa();
-            IMatchPattern<Psa> matchPattern = new PsaMatchPattern();
+            var matchPattern = GetPsaMatcher();
 
             // Act
             var result = matchPattern.GetFilledPattern(psa);
 
             // Assert
-            var patternFilePath = Path.Combine(AppSettings.Instance.MatchPatternsDirectory, matchPattern.PatternFileName);
+            var appSettings = GetService<IAppSettings>();
+            var patternFilePath = Path.Combine(appSettings.MatchPatternsDirectory, matchPattern.PatternFileName);
             var patternLines = File.ReadAllLines(patternFilePath);
             result.Should().HaveCount(patternLines.Length);
 

@@ -8,15 +8,13 @@ namespace Asumet.Doc.Repo
     {
         Task<IEnumerable<TEntity>> GetAllAsync();
         
-        TEntity? GetById(TKey id);
-
         Task<TEntity?> GetByIdAsync(TKey id);
 
         Task<TEntity?> InsertEntityAsync(TEntity entity);
 
-        TEntity? UpdateEntity(TEntity entity);
+        Task<TEntity?> UpdateEntityAsync(TEntity entity);
 
-        TEntity? RemoveEntity(TKey id);
+        Task<TEntity?> RemoveEntityAsync(TKey id);
 
     }
 }

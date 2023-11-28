@@ -21,13 +21,6 @@ namespace Asumet.Doc.Repo
             return await DbSet.ToListAsync();
         }
 
-        public virtual TEntity? GetById(TKey id)
-        {
-            var task = GetByIdAsync(id);
-            task.Wait();
-            return task.Result;
-        }
-
         public virtual async Task<TEntity?> GetByIdAsync(TKey id)
         {
             var result = await DbSet.FirstOrDefaultAsync(e => e.Id.Equals(id));
@@ -50,9 +43,9 @@ namespace Asumet.Doc.Repo
             return entity;
         }
 
-        public virtual TEntity? RemoveEntity(TKey id)
+        public virtual async Task<TEntity?> RemoveEntityAsync(TKey id)
         {
-            var entity = GetById(id);
+            var entity = await GetByIdAsync(id);
             if (entity == null)
             {
                 return null;
@@ -63,9 +56,9 @@ namespace Asumet.Doc.Repo
             return entity;
         }
 
-        public virtual TEntity? UpdateEntity(TEntity entity)
+        public virtual async Task<TEntity?> UpdateEntityAsync(TEntity entity)
         {
-            var existingEntity = GetById(entity.Id);
+            var existingEntity = await GetByIdAsync(entity.Id);
             if (existingEntity == null)
             {
                 return null;

@@ -12,7 +12,7 @@
 
         protected override DbSet<Buyer> DbSet => DocDb.Buyers;
 
-        public override Buyer? RemoveEntity(int id)
+        public override async Task<Buyer?> RemoveEntityAsync(int id)
         {
             var psa = DocDb.Psas.FirstOrDefault(p => p.Buyer.Id == id);
             if (psa != null)
@@ -20,7 +20,7 @@
                 return null;
             }
 
-            return base.RemoveEntity(id);
+            return await base.RemoveEntityAsync(id);
         }
     }
 }

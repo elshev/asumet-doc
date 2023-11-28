@@ -1,5 +1,6 @@
 ﻿namespace Asumet.Doc.Match
 {
+    using Asumet.Doc.Ocr;
     using Asumet.Doc.Office;
     using Asumet.Entities;
 
@@ -8,13 +9,9 @@
     /// </summary>
     public class PsaMatcher : MatcherBase<Psa>
     {
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="matchPattern">Match Pattern</param>
-        /// <param name="officeExporter">Office Exporter</param>
-        public PsaMatcher(IMatchPattern<Psa> matchPattern, IOfficeExporter<Psa> officeExporter)
-            : base(matchPattern, officeExporter)
+        /// <inheritdoc/>
+        public PsaMatcher(IMatchPattern<Psa> matchPattern, IOfficeExporter<Psa> officeExporter, IOcrWrapper ocrWrapper)
+            : base(matchPattern, officeExporter, ocrWrapper)
         {
         }
     }

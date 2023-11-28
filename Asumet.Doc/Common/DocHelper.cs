@@ -64,7 +64,7 @@
         /// 1. Expression trees
         /// 2. Serialize to JSON and work with JSON objects
         /// </remarks>
-        public static object GetMemberValue(object sourceObject, string memberName)
+        public static object? GetMemberValue(object sourceObject, string memberName)
         {
             return ReflectionHelper.GetMemberValue(sourceObject, memberName);
         }

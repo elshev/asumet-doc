@@ -20,8 +20,6 @@ namespace Asumet.Doc.Api
 
             var app = builder.Build();
 
-            AppSettings.Instance.UpdateConfiguration(configuration);
-
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {

@@ -10,7 +10,7 @@ namespace Asumet.Common
         /// <param name="sourceObject">An object instance.</param>
         /// <param name="memberName">The member name. Could be separated by "." to access internal members: "ParentProperty.ChildProperty.SomeMember"</param>
         /// <returns>The member value.</returns>
-        public static object GetMemberValue(object sourceObject, string memberName)
+        public static object? GetMemberValue(object sourceObject, string memberName)
         {
             string[] propertyChain = memberName.Split('.');
             object? currentObject = sourceObject;

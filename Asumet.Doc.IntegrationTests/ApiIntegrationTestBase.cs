@@ -11,10 +11,12 @@
     /// Loads and configures all the infrastructure which is set up in <see cref="Program"/>
     /// </summary>
     public abstract class ApiIntegrationTestBase : 
-        IntegrationTestBase,
+        IDisposable,
         IClassFixture<ApiTestWebApplicationFactory<Program>>
     {
         protected ApiTestWebApplicationFactory<Program> Factory { get; }
+        
+        protected IServiceScope Scope { get; }
 
         /// <summary> Add here Psa Ids to remove on cleanup </summary>
         protected IList<int> PsasToDelete { get; } = new List<int>();
@@ -23,21 +25,41 @@
             : base()
         {
             Factory = factory;
+            Scope = Factory.Services.CreateScope();
         }
 
-        public override void Dispose()
+        public async void Dispose()
         {
-            using var scope = Factory.Services.CreateScope();
-            var psaRepository = scope.ServiceProvider.GetRequiredService<IPsaRepository>();
+            var psaRepository = GetService<IPsaRepository>();
             foreach (var id in PsasToDelete)
             {
-                psaRepository.RemoveEntity(id);
+                await psaRepository.RemoveEntityAsync(id);
             }
 
-            base.Dispose();
+            Scope.Dispose();
         }
 
-        protected Psa GetNewPsa()
+        protected TService GetService<TService>()
+            where TService : notnull
+        {
+            using var scope = Factory.Services.CreateScope();
+            var result = scope.ServiceProvider.GetRequiredService<TService>();
+
+            return result;
+        }
+        
+        protected static Psa GetPsa(int id = 1)
+        {
+            return PsaSeedData.GetPsa(id);
+        }
+
+        protected static string GetScanFilePath(string fileName)
+        {
+            var result = Path.Combine("./TestInput/Scan", fileName);
+            return result;            
+        }
+
+        protected static Psa GetNewPsa()
         {
             var d = DateTime.Now.SetKindUtc();
             var psa = new Psa
@@ -58,8 +80,7 @@
                 Supplier = new Supplier { Id = 2 },
                 PsaScraps = new List<PsaScrap>
                 {
-                    new PsaScrap
-                    {
+                    new() {
                         Name = "Cкрап чугунный незагрязненный",
                         Okpo = "46110003295",
                         GrossWeight = 2.20m,
