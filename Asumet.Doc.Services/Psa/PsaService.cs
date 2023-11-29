@@ -19,19 +19,19 @@ namespace Asumet.Doc.Services.Data
         public async Task<PsaDto?> GetByIdAsync(int id)
         {
             var psa = await PsaRepository.GetByIdAsync(id);
-            var psaDto = Mapper.Map(psa, typeof(Psa), typeof(PsaDto)) as PsaDto;
+            var psaDto = Mapper.Map<PsaDto>(psa);
             return psaDto;
         }
 
         public async Task<PsaDto?> InsertEntityAsync(PsaDto psaDto)
         {
-            if (Mapper.Map(psaDto, typeof(PsaDto), typeof(Psa)) is not Psa psaToInsert)
+            if (Mapper.Map<Psa>(psaDto) is not Psa psaToInsert)
             {
                 return null;
             }
 
             var psa = await PsaRepository.InsertEntityAsync(psaToInsert);
-            var result = Mapper.Map(psa, typeof(Psa), typeof(PsaDto)) as PsaDto;
+            var result = Mapper.Map<PsaDto>(psa);
             return result;
         }
     }
