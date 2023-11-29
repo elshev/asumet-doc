@@ -4,7 +4,6 @@
     using Asumet.Doc.Match;
     using Asumet.Doc.Api;
 
-
     public class PsaMatcherTest : ApiIntegrationTestBase
     {
         public PsaMatcherTest(ApiTestWebApplicationFactory<Program> factory)

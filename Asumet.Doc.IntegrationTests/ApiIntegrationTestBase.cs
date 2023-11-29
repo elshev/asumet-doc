@@ -42,9 +42,7 @@
         protected TService GetService<TService>()
             where TService : notnull
         {
-            using var scope = Factory.Services.CreateScope();
-            var result = scope.ServiceProvider.GetRequiredService<TService>();
-
+            var result = Scope.ServiceProvider.GetRequiredService<TService>();
             return result;
         }
         
