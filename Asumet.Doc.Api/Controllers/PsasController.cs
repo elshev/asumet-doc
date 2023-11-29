@@ -78,8 +78,10 @@ namespace Asumet.Doc.Api.Controllers
             var imageFilePath = PathHelper.GetTempFileName();
             try
             {
-                using var stream = new FileStream(imageFilePath, FileMode.Create);
-                await imageFile.CopyToAsync(stream);
+                using (var stream = new FileStream(imageFilePath, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(stream);
+                }
 
                 var result = await PsaMatchService.MatchAsync(psaId, imageFilePath);
                 return Ok(result);
