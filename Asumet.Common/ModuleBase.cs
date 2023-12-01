@@ -8,7 +8,10 @@
     /// </summary>
     public abstract class ModuleBase
     {
-        /// <summary> Is Module already initialized for the services</summary>
+        /// <summary>
+        /// Is Module already initialized for the services
+        /// </summary>
+        /// <remarks>ToDo: Consider to use WeakReference here</remarks>
         private readonly List<IServiceCollection> IsInitializedList = new();
         
         private readonly object initLock = new();

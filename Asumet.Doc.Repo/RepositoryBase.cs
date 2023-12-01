@@ -31,11 +31,7 @@ namespace Asumet.Doc.Repo
         {
             if (!entity.Id.Equals(default(TKey)))
             {
-                var existingEntity = await GetByIdAsync(entity.Id);
-                if (existingEntity != null)
-                {
-                    return null;
-                }
+                throw new ArgumentException("A new Entity shouldn't have Id");
             }
 
             await DbSet.AddAsync(entity);

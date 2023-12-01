@@ -59,7 +59,7 @@
         /// <inheritdoc/>
         public string Export(T documentObject)
         {
-            ArgumentNullException.ThrowIfNull(nameof(documentObject));
+            ArgumentNullException.ThrowIfNull(documentObject, nameof(documentObject));
 
 
             BeforeExport(documentObject);
@@ -113,7 +113,7 @@
             {
                 return;
             }
-            ArgumentNullException.ThrowIfNull(nameof(documentObject));
+            ArgumentNullException.ThrowIfNull(documentObject, nameof(documentObject));
 
             obj ??= documentObject;
 
@@ -160,8 +160,8 @@
         /// <param name="documentObject">An object to fill values from</param>
         protected void ProcessTable(XWPFTable table, T documentObject)
         {
-            ArgumentNullException.ThrowIfNull(nameof(table));
-            ArgumentNullException.ThrowIfNull(nameof(documentObject));
+            ArgumentNullException.ThrowIfNull(table, nameof(table));
+            ArgumentNullException.ThrowIfNull(documentObject, nameof(documentObject));
 
             int rowIndex = 0;
             while (rowIndex < table.Rows.Count)
@@ -190,7 +190,7 @@
             {
                 return 0;
             }
-            ArgumentNullException.ThrowIfNull(nameof(documentObject));
+            ArgumentNullException.ThrowIfNull(documentObject, nameof(documentObject));
 
             var firstCell = row.GetCell(0);
             var paragraph = firstCell.Paragraphs[0];
@@ -230,8 +230,8 @@
         /// <param name="datasetMemberName">Name of the dataset from <paramref name="documentObject"/></param>
         protected void FillDatasetRows(XWPFTableRow startRow, T documentObject, string datasetMemberName)
         {
-            ArgumentNullException.ThrowIfNull(nameof(startRow));
-            ArgumentNullException.ThrowIfNull(nameof(documentObject));
+            ArgumentNullException.ThrowIfNull(startRow, nameof(startRow));
+            ArgumentNullException.ThrowIfNull(documentObject, nameof(documentObject));
             
             var table = startRow.GetTable();
             var rowIndex = table.Rows.IndexOf(startRow);
@@ -260,7 +260,7 @@
             {
                 return;
             }
-            ArgumentNullException.ThrowIfNull(nameof(documentObject));
+            ArgumentNullException.ThrowIfNull(documentObject, nameof(documentObject));
 
             var cells = row.GetTableCells();
             foreach (var cell in cells)

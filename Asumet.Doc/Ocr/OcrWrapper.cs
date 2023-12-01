@@ -77,7 +77,7 @@
 
         private static string ImageToTextFile(string imageFilePath)
         {
-            ArgumentNullException.ThrowIfNull(nameof(imageFilePath));
+            ArgumentNullException.ThrowIfNull(imageFilePath, nameof(imageFilePath));
 
             const string tesseractLanguage = "rus";
             const int ocrTimeout = 30 * 1000;
@@ -114,7 +114,7 @@
         /// <example>using var page = ImageToPage('path/to/image.png')</example>
         private Page ImageToPage(string imageFilePath)
         {
-            ArgumentNullException.ThrowIfNull(nameof(imageFilePath));
+            ArgumentNullException.ThrowIfNull(imageFilePath, nameof(imageFilePath));
             if (Engine == null)
             {
                 throw new NullReferenceException(nameof(Engine));
@@ -141,7 +141,7 @@
         /// <returns>A new <see cref="Pix"/> object with image in Up orientation</returns>
         private Pix GetNormalizedImage(Pix pix)
         {
-            ArgumentNullException.ThrowIfNull(nameof(pix));
+            ArgumentNullException.ThrowIfNull(pix, nameof(pix));
             if (Engine == null)
             {
                 throw new NullReferenceException(nameof(Engine));
