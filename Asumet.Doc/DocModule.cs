@@ -4,26 +4,14 @@
     using Asumet.Doc.Ocr;
     using Asumet.Doc.Office;
     using Asumet.Entities;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
-    /// <summary>
-    /// Module Initializer
-    /// </summary>
-    public static class DocModule
+    /// <summary>Module Initializer</summary>
+    internal class DocModuleInitializer : ModuleBase
     {
-        private static bool IsInitialized { get; set; } = false;
-
-        /// <summary>
-        /// Initializes this module
-        /// </summary>
-        /// <param name="services"></param>
-        public static void Initialize(IServiceCollection services)
+        protected override void InternalInitialize(IServiceCollection services, IConfiguration configuration)
         {
-            if (IsInitialized)
-            {
-                return;
-            }
-
             services
                 .AddScoped<IAppSettings, AppSettings>()
                 .AddScoped<IOfficeExporter<Psa>, PsaExporter>()
@@ -31,8 +19,22 @@
                 .AddScoped<IMatcher<Psa>, PsaMatcher>()
                 .AddScoped<IOcrWrapper, OcrWrapper>()
             ;
+        }
+    }
 
-            IsInitialized = true;
+    /// <summary>Module</summary>
+    public static class DocModule
+    {
+        private static DocModuleInitializer Initializer { get; } = new();
+        
+        /// <summary>
+        /// Initializes this module
+        /// </summary>
+        /// <param name="services">Services to configure</param>
+        /// <param name="configuration">Application configuration</param>
+        public static void Initialize(IServiceCollection services, IConfiguration configuration)
+        {
+            Initializer.Initialize(services, configuration);
         }
     }
 }

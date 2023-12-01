@@ -5,17 +5,11 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
-    public static class RepositoryModule
+    /// <summary>Module Initializer</summary>
+    internal class RepositoryModuleInitializer : ModuleBase
     {
-        public static bool IsInitialized { get; private set; } = false;
-
-        public static void Initialize(IServiceCollection services, ConfigurationManager configuration)
+        protected override void InternalInitialize(IServiceCollection services, IConfiguration configuration)
         {
-            if (IsInitialized)
-            {
-                return;
-            }
-
             var connectionString = configuration.GetConnectionString("AsumetDoc");
             connectionString = connectionString?.Replace("{password}", configuration["AsumetDocSecrets:AsumetDocDbPassword"]);
             services.AddDbContext<DocDbContext>(o => o.UseNpgsql(connectionString));
@@ -30,8 +24,22 @@
                 .AddScoped<IRepositoryBase<Psa, int>, PsaRepository>()
                 .AddScoped<IPsaRepository, PsaRepository>()
             ;
+        }
+    }
 
-            IsInitialized = true;
+    /// <summary>Module</summary>
+    public static class RepositoryModule
+    {
+        private static RepositoryModuleInitializer Initializer { get; } = new();
+        
+        /// <summary>
+        /// Initializes this module
+        /// </summary>
+        /// <param name="services">Services to configure</param>
+        /// <param name="configuration">Application configuration</param>
+        public static void Initialize(IServiceCollection services, IConfiguration configuration)
+        {
+            Initializer.Initialize(services, configuration);
         }
 
         public static void SeedDocDb(IServiceProvider services)

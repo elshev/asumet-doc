@@ -11,21 +11,15 @@
     using Microsoft.Extensions.DependencyInjection;
     using System.Reflection;
 
-    public static class ServicesModule
+    /// <summary>Module Initializer</summary>
+    internal class ServicesModuleInitializer : ModuleBase
     {
-        public static bool IsInitialized { get; private set; } = false;
-
-        public static void Initialize(IServiceCollection services, ConfigurationManager configuration)
+        protected override void InternalInitialize(IServiceCollection services, IConfiguration configuration)
         {
-            if (IsInitialized)
-            {
-                return;
-            }
-
             services.AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
 
             RepositoryModule.Initialize(services, configuration);
-            DocModule.Initialize(services);
+            DocModule.Initialize(services, configuration);
 
             services
                 .AddScoped<IPsaService, PsaService>()
@@ -33,8 +27,22 @@
                 .AddScoped<IMatchService<Psa, int>, PsaMatchService>()
                 .AddScoped<IPsaMatchService, PsaMatchService>()
             ;
+        }
+    }
 
-            IsInitialized = true;
+    /// <summary>Module</summary>
+    public static class ServicesModule
+    {
+        private static ServicesModuleInitializer Initializer { get; } = new();
+        
+        /// <summary>
+        /// Initializes this module
+        /// </summary>
+        /// <param name="services">Services to configure</param>
+        /// <param name="configuration">Application configuration</param>
+        public static void Initialize(IServiceCollection services, IConfiguration configuration)
+        {
+            Initializer.Initialize(services, configuration);
         }
     }
 }
