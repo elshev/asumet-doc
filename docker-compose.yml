@@ -1,8 +1,19 @@
 version: '3.4'
 
+networks:
+  dev:
+    driver: bridge
 services:
   asumet.doc.api:
     image: ${DOCKER_REGISTRY-}asumetdocapi
     build:
       context: .
       dockerfile: Asumet.Doc.Api/Dockerfile
+    networks:
+      - dev
+    depends_on:
+      - postgres
+  postgres:
+    image: ${DOCKER_REGISTRY-}postgres:latest
+    networks:
+      - dev

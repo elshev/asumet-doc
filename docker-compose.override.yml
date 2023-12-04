@@ -7,8 +7,16 @@ services:
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASUMETDOCSECRETS__ASUMETDOCDBPASSWORD=${ASUMETDOCSECRETS__ASUMETDOCDBPASSWORD}
     ports:
-      - "80"
-      - "443"
+      - "80:80"
+      - "443:443"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+  postgres:
+    environment:
+      - POSTGRES_DB=AsumetDoc
+      - POSTGRES_USER=elshev
+      - POSTGRES_PASSWORD=${ASUMETDOCSECRETS__ASUMETDOCDBPASSWORD}
+    ports:
+      - "5432:5432"
+ 
