@@ -21,7 +21,7 @@
         /// <summary> Add here Psa Ids to remove on cleanup </summary>
         protected IList<int> PsasToDelete { get; } = new List<int>();
 
-        public ApiIntegrationTestBase(ApiTestWebApplicationFactory<Program> factory)
+        protected ApiIntegrationTestBase(ApiTestWebApplicationFactory<Program> factory)
             : base()
         {
             Factory = factory;

@@ -17,8 +17,11 @@
         {
             builder.ConfigureHostConfiguration(config =>
             {
-                config.AddJsonFile("appsettings.json");
+                config
+                .AddJsonFile("appsettings.test.json")
+                .AddEnvironmentVariables();
             });
+            
             return base.CreateHost(builder);
         }
 
@@ -27,7 +30,7 @@
             builder.ConfigureServices(services =>
             {
             });
-
+            
             builder.UseEnvironment("Development");
         }
     }

@@ -19,4 +19,8 @@
     <ProjectReference Include="..\Asumet.Entities\Asumet.Entities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="Asumet.Doc.IntegrationTests" />
+  </ItemGroup>
+
 </Project>

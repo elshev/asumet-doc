@@ -57,5 +57,9 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="Asumet.Doc.Api.Tests" />
+    <InternalsVisibleTo Include="Asumet.Doc.IntegrationTests" />
+  </ItemGroup>
 
 </Project>
