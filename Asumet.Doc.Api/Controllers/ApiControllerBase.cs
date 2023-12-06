@@ -4,8 +4,11 @@
 
     public class ApiControllerBase : ControllerBase
     {
-        /// <summary> Content-Type for .docx </summary>
+        /// <summary>Content-Type for .docx</summary>
         public const string DocxContentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+
+        /// <summary>Extension for Word doc files</summary>
+        public const string DocxExtension = ".docx";
 
         /// <summary>
         /// Creates an IActionResult for .docx file
@@ -23,6 +26,22 @@
             string fileName = Path.GetFileName(docxFilePath);
 
             return PhysicalFile(docxFilePath, DocxContentType, fileName);
+        }
+
+        /// <summary>
+        /// Creates an IActionResult for .docx stream
+        /// </summary>
+        /// <param name="stream">A stream with .docx file</param>
+        /// <param name="name">Name for .docx file</param>
+        /// <returns>IActionResult for a file</returns>
+        protected IActionResult GetDocxFileResult(Stream stream, string name)
+        {
+            string fileName = $"{name}-{DateTime.Now:yyyyMMdd-HHmmss-fffffff}{DocxExtension}";
+            stream.Seek(0, SeekOrigin.Begin);
+            return new FileStreamResult(stream, DocxContentType)
+            {
+                FileDownloadName = fileName
+            };
         }
 
     }

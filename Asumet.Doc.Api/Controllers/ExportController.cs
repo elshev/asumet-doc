@@ -20,7 +20,7 @@ namespace Asumet.Doc.Api.Controllers
         [HttpGet("psa")]
         public async Task<IActionResult> ExportPsaToWord(int id)
         {
-            string? filePath = await ExportDocService.ExportPsaToWordFileAsync(id);
+            string? filePath = await ExportDocService.ExportPsaToWordAsync(id);
             if (string.IsNullOrWhiteSpace(filePath))
             {
                 return NotFound("Wrong Psa id.");

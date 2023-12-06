@@ -23,22 +23,20 @@ namespace Asumet.Doc.Services.Office
         public IMapper Mapper { get; }
 
         /// <inheritdoc/>
-        public async Task<string?> ExportPsaToWordFileAsync(int id)
+        public async Task ExportPsaToWordAsync(int id, Stream stream)
         {
             var psa = await PsaRepository.GetByIdAsync(id);
             if (psa == null)
             {
-                return null;
+                return;
             }
 
-            var result = ExportPsaToWord(psa);
-            return result;
+            ExportPsaToWord(psa, stream);
         }
 
-        private string ExportPsaToWord(Psa psa)
+        private void ExportPsaToWord(Psa psa, Stream stream)
         {
-            var outputFilePath = OfficeExporter.Export(psa);
-            return outputFilePath;
+            OfficeExporter.Export(psa, stream);
         }
     }
 }

@@ -12,7 +12,7 @@
         {
         }
 
-        private static void AssertDocxFile(string filePath)
+        protected static void AssertDocxFile(string filePath)
         {
             filePath.Should().NotBeNull();
             File.Exists(filePath).Should().BeTrue();
@@ -46,15 +46,17 @@
             // Arrange
             var psa = GetPsa();
             var psaExporter = GetService<IOfficeExporter<Psa>>();
+            using var docStream = new MemoryStream();
 
             // Act
-            var filePath = psaExporter.Export(psa);
+            psaExporter.Export(psa, docStream);
 
             // Assert
-            AssertDocxFile(filePath);
+            //AssertDocxFile(filePath);
 
-            using var rs = File.OpenRead(filePath);
-            using var doc = new XWPFDocument(rs);
+            //using var rs = File.OpenRead(filePath);
+            docStream.Seek(0, SeekOrigin.Begin);
+            using var doc = new XWPFDocument(docStream);
 
             var table = doc.Tables.Where(t => t.NumberOfRows > 0).FirstOrDefault();
             Assert.NotNull(table);

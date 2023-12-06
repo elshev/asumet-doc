@@ -22,7 +22,8 @@
         /// Exports an <paramref name="documentObject"/> to a document file.
         /// </summary>
         /// <param name="documentObject">An object to export values from.</param>
+        /// <param name="stream">Stream to write to</param>
         /// <returns>The output file path</returns>
-        string Export(T documentObject);
+        void Export(T documentObject, Stream stream);
     }
 }

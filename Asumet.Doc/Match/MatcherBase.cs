@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using Asumet.Doc.Ocr;
     using Asumet.Doc.Office;
@@ -126,9 +127,11 @@
         private IList<string> GetExportedLines(T documentObject)
         {
             ArgumentNullException.ThrowIfNull(documentObject, nameof(documentObject));
-            var wordFilePath = OfficeExporter.Export(documentObject);
+            using var wordStream = new MemoryStream();
+            OfficeExporter.Export(documentObject, wordStream);
+            wordStream.Seek(0, SeekOrigin.Begin);
             var options = new WordFileToTextOptions { SkipFirstTableRowCount = 1 };
-            var result = WordWrapper.WordFileToText(wordFilePath, options)
+            var result = WordWrapper.WordToText(wordStream, options)
                 .Where(s => !string.IsNullOrWhiteSpace(s))
                 .ToList();
 

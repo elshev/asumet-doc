@@ -23,6 +23,8 @@ namespace Asumet.Doc.Api.Controllers
             ExportDocService = exportDocService;
         }
 
+        public const string PsaDocumentName = "PSA";
+        
         private ILogger<PsasController> Logger { get; }
 
         public IPsaService PsaService { get; }
@@ -47,7 +49,7 @@ namespace Asumet.Doc.Api.Controllers
             var result = await PsaService.InsertEntityAsync(psaDto);
             if (result == null)
             {
-                return new BadRequestObjectResult("The error happened when creating PSA");
+                return new BadRequestObjectResult($"The error happened when creating {PsaDocumentName}");
             }
 
             return new OkObjectResult(result);
@@ -56,13 +58,10 @@ namespace Asumet.Doc.Api.Controllers
         [HttpGet("export")]
         public async Task<IActionResult> ExportPsaToWord(int id)
         {
-            string? filePath = await ExportDocService.ExportPsaToWordFileAsync(id);
-            if (string.IsNullOrWhiteSpace(filePath))
-            {
-                return NotFound("Wrong Psa id.");
-            }
+            var wordStream = new MemoryStream();
+            await ExportDocService.ExportPsaToWordAsync(id, wordStream);
             
-            var result = GetDocxFileResult(filePath);
+            var result = GetDocxFileResult(wordStream, PsaDocumentName);
             return result;
         }
 

@@ -2,6 +2,6 @@
 {
     public interface IExportDocService : IDocServiceBase
     {
-        Task<string?> ExportPsaToWordFileAsync(int id);
+        Task ExportPsaToWordAsync(int id, Stream stream);
     }
 }

@@ -35,7 +35,7 @@ namespace Asumet.Doc.Office
             
             using var fileStream = File.OpenRead(wordFilePath);
             using var doc = new XWPFDocument(fileStream);
-            var result = WordFileToText(doc, options);
+            var result = WordToText(doc, options);
             PathHelper.CreatePathDirectoryIfNotExists(outputTextFilePath);
             if (File.Exists(outputTextFilePath))
             {
@@ -48,14 +48,13 @@ namespace Asumet.Doc.Office
         /// <summary>
         /// Gets text from MS Word file
         /// </summary>
-        /// <param name="wordFilePath">MS Word file to process</param>
+        /// <param name="wordStream">MS Word document to process</param>
         /// <param name="options">Conversion options</param>
         /// <returns>Lines of extracted text</returns>
-        public static IEnumerable<string> WordFileToText(string wordFilePath, WordFileToTextOptions options)
+        public static IEnumerable<string> WordToText(Stream wordStream, WordFileToTextOptions options)
         {
-            using var fileStream = File.OpenRead(wordFilePath);
-            using var doc = new XWPFDocument(fileStream);
-            var result = WordFileToText(doc, options);
+            using var doc = new XWPFDocument(wordStream);
+            var result = WordToText(doc, options);
             return result;
         }
 
@@ -89,7 +88,7 @@ namespace Asumet.Doc.Office
             });
         }
         
-        private static IEnumerable<string> WordFileToText(XWPFDocument doc, WordFileToTextOptions options)
+        private static IEnumerable<string> WordToText(XWPFDocument doc, WordFileToTextOptions options)
         {
             var result = new List<string>();
             foreach (var bodyElement in doc.BodyElements)

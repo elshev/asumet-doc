@@ -57,36 +57,26 @@
         public IAppSettings AppSettings { get; }
 
         /// <inheritdoc/>
-        public string Export(T documentObject)
+        public void Export(T documentObject, Stream stream)
         {
             ArgumentNullException.ThrowIfNull(documentObject, nameof(documentObject));
-
+            ArgumentNullException.ThrowIfNull(stream, nameof(stream));
 
             BeforeExport(documentObject);
 
-            var outputFilePath = GetOutputFilePath();
-            CreateOutputDirectoryIfNotExists(outputFilePath);
-
-            using (var rs = File.OpenRead(GetTemplateFilePath()))
+            using var rs = File.OpenRead(GetTemplateFilePath());
+            using var doc = new XWPFDocument(rs);
+            foreach (var paragraph in doc.Paragraphs)
             {
-                using var doc = new XWPFDocument(rs);
-                foreach (var paragraph in doc.Paragraphs)
-                {
-                    FillParagraph(paragraph, documentObject);
-                }
-
-                foreach (var table in doc.Tables.Where(t => t.NumberOfRows > 0))
-                {
-                    ProcessTable(table, documentObject);
-                }
-
-                using var ws = File.Create(outputFilePath);
-                doc.Write(ws);
+                FillParagraph(paragraph, documentObject);
             }
 
-            AfterExport(documentObject);
+            foreach (var table in doc.Tables.Where(t => t.NumberOfRows > 0))
+            {
+                ProcessTable(table, documentObject);
+            }
 
-            return outputFilePath;
+            doc.Write(stream);
         }
 
         /// <summary>
@@ -288,13 +278,6 @@
         /// The method is called before export to a document
         /// </summary>
         protected virtual void BeforeExport(T documentObject)
-        {
-        }
-
-        /// <summary>
-        /// The method is called after export to a document
-        /// </summary>
-        protected virtual void AfterExport(T documentObject)
         {
         }
     }
