@@ -13,7 +13,7 @@ namespace Asumet.Doc.Tests.Office
 
             // Act
             // Assert
-            Assert.Throws<ArgumentNullException>(() => ocrWrapper.ImageToStrings(null));
+            Assert.Throws<ArgumentNullException>(() => ocrWrapper.ImageToStrings(null!));
         }
     }
 }
